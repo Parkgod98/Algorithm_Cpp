@@ -4,18 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-string ReverseS(string s) {
-	int len = s.length();
-
-	for (int i = 0; i < len / 2; ++i) {
-		char tmp = s[i];
-		s[i] = s[len - i - 1];
-		s[len - i - 1] = tmp;
-	}
-
-	return s;
-}
-
 int main()
 {
 	string a, b;
@@ -59,6 +47,6 @@ int main()
 	if (carry != 0)
 		result += char(carry) + '0';
 
-	cout << ReverseS(result);
+	reverse(result.begin(), result.end());
+	cout << result;
 }
-
