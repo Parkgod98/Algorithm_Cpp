@@ -16,19 +16,14 @@ int main()
 	for (int i = 0; i < t; ++i) {
 		int h, w, n;
 		cin >> h >> w >> n;	
-		string floor, num;
-		if (n % h != 0) {
-			floor = to_string(n % h);
-			num = to_string((n / h) + 1);
+		int res;
+		if (n % h == 0) {
+			res = h * 100 + n / h ;
 		}
 		else {
-			floor = to_string(h);
-			num = to_string((n / h));
+			res = (n % h) * 100 + n / h + 1;
 		}
-		if (num.length() == 1)
-			cout << floor + '0' + num << endl;
-		else
-			cout << floor + num << endl;
+		cout << res << endl;
 	}
 
 }
