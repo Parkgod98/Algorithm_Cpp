@@ -3,25 +3,25 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <cmath>
+#include <map>
 using namespace std;
 
 //ios_base::sync_with_stdio(false);
 //cin.tie(NULL);
 
+//cout << fixed;
+//cout.precision(2);
+
 int main()
 {
-	string s;
+	string s,s1;
 	cin >> s;
+	s1 = s;
+	reverse(s.begin(), s.end());
 
-	int len = s.length();
-	for (int i = 0; i < len; ++i) {
-		if (!(s[i] == s[len - i - 1])) {
-			cout << 0 << endl;
-			return 0;
-		}
-	}
-	cout << 1;
-
-	return 0;
+	if (s1 == s)
+		cout << 1;
+	else
+		cout << 0;
 }
-	
