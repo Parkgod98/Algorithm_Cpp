@@ -15,7 +15,7 @@ using namespace std;
 
 void FillV(int i, int j,vector<int>& v) {
 
-	for (int n = i; n <= j; ++n) {
+	for (int n = i; n < j; ++n) {
 		v[n] += 1;
 	}
 }
@@ -34,11 +34,13 @@ int main()
 	}
 
 	int money = 0;
-	for (int i = 1; i < v.size()-1; ++i) {
-		if (v[i + 1] != 0 && v[i] >= v[i + 1])
-			money += v[i + 1] * cm[v[i + 1]];
-		else if (v[i + 1] != 0 && v[i] < v[i + 1])
-			money += v[i] * cm[v[i]];
+	for (int i : v) {
+		if (i == 1)
+			money += a;
+		else if (i == 2)
+			money += (b * i);
+		else if (i == 3)
+			money += (c * i);
 	}
 	cout << money;
 }
