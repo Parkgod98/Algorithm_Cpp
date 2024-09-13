@@ -24,13 +24,14 @@ int main()
 		cin >> s;
 		v[char(s[0]) - 'a']++;
 	}
-	int flag = 0;
+	string s;
 	for (int i = 0; i < v.size(); ++i) {
 		if (v[i] >= 5) {
-			cout << char(i + 'a');
-			flag = 1;
+			s += (i + 'a');
 		}
 	}
-	if (flag == 0)
+	if (s.size() != 0)
+		cout << s;
+	else
 		cout << "PREDAJA";
 }
