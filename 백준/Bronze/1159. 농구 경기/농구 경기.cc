@@ -18,26 +18,19 @@ int main()
 	int n;
 	cin >> n;
 
-	map<char, int> m;
+	vector<int> v(26);
 	for (int i = 0; i < n; ++i) {
 		string s;
 		cin >> s;
-		if (m[s[0]])
-			m[s[0]] += 1;
-		else
-			m[s[0]] = 1;
+		v[char(s[0]) - 'a']++;
 	}
-
-	vector<char> res;
-	for (auto it : m) {
-		if (it.second >= 5)
-			res.push_back(it.first);
+	int flag = 0;
+	for (int i = 0; i < v.size(); ++i) {
+		if (v[i] >= 5) {
+			cout << char(i + 'a');
+			flag = 1;
+		}
 	}
-
-	if (res.size() == 0)
+	if (flag == 0)
 		cout << "PREDAJA";
-	else {
-		for (char c : res)
-			cout << c;
-	}
 }
