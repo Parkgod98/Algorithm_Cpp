@@ -31,7 +31,7 @@ int main()
 	cout.tie(NULL);
 	int n, m;
 	cin >> n >> m;
-	map<int, string> mm;
+	vector<string> mm(n+1);
 	map<string, int> mm2;
 
 	for (int i = 1; i <= n; ++i) {
