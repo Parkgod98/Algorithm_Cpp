@@ -32,21 +32,13 @@ int main()
 		for (int j = 0; j < n; ++j) {
 			string a,kind;
 			cin >> a >> kind;
-			if (m[kind])
-				m[kind] += 1;
-			else
-				m[kind] = 1;
+			m[kind] += 1;
 		}
+		long long res = 1;
 
-		vector<int> v;
 		for (auto it : m)
-			v.push_back(it.second);
-
-
-		int sum = 1;
-		for (int i : v)
-			sum *= (i + 1);
-		sum -= 1;
-		cout << sum << "\n";
+			res *= (it.second + 1);
+		res -= 1;
+		cout << res << "\n";
 	}
 }
