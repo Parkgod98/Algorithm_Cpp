@@ -7,7 +7,6 @@
 #include <map>
 using namespace std;
 
-
 //ios_base::sync_with_stdio(false);
 //cin.tie(NULL);
 
@@ -16,78 +15,40 @@ using namespace std;
 // atoi(s.c_str());
 // stoi()
 
-bool IsPossible(string s)
-{
-	int count[26] = { 0 };
-	int len = s.length();
 
-	for (char c : s) {
-		count[c-'A']++;
-	}
-	if (len % 2 == 0) {
-		for (int i : count)
-			if (i % 2 == 1)
-				return false;
-	}
-	else {
-		for (int i = 0; i < 26; ++i) {
-			if (count[i] % 2 == 1) {
-				count[i]--;
-				break;
-			}
-		}
-		for (int i : count)
-			if (i % 2 == 1)
-				return false;
-	}
-	return true;
-}
-
-void PrintV(vector<char> c) {
-	for (char i : c) {
-		cout << i;
-	}
-}
 
 int main()
 {
+
 	string s;
 	cin >> s;
 
-	if (IsPossible(s)) {
-		
-		int count[26] = { 0 };
-		int len = s.length();
+	int count[26] = { 0 };
+	for (char c : s)
+		count[c - 'A']++;
 
-		for (char c : s)
-			count[c - 'A']++;
-
-		vector<char> v(1);
-		if (len % 2 == 1) {
-			for (int i = 0; i < 26; ++i)
-				if (count[i]%2 == 1) {
-					count[i]--;
-					v[0] = (char)(i+'A');
-					break;
-				}
-			
+	int flag = 0;
+	char mid = ' ';
+	string ret = "";
+	for (int i = 'Z'; i >= 'A'; --i) {
+		if (count[i-'A'] % 2 == 1) {
+			mid = (char)i;
+			flag++;
+			count[i-'A']--;
 		}
-	
-		for (int i = 0; i < 26; ++i) {
-			while (count[i] != 0) {
-				if (v.size() % 2 == 1) {
-					v.insert(v.begin() + v.size() / 2, i + 'A');
-				}
-				else {
-					v.insert(v.begin() + v.size() / 2 + 1, i + 'A');
-				}
-				count[i]--;
-			}
+		if (flag == 2)
+			break;
+		while (count[i-'A'] > 0) {
+			ret += (char)i;
+			ret = (char)i + ret;
+			count[i-'A'] -= 2;
 		}
-		if(len%2 == 0)
-			v.erase(v.begin() + (v.size() / 2));
-		PrintV(v);
 	}
-	else
+	if (flag == 1)
+		ret.insert(ret.begin() + ret.size() / 2, mid);
+	if (flag == 2)
 		cout << "I'm Sorry Hansoo" << "\n";
+	else {
+		cout << ret << "\n";
+	}
 }
