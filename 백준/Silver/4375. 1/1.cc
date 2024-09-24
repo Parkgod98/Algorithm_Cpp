@@ -26,7 +26,8 @@ int main()
 			}
 			else {
 				ret++;
-				tmp = ((tmp % n * 10 % n) % n + 1 % n) % n;
+				tmp = (tmp * 10 + 1);
+				tmp %= n;
 			}
 		}
 
