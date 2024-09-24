@@ -11,17 +11,18 @@ using namespace std;
 //cout.precision(2);
 // atoi(s.c_str());
 // stoi()
-
-long long go(long long a, long long b, long long c)
+typedef long long ll;
+long long go(ll a, ll b, ll c)
 {
 	if (b == 1)
 		return a % c;
-	long long ret = go(a, b / 2, c);
+	ll ret = go(a, b / 2, c);
 	ret = (ret * ret) % c;
 	if (b % 2 == 1)
 		ret = (ret * a) % c;
 	return ret;
 }
+
 
 int main()
 {
