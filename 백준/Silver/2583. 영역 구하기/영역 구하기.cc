@@ -30,18 +30,19 @@ void Fill(int x1, int y1, int x2, int y2, vector<vector<int>>& v)
 	}
 }
 
-void DFS(int y, int x, vector<vector<int>>& v, vector<vector<bool>>& visited, int m, int n, int &count)
+int DFS(int y, int x, vector<vector<int>>& v, vector<vector<bool>>& visited, int m, int n, int &count)
 {
 	visited[y][x] = 1;
-	count++;
+	int ret = 1;
 	for (int i = 0; i < 4; ++i) {
 		int ny = y + dy[i];
 		int nx = x + dx[i];
 		if (ny < 0 || nx < 0 || ny >= m || nx >= n)
 			continue;
 		if (!visited[ny][nx] && v[ny][nx] == 1)
-			DFS(ny, nx, v, visited, m, n, count);
+			ret += DFS(ny, nx, v, visited, m, n, count);
 	}
+	return ret;
 }
 
 void PrintV(vector<vector<int>>& v)
@@ -77,9 +78,7 @@ int main()
 	for (int i = 0; i < m; ++i) {
 		for (int j = 0; j < n; ++j) {
 			if (!visited[i][j] && v[i][j] == 1) {
-				DFS(i, j, v, visited, m, n, count);
-				res.push_back(count);
-				count = 0;
+				res.push_back(DFS(i, j, v, visited, m, n, count));
 			}
 		}
 	}
