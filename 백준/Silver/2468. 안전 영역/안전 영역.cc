@@ -39,7 +39,7 @@ void DFS(int y, int x, vector<vector<int>>& v, vector<vector<bool>>& visited, in
 		int nx = x + dx[i];
 		if (ny >= n || nx >= n || ny < 0 || nx < 0)
 			continue;
-		if (!visited[ny][nx] && v[ny][nx] > 0) {
+		if (!visited[ny][nx] && v[ny][nx] > max) {
 			DFS(ny, nx, v, visited,n,max);
 		}
 	}
@@ -87,12 +87,11 @@ int main()
 	int max_count = 0;
 	for (int i = 0; i < max; ++i) {
 		count = 0;
-		vector<vector<int>> tmp = MakeZero(v, i);
 		initialize(visited);
 		for (int j = 0; j < n; ++j) {
 			for (int k = 0; k < n; ++k) {
-				if (!visited[j][k] && tmp[j][k] > 0) {
-					DFS(j, k, tmp, visited, n, i);
+				if (!visited[j][k] && v[j][k] > i) {
+					DFS(j, k, v, visited, n, i);
 					count++;
 				}
 			}
