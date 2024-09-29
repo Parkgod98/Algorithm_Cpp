@@ -53,10 +53,7 @@ int main()
 				cout << 0 << " ";
 			else {
 				int idx = LeftCheck(v[i], j);
-				if (idx != -1)
-					cout << idx << " ";
-				else
-					cout << -1 << " ";
+				cout << idx << " ";
  			}
 		}
 		cout << "\n";
