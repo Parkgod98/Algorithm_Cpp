@@ -22,14 +22,13 @@ typedef long long ll;
 
 long long Comb(int n, int r)
 {
-	if (n - r < r)
-		r = n - r;
 	ll top = 1;
-	for (int i = n; i > n - r; --i)
+	int k = 1;
+	for (int i = n; i > n - r; --i) {
 		top *= i;
-	
-	for (int i = 1; i <= r; ++i)
-		top /= i;
+		top /= k;
+		k++;
+	}
 	
 	return top;
 }
