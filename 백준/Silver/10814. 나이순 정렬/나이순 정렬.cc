@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+#define _crt_secure_no_warnings
 #include <iostream>
 #include <vector>
 #include <string>
@@ -12,18 +12,16 @@ using namespace std;
 typedef long long ll;
 
 //ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
+//cin.tie(null);
 //
 //cout << fixed;
 //cout.precision(2);
 // atoi(s.c_str());
 // stoi()
 
-bool compare(tuple<int, string, int> a, tuple<int, string, int> b)
+bool compare(pair<int, string> a, pair<int, string> b)
 {
-	if (get<0>(a) == get<0>(b))
-		return get<2>(a) < get<2>(b);
-	return get<0>(a) < get<0>(b);
+	return a.first < b.first;
 }
 
 int main()
@@ -31,17 +29,16 @@ int main()
 	int n;
 	cin >> n;
 
-	vector<tuple<int, string, int>> v;
+	vector<pair<int, string>> v;
 
 	for (int i = 0; i < n; ++i) {
 		int a;
 		string s;
 		cin >> a >> s;
-		v.push_back(make_tuple(a, s, i));
+		v.push_back({a,s});
 	}
 
-	sort(v.begin(), v.end(), compare);
-	for (int i = 0; i < n; ++i) {
-		cout << get<0>(v[i]) << " " << get<1>(v[i]) << "\n";
-	}
+	stable_sort(v.begin(), v.end(), compare);
+	for (pair<int, string> a : v)
+		cout << a.first << " " << a.second << "\n";
 }
