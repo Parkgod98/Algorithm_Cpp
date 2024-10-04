@@ -25,29 +25,21 @@ int main()
 	int n;
 	cin >> n;
 
-	int p = n;
-	int five, thr;
-	five = thr = 0;
+	vector<int> dp(5001);
+	dp[3] = dp[5] = 1;
 
-	five += p / 5;
-	p %= 5;
-	thr += p / 3;
-	p %= 3;
-	if (p != 0) {
-		while (five >= 0) {
-			five--;
-			p = n;
-			p = p - five * 5;
-			if (p % 3 == 0) {
-				thr = p / 3;
-				break;
-			}
+	for (int i = 6; i <= n; ++i) {
+		if (dp[i - 3])
+			dp[i] = dp[i - 3] + 1;
+		if (dp[i - 5]) {
+			if (dp[i] == 0)
+				dp[i] = dp[i - 5] + 1;
+			else
+				dp[i] = min(dp[i], dp[i - 5] + 1);
 		}
 	}
-	if (five < 0)
+	if (dp[n] == 0)
 		cout << -1;
 	else
-		cout << five + thr;
-		
-
+		cout << dp[n];
 }
