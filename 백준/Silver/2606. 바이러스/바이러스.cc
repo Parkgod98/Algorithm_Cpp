@@ -17,6 +17,18 @@ using namespace std;
 // atoi(s.c_str());
 // stoi()
 
+int DFS(int cur, vector<vector<int>>& v, vector<int>& visited)
+{
+	int cnt = 1;
+	visited[cur] = 1;
+
+	for (int i = 0; i < v[cur].size(); ++i) {
+		if (!visited[v[cur][i]]) {
+			cnt +=DFS(v[cur][i], v, visited);
+		}
+	}
+	return cnt;
+}
 
 int main()
 {
@@ -32,22 +44,7 @@ int main()
 		v[b].push_back(a);
 	}
 
-	queue<int> q;
 	vector<int> visited(n + 1);
-	q.push(1);
-	visited[1] = 1;
 
-	int count = 0;
-	while (!q.empty()) {
-		int nx = q.front();
-		q.pop();
-		for (int i = 0; i < v[nx].size(); ++i) {
-			if (!visited[v[nx][i]]) {
-				q.push(v[nx][i]);
-				count++;
-				visited[v[nx][i]] = 1;
-			}
-		}
-	}
-	cout << count;
+	cout << DFS(1, v, visited) -1;
 }
