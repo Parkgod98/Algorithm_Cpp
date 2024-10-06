@@ -30,12 +30,9 @@ int main()
 
 	vector<int> pfix_sum(n + 1);
 	
-	for (int i = 0; i < n; ++i) {
-		pfix_sum[i + 1] = v[i + 1] + pfix_sum[i];
-	}
-
 	int sum = 0;
-	for (int i : pfix_sum)
-		sum += i;
+	for (int i = 0; i <= n; ++i) {
+		sum += v[i] * (n +1 - i);
+	}
 	cout << sum;
 }
