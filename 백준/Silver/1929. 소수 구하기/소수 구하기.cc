@@ -33,9 +33,16 @@ int main()
 {
 	int n, m;
 	cin >> n >> m;
-
+	vector<bool> v(m + 1, true);
+	v[1] = false;
+	for (int i = 2; i < m + 1; ++i) {
+		if (v[i] == true)
+			for (int j = i*2; j < m + 1; j+=i) {
+				v[j] = false;
+			}
+	}
 	for (int i = n; i <= m; ++i) {
-		if (IsPrime(i))
+		if (v[i])
 			cout << i << "\n";
 	}
 }
