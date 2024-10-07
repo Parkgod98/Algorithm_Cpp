@@ -17,16 +17,7 @@ using namespace std;
 // atoi(s.c_str());
 // stoi()
 
-int Get(int k)
-{
-	if (k == 0) {
-		return 1;
-	}
-	if (k < 0)
-		return 0;
-	
-	return Get(k - 3) +Get(k - 2) + Get(k - 1);
-}
+
 
 
 int main()
@@ -34,9 +25,18 @@ int main()
 	int n;
 	cin >> n;
 	
+	vector<int> dp(12);
+	dp[1] = 1;
+	dp[2] = 2;
+	dp[3] = 4;
+	dp[4] = 7;
+	for (int i = 5; i <= 12; ++i) {
+		dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+	}
+
 	for (int i = 0; i < n; ++i) {
 		int k;
 		cin >> k;
-		cout << Get(k) << "\n";
+		cout << dp[k] << "\n";
 	}
 }
