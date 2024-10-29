@@ -22,6 +22,10 @@ int main(void)
 {
 	int n;
 	cin >> n;
+	if (n == 0) {
+		cout << 0 << "\n";
+		return 0;
+	}
 
 	vector<int> v(n);
 	for (int i = 0; i < n; ++i) 
@@ -34,8 +38,5 @@ int main(void)
 		sum += v[i];
 
 	int avg = (sum / (n - 2 * standard)) + 0.5;
-	if (n != 0)
-		cout << avg << "\n";
-	else
-		cout << 0 << "\n";
+	cout << avg << "\n";
 }		
