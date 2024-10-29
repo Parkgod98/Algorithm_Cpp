@@ -1,54 +1,72 @@
-//#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <string>
-#include <cmath>
+#include <algorithm>
 #include <map>
+#include <cmath>
+#include <stack>
+#include <queue>
+#include <set>
 using namespace std;
-
 //ios_base::sync_with_stdio(false);
 //cin.tie(NULL);
-
+//
 //cout << fixed;
 //cout.precision(2);
 // atoi(s.c_str());
 // stoi()
 
+int cnt[26] = { 0 };
 
-
-int main()
+bool is_impossible(string s)
 {
+	int len = s.length();
+	for (int i = 0; i < len; ++i)
+		cnt[s[i] - 'A']++;
 
+	int flag = 0;
+	for (int n : cnt) {
+		if (len % 2 == 0 && n % 2 == 1)
+			return true;
+		else if (len % 2 == 1 && n % 2 == 1) 
+			flag++;
+		if (flag == 2)
+			return true;
+	}
+
+	return false;
+}
+
+
+int main(void)
+{
 	string s;
 	cin >> s;
 
-	int count[26] = { 0 };
-	for (char c : s)
-		count[c - 'A']++;
-
-	int flag = 0;
-	char mid = ' ';
-	string ret = "";
-	for (int i = 'Z'; i >= 'A'; --i) {
-		if (count[i-'A'] % 2 == 1) {
-			mid = (char)i;
-			flag++;
-			count[i-'A']--;
-		}
-		if (flag == 2)
-			break;
-		while (count[i-'A'] > 0) {
-			ret += (char)i;
-			ret = (char)i + ret;
-			count[i-'A'] -= 2;
-		}
-	}
-	if (flag == 1)
-		ret.insert(ret.begin() + ret.size() / 2, mid);
-	if (flag == 2)
+	if (is_impossible(s))
 		cout << "I'm Sorry Hansoo" << "\n";
 	else {
-		cout << ret << "\n";
+		int len = s.length();
+		string res = "";
+		if (len % 2 == 1) {
+			for (int i = 0; i < 26; ++i) { // 홀수 알파벳 찾기.
+				if (cnt[i] % 2 == 1) {
+					res += (char)(i + 'A');
+					cnt[i]--;
+					break;
+				}
+			}
+		}
+		for (int i = 25; i >= 0; --i) {
+			while (cnt[i] != 0) {
+				res = res + (char)(i + 'A');
+				res = (char)(i + 'A') + res;
+				cnt[i] -= 2;
+			}
+		}
+		cout << res << "\n";
 	}
-}
+	
+	return 0;
+}		
