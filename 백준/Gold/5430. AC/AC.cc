@@ -8,6 +8,22 @@
 #include <string>
 using namespace std;
 
+vector<int> init(string arr)
+{
+	vector<int> li;
+	string temp = "";
+	for (int i = 1; i < arr.size(); i++)
+	{
+		if ((arr[i] == ',' || arr[i] == ']') && temp != "")
+		{
+			li.push_back(stoi(temp));
+			temp = "";
+		}
+		else temp += arr[i];
+	}
+	return li;
+}
+
 int main(void)
 {
 	ios_base::sync_with_stdio(false);
@@ -26,17 +42,7 @@ int main(void)
 
 		int error_flag = 0;
 		vector<int> v;
-		int len = num.length();
-		int s = 0,e = 0;
-		while (n != 0 && s < len) {
-			while (s < len && !isdigit(num[s]))
-				s++;
-			e = s;
-			while (e < len && isdigit(num[e]))
-				e++;
-			v.push_back(stoi(num.substr(s, e - s)));
-			s = e = e + 1;
-		}
+		v = init(num);
 		int r_count = 0;
 		int d_count = 0;
 		for (char c : func) {
