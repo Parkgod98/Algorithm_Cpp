@@ -8,9 +8,9 @@
 #include <string>
 using namespace std;
 
-vector<int> init(string arr)
+deque<int> init(string arr)
 {
-	vector<int> li;
+	deque<int> li;
 	string temp = "";
 	for (int i = 1; i < arr.size(); i++)
 	{
@@ -41,7 +41,7 @@ int main(void)
 		cin >> num;
 
 		int error_flag = 0;
-		vector<int> v;
+		deque<int> v;
 		v = init(num);
 		int r_count = 0;
 		int d_count = 0;
@@ -58,9 +58,9 @@ int main(void)
 				r_count++;
 			else if (c == 'D') {
 				if (r_count % 2 == 0)
-					v.erase(v.begin());
+					v.pop_front();
 				else
-					v.erase(v.end() - 1);
+					v.pop_back();
 			}
 		}
 		if(r_count%2)
