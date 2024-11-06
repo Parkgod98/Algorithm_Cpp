@@ -8,22 +8,6 @@
 #include <string>
 using namespace std;
 
-deque<int> init(string arr)
-{
-	deque<int> li;
-	string temp = "";
-	for (int i = 1; i < arr.size(); i++)
-	{
-		if ((arr[i] == ',' || arr[i] == ']') && temp != "")
-		{
-			li.push_back(stoi(temp));
-			temp = "";
-		}
-		else temp += arr[i];
-	}
-	return li;
-}
-
 int main(void)
 {
 	ios_base::sync_with_stdio(false);
@@ -42,7 +26,17 @@ int main(void)
 
 		int error_flag = 0;
 		deque<int> v;
-		v = init(num);
+		int len = num.length();
+		int s = 0,e = 0;
+		while (n != 0 && s < len) {
+			while (s < len && !isdigit(num[s]))
+				s++;
+			e = s;
+			while (e < len && isdigit(num[e]))
+				e++;
+			v.push_back(stoi(num.substr(s, e - s)));
+			s = e = e + 1;
+		}
 		int r_count = 0;
 		int d_count = 0;
 		for (char c : func) {
@@ -58,9 +52,9 @@ int main(void)
 				r_count++;
 			else if (c == 'D') {
 				if (r_count % 2 == 0)
-					v.pop_front();
+					v.erase(v.begin());
 				else
-					v.pop_back();
+					v.erase(v.end() - 1);
 			}
 		}
 		if(r_count%2)
