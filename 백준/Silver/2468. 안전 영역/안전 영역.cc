@@ -1,104 +1,55 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
 #include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
-#include <set>
+#include <algorithm>
+
 using namespace std;
 
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
-
-void PrintV(vector<vector<int>>& v)
-{
-	for (vector<int> i : v) {
-		for (int j : i)
-			cout << j << " ";
-		cout << "\n";
-	}
-}
-
-int dy[4] = {-1,0,1,0};
+int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
 
-void DFS(int y, int x, vector<vector<int>>& v, vector<vector<bool>>& visited, int n, int max)
+void DFS(vector<vector<int>>& v, int y,int x, int h,vector<vector<int>> &visited)
 {
 	visited[y][x] = 1;
-
 	for (int i = 0; i < 4; ++i) {
 		int ny = y + dy[i];
 		int nx = x + dx[i];
-		if (ny >= n || nx >= n || ny < 0 || nx < 0)
+		if (ny < 0 || nx < 0 || ny >= v.size() || nx >= v.size() || visited[ny][nx] || v[ny][nx] <=h)
 			continue;
-		if (!visited[ny][nx] && v[ny][nx] > max) {
-			DFS(ny, nx, v, visited,n,max);
-		}
+		DFS(v, ny, nx, h, visited);
 	}
 }
 
-vector<vector<int>> MakeZero(vector<vector<int>> v, int max)
-{
-	for (int i = 0; i < v.size(); ++i) {
-		for (int j = 0; j < v.size(); ++j)
-			if (v[i][j] <= max)
-				v[i][j] = 0;
-	}
-	return v;
-}
-
-void initialize(vector<vector<bool>>& v)
-{
-	for (int i = 0; i < v.size(); ++i) {
-		for (int j = 0; j < v.size(); ++j)
-			v[i][j] = 0;
-	}
-}
-
-int main()
+int main(void)
 {
 	int n;
 	cin >> n;
 
-	vector<vector<int>> v(n);
-	vector<vector<bool>> visited(n);
-
-	int max = 0;
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < n; ++j) {
-			int k;
-			cin >> k;
-			if (k > max)
-				max = k;
-			v[i].push_back(k);
-			visited[i].push_back(false);
+	// 영역 입력 받기
+	int mx = 0; // 가장 높은 지역의 높이
+	vector<vector<int>> v(n, vector<int>(n));
+	for (int i = 0; i < v.size(); ++i) {
+		for (int j = 0; j < v.size(); ++j) {
+			cin >> v[i][j];
+			mx = max(mx, v[i][j]);
 		}
 	}
 
+	int mx_count = 0;
 	int count = 0;
-	int max_count = 0;
-	for (int i = 0; i < max; ++i) {
-		count = 0;
-		initialize(visited);
-		for (int j = 0; j < n; ++j) {
-			for (int k = 0; k < n; ++k) {
-				if (!visited[j][k] && v[j][k] > i) {
-					DFS(j, k, v, visited, n, i);
+	for (int h = 0; h <= mx; ++h) {
+		vector<vector<int>> visited(n, vector<int>(n));
+		for (int r = 0; r < v.size(); ++r) {
+			for (int c = 0; c < v.size(); ++c) {
+				if (v[r][c] > h && !visited[r][c]) {
+					DFS(v, r, c, h, visited);
 					count++;
 				}
 			}
 		}
-		
-		if (max_count < count)
-			max_count = count;
+		mx_count = max(mx_count, count);
+		count = 0;
 	}
-	cout << max_count;
+
+	cout << mx_count;
 }
