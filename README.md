@@ -1,2 +1,15 @@
 # Algorithm_Cpp
-This is an auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+
+## 소개
+Solved.ac의 난이도별 문제들을 중심으로 풀이를 진행하고 있습니다.  
+각 티어(Tier)별로 **푼 사람 수 기준 상위 50개 문제**는 거의 모두 해결해둔 상태입니다.  
+효율적이고 명확한 풀이를 지향하며, 다양한 알고리즘 기법과 문제 해결 방식을 다루고 있습니다.
+
+## 목표
+- **효율적이고 직관적인 코드 작성**  
+- **다양한 알고리즘 기법 학습 및 적용**  
+- **문제 풀이를 통한 실력 향상**  
+
+## 문의 및 요청
+- 풀이를 비교하고 싶으신 경우, 언제든지 연락 주세요.  
+- 제가 풀었으면 하는 문제나, 풀기를 원하는 문제도 언제든 요청해 주시면 감사하겠습니다.
