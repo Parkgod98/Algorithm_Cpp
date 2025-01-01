@@ -1,17 +1,19 @@
 #include <iostream>
-
+#include <vector>
+#include <algorithm>
 using namespace std;
 
-int IsYoon(int year) {
-	if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
-		return 1;
-	return 0;
+int IsLeap(int y)
+{
+	return (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
 }
 
-int main()
+int main(void)
 {
-	int year;
-	
-	cin >> year;
-	cout << IsYoon(year);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
+	int y;
+	cin >> y;
+	cout << IsLeap(y);
 }
