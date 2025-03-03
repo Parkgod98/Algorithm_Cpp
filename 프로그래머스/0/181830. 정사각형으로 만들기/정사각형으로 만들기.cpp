@@ -1,23 +1,18 @@
-#include <string>
+#include <cmath>
 #include <vector>
 
 using namespace std;
 
-vector<vector<int>> solution(vector<vector<int>> arr) {
-	int r_size = arr.size();
-	int c_size = arr[0].size();
-	if (r_size == c_size)
-		return arr;
-	else if (r_size > c_size) {
-		for (int i = 0; i < r_size; ++i) {
-			for (int j = 0; j < r_size - c_size; ++j)
-				arr[i].push_back(0);
-		}
-	}
-	else {
-		for (int i = 0; i < c_size - r_size; ++i) {
-			arr.push_back(vector<int>(c_size, 0));
-		}
-	}
-	return arr;
+vector<vector<int>> solution(vector<vector<int>> arr)
+{
+    vector<vector<int>> answer;
+
+    int size=max(arr.size(), arr[0].size());
+    vector<vector<int>> temp(size, vector<int>(size, 0));
+    for(int i=0; i<arr.size(); i++)
+        for(int j=0; j<arr[i].size(); j++)
+            temp[i][j]=arr[i][j];
+    answer=temp;
+
+    return answer;
 }
