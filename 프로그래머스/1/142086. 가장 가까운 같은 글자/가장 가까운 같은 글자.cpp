@@ -15,12 +15,11 @@ vector<int> solution(string s) {
 	for (int i = 0; i < s.size(); ++i) {
 		if (char_index.find(s[i]) == char_index.end()) {
 			answer.push_back(-1);
-			char_index[s[i]] = i;
 		}
 		else {
 			answer.push_back(i - char_index[s[i]]);
-			char_index[s[i]] = i;
 		}
+		char_index[s[i]] = i;
 	}
 	return answer;
 }
