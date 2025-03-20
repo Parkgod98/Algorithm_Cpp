@@ -1,72 +1,84 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <map>
-#include <tuple>
-#include <algorithm>
-#include <queue>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main(void)
-{
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+void PrintV(deque<int>& v, bool f) {
+	cout << "[";
+
+	if(!f) {
+		for(auto it = v.rbegin(); it != v.rend(); ++it) {
+			if(it != v.rend() - 1) {
+				cout << *it << ",";
+			}
+			else
+				cout << *it;
+		}
+	}
+	else {
+		for(auto it = v.begin(); it != v.end(); ++it) {
+			if(it != v.end() - 1) {
+				cout << *it << ",";
+			}
+			else
+				cout << *it;
+		}
+	}
+	cout << "]\n";
+}
+
+int main(void) {
+	cin.tie(0);
+	ios_base::sync_with_stdio(0);
+
 	int t;
 	cin >> t;
-	for (int i = 0; i < t; ++i) {
-		string func;
-		cin >> func;
+
+	for(int i = 0; i < t; ++i) {
+		string com;
+		cin >> com;
 
 		int n;
 		cin >> n;
-		string num;
-		cin >> num;
+		string s;
+		cin >> s;
 
-		int error_flag = 0;
+		int sum = 0;
 		deque<int> v;
-		int len = num.length();
-		int s = 0,e = 0;
-		while (n != 0 && s < len) {
-			while (s < len && !isdigit(num[s]))
-				s++;
-			e = s;
-			while (e < len && isdigit(num[e]))
-				e++;
-			v.push_back(stoi(num.substr(s, e - s)));
-			s = e = e + 1;
-		}
-		int r_count = 0;
-		int d_count = 0;
-		for (char c : func) {
-			if (c == 'D')
-				d_count++;
-		}
-		if (d_count > n) {
-			cout << "error" << "\n";
-			continue;
-		}
-		for (char c : func) {
-			if (c == 'R')
-				r_count++;
-			else if (c == 'D') {
-				if (r_count % 2 == 0)
-					v.erase(v.begin());
-				else
-					v.erase(v.end() - 1);
+		int cnt = 0;
+		for(int j = 1; j < s.size(); ++j) {
+			if(isdigit(s[j])) {
+				sum = sum * 10 + s[j] - '0';
+			}
+			else {
+				if(cnt < n) {
+					v.push_back(sum);
+					sum = 0;
+					++cnt;
+				}
 			}
 		}
-		if(r_count%2)
-			reverse(v.begin(),v.end());
-		cout << "[";
-		for (int j = 0; j < v.size(); ++j) {
-			if (j != v.size() - 1)
-				cout << v[j] << ",";
-			else
-				cout << v[j];
-		}
-		cout << "]" << "\n";
 
+		bool IsFront = true;
+		bool err = false;
+		for(int j = 0; j < com.size(); ++j) {
+			if(com[j] == 'R')
+				IsFront = !IsFront;
+			else if(com[j] == 'D' && v.empty()) {
+				err = true;
+				break;
+			}
+			else if(com[j] == 'D' && IsFront) {
+				v.pop_front();
+			}
+			else if(com[j] == 'D' && !IsFront) {
+				v.pop_back();
+			}
+		}
+		if(err)
+			cout << "error" << "\n";
+		else
+			PrintV(v,IsFront);
+		/*for(int& n : v)
+			cout << n << " ";
+		cout << "\n";*/
 	}
 }
