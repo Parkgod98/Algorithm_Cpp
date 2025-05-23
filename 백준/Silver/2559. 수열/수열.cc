@@ -1,45 +1,34 @@
-//#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
 #include <string>
-#include <cmath>
+#include <queue>
 #include <map>
+
 using namespace std;
 
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
 
-//cout << fixed;
-//cout.precision(2);
+int main() {
+	int N, K;
+	cin >> N >> K;
 
-int main()
-{
-	int n, k;
-	cin >> n >> k;
+	vector<int> v(N+1);
+	for (int i = 1; i <= N; ++i)
+		cin >> v[i];
 
-	vector<int> v;
-	for (int i = 0; i < n; ++i) {
-		int num;
-		cin >> num;
-		v.push_back(num);
+	vector<int> prefix_sum(N + 1);
+	prefix_sum[1] = v[1];
+
+	for (int i = 2; i <= N; ++i) {
+		prefix_sum[i] = prefix_sum[i - 1] + v[i];
 	}
-
-	long long max = 0;
-	for (int i = 0; i < k; ++i)
-		max += v[i];
-
-	int i, j;
-	i = 0;
-	j = k-1;
-	int sum = max;
-	while (j < n-1) {
- 		i++;
-		j++;
-		sum = sum - v[i - 1] + v[j];
-		if (sum > max)
-			max = sum;
+	
+	int mx = prefix_sum[0 + K] - prefix_sum[0];
+	for (int i = 0; i <= N-K; ++i) {
+		if (prefix_sum[i + K] - prefix_sum[i] > mx) {
+			mx = prefix_sum[i + K] - prefix_sum[i];
+		}
 	}
-	cout << max;
+	cout << mx << "\n";
 
-}
+}	
