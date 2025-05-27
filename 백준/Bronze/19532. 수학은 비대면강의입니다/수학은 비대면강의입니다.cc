@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	int a, b, c, d, e, f;
+	cin >> a >> b >> c >> d >> e >> f;
+
+	for (int x = -999; x <= 999; ++x) {
+		for (int y = -999; y <= 999; ++y) {
+			if (a*x + b * y - c == 0 && d*x + e * y - f == 0) {
+				cout << x << " " << y << "\n";
+				return 0;
+			}
+		}
+	}
+}
