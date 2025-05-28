@@ -11,14 +11,15 @@ int main() {
 
 	long long res = 0;
 
-	long long w = 1;
 	long long r = 31;
 	for (int i = 0; i < L; ++i) {
 		char c;
 		cin >> c;
-		int n = (res + (c - 'a' + 1)*w);
-		res = (res + (c-'a' + 1)*w) % 1234567891;
-		w *= r;
+		long long n = (c - 'a' + 1);
+		for (int j = 0; j < i; ++j) {
+			n = (n *r)%1234567891;
+		}
+		res = (res+ n)%1234567891;
 	}
 
 	cout << res << "\n";
