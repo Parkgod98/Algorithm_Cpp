@@ -21,12 +21,12 @@ int main() {
 
 	vector<int> v_new;
 	for (int i = 0; i < K; ++i) {
-		v_new = vector<int>(v.size() - 1);
+		v_new.resize(v.size() - 1);
 
 		for (int j = 0; j < v.size()-1; ++j) {
 			v_new[j] = v[j + 1] - v[j];
 		}
-		v = v_new;
+		v.swap(v_new);
 	}
 
 	for (int i = 0; i < v.size(); ++i) {
