@@ -15,18 +15,18 @@ int main() {
 		cin >> v[i];
 
 	int mx = 0;
-	for (int i = 0; i < N; ++i) {
-		int cur = v[i];
-		int cnt = 0;
-		for (int j = i + 1; j < N; ++j) {
-			if (v[j] > cur) {
-				break;
-			}
-			else
-				++cnt;
+	int peak = v[0];
+	int cnt = 0;
+	for (int i = 1; i < N; ++i) {
+		if (v[i] < peak) {
+			++cnt;
 		}
-		if (mx < cnt)
-			mx = cnt;
+		else {
+			mx = max(cnt, mx);
+			cnt = 0;
+			peak = v[i];
+		}
 	}
+	mx = max(cnt, mx);
 	cout << mx << "\n";
 }
