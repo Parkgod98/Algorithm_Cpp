@@ -13,22 +13,22 @@ int main() {
 	int M;
 	cin >> M;
 
-	set<int> s;
+	int arr[21] = { 0 };
 	for (int i = 0; i < M; ++i) {
 		string com;
 		cin >> com;
 		int x;
 		if (com == "add") {
 			cin >> x;
-			s.insert(x);
+			arr[x] = 1;
 		}
 		else if (com == "remove") {
 			cin >> x;
-			s.erase(x);
+			arr[x] = 0;
 		}
 		else if (com == "check") {
 			cin >> x;
-			if (s.find(x) != s.end()) {
+			if (arr[x] == 1) {
 				cout << 1 << "\n";
 			}
 			else
@@ -36,17 +36,19 @@ int main() {
 		}
 		else if (com == "toggle") {
 			cin >> x;
-			if (s.find(x) != s.end()) {
-				s.erase(x);
+			if (arr[x] == 1) {
+				arr[x] = 0;
 			}
 			else
-				s.insert(x);
+				arr[x] = 1;
 		}
 		else if (com == "all") {
-			s = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
+			for (int i = 1; i <= 20; ++i)
+				arr[i] = 1;
 		}
 		else if (com == "empty") {
-			s.clear();
+			for (int i = 1; i <= 20; ++i)
+				arr[i] = 0;
 		}
 
 	}
