@@ -11,26 +11,20 @@ int main() {
 	int N, P;
 	cin >> N >> P;
 
-	set<int> s;
+	vector<int> v(P + 1);
+
 	int value = N;
-	int sz = s.size();
 	while (1) {
-		s.insert(value);
 		value = (value*N) % P;
-		if (sz == s.size()) {
+		if (v[value] == 2)
 			break;
-		}
-		sz = s.size();
+		++v[value];
 	}
 
-	set<int> s2;
-	sz = 0;
-	while (1) {
-		s2.insert(value);
-		value = (value*N) % P;
-		if (sz == s2.size())
-			break;
-		sz = s2.size();
+	int res = 0;
+	for (int i = 0; i < P; ++i) {
+		if (v[i] == 2)
+			++res;
 	}
-	cout << sz << "\n";
+	cout << res << "\n";
 }
