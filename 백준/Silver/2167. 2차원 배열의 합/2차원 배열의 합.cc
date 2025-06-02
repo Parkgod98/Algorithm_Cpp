@@ -18,15 +18,12 @@ int main() {
 	}
 
 	vector<vector<int>> prefix_sum(N+1, vector<int>(M+1));
-	for (int i = 1; i < N+1; ++i) {
-		prefix_sum[i][1] = v[i-1][0];
-		for (int j = 2; j < M+1; ++j) {
-			prefix_sum[i][j] = prefix_sum[i][j - 1] + v[i-1][j-1];
-		}
-	}
-	for (int j = 1; j < M + 1; ++j) {
-		for (int i = 1; i < N + 1; ++i) {
-			prefix_sum[i][j] = prefix_sum[i - 1][j] + prefix_sum[i][j];
+	for (int i = 1; i <= N; ++i) {
+		for (int j = 1; j <= M; ++j) {
+			prefix_sum[i][j] = v[i - 1][j - 1]
+				+ prefix_sum[i - 1][j]
+				+ prefix_sum[i][j - 1]
+				- prefix_sum[i - 1][j - 1];
 		}
 	}
 
