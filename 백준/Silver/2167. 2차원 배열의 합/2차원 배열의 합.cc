@@ -17,6 +17,19 @@ int main() {
 			cin >> v[i][j];
 	}
 
+	vector<vector<int>> prefix_sum(N+1, vector<int>(M+1));
+	for (int i = 1; i < N+1; ++i) {
+		prefix_sum[i][1] = v[i-1][0];
+		for (int j = 2; j < M+1; ++j) {
+			prefix_sum[i][j] = prefix_sum[i][j - 1] + v[i-1][j-1];
+		}
+	}
+	for (int j = 1; j < M + 1; ++j) {
+		for (int i = 1; i < N + 1; ++i) {
+			prefix_sum[i][j] = prefix_sum[i - 1][j] + prefix_sum[i][j];
+		}
+	}
+
 	int K;
 	cin >> K;
 
@@ -24,12 +37,8 @@ int main() {
 		int i, j, x, y;
 		cin >> i >> j >> x >> y;
 
-		int sum = 0;
-		for (int r = i - 1; r <= x - 1; ++r) {
-			for (int c = j - 1; c <= y - 1; ++c) {
-				sum += v[r][c];
-			}
-		}
+		int sum = prefix_sum[x][y] - prefix_sum[x][j - 1] - prefix_sum[i-1][y] + prefix_sum[i - 1][j - 1];
+
 		cout << sum << "\n";
 	}
 }
