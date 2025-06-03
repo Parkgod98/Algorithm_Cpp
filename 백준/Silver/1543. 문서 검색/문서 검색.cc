@@ -18,23 +18,13 @@ int main() {
 
 	int cnt = 0;
 	int idx = 0;
-	while (idx < s.size()) {
-
-		bool flag = true;
-		if (idx + mask.size() > s.size())
-			break;
-		for (int i = 0; i < mask.size(); ++i) {
-			if (s[i + idx] != mask[i]) {
-				flag = false;
-				break;
-			}
+	int start = 0;
+	while (idx != string::npos) {
+		idx = s.find(mask,start);
+		if (idx != string::npos) {
+			cnt++;
+			start = idx + mask.size();
 		}
-		if (flag) {
-			idx += mask.size();
-			++cnt;
-		}
-		else
-			++idx;
 	}
 	cout << cnt << "\n";
 }
