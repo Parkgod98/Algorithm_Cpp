@@ -4,40 +4,35 @@
 #include <algorithm>
 #include <map>
 #include <unordered_map>
-
+#include <queue>
 using namespace std;
 
 int main() {
 	int N, K;
 	cin >> N >> K;
 
-	vector<int> v(N + 1,1);
+	queue<int> q;
+	for (int i = 1; i <= N; ++i)
+		q.push(i);
 
-	cout << "<";
+	vector<int> res;
+	while (!q.empty()) {
+		int cnt = 0;
 
-	int idx = K;
-	int limit = 0;
-	while (limit < N) {
-		if (v[idx] == 1) {
-			if (limit != N - 1) {
-				cout << idx << ", ";
-			}
-			else {
-				cout << idx << ">\n";
-			}
-			v[idx] = 0;
-			limit++;
+		while (!q.empty() && cnt < K -1) {
+			int n = q.front();
+			q.pop();
+			q.push(n);
+			cnt++;
 		}
-		else {
-			int cnt = 0;
-			while (cnt < K) {
-				idx++;
-				idx %= (N + 1);
-				if (!(v[idx] == 0 || idx == 0)) {
-					++cnt;
-				}
-			}
-		}
+		res.push_back(q.front());
+		q.pop();
 	}
-	
+	cout << "<";
+	for (int i = 0; i < res.size(); ++i) {
+		if (i == res.size() - 1)
+			cout << res[i] << ">";
+		else
+			cout << res[i] << ", ";
+	}
 }
