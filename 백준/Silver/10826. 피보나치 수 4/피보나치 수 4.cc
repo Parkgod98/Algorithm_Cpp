@@ -10,7 +10,7 @@ string Plus(string a, string b) { // 넣을때 애초에 b가 큰걸 넣는다. 
 	string res = "";
 
 	int carry = 0;
-	
+
 	reverse(a.begin(), a.end());
 	reverse(b.begin(), b.end());
 
@@ -57,8 +57,10 @@ int main() {
 		string cur;
 		for (int i = 3; i <= n; ++i) {
 			cur = Plus(pprev, prev);
-			pprev = prev;
-			prev = cur;
+			if (i == n)
+				break;
+			swap(prev, cur);
+			swap(pprev, cur);
 		}
 		cout << cur;
 	}
