@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -10,53 +11,38 @@ int main() {
 	cin >> N;
 
 	vector<vector<char>> v(N, vector<char>(N));
-	for (int i = 0; i < N; ++i)
+	for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < N; ++j)
 			cin >> v[i][j];
+	}
 
-	int cnt = 0;
+	int cnt1, cnt2;
+	cnt1 = cnt2 = 0;
 	for (int i = 0; i < N; ++i) {
-		bool start = false;
-		bool okay = false;
+		int r = 0;
 		for (int j = 0; j < N; ++j) {
-			if (start && v[i][j] == '.') {
-				okay = true;
-				continue;
-			}
 			if (v[i][j] == '.')
-				start = true;
-			else {
-				if (okay) 
-					++cnt;
-				start = false;
-				okay = false;
-			}
+				r++;
+			else
+				r = 0;
+
+			if (r == 2)
+				cnt1++;
 		}
-		if (okay)
-			++cnt;
 	}
 
-	int cnt2 = 0;
 	for (int j = 0; j < N; ++j) {
-		bool start = false;
-		bool okay = false;
+		int c = 0;
 		for (int i = 0; i < N; ++i) {
-			if (start && v[i][j] == '.') {
-				okay = true;
-				continue;
-			}
 			if (v[i][j] == '.')
-				start = true;
-			else {
-				if (okay)
-					++cnt2;
-				start = false;
-				okay = false;
-			}
+				c++;
+			else
+				c = 0;
+
+			if (c == 2)
+				cnt2++;
 		}
-		if (okay)
-			++cnt2;
 	}
 
-	cout << cnt << " " << cnt2 << "\n";
+	cout << cnt1 << " " << cnt2 << "\n";
 }
