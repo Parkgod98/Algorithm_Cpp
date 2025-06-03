@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 using namespace std;
-
+int arr[20000010] = { 0 };
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
@@ -14,11 +14,10 @@ int main() {
 	int N;
 	cin >> N;
 
-	unordered_map<int, int> mp;
 	for (int i = 0; i < N; ++i) {
 		int n;
 		cin >> n;
-		mp[n]++;
+		++arr[n + 10000000];
 	}
 
 	int M;
@@ -27,6 +26,6 @@ int main() {
 	for (int i = 0; i < M; ++i) {
 		int n;
 		cin >> n;
-		cout << mp[n] << " ";
+		cout << arr[n+10000000] << " ";
 	}
 }
