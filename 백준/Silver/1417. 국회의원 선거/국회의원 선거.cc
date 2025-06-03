@@ -10,22 +10,24 @@ int main() {
 	int N;
 	cin >> N;
 
-	vector<int> v(N);
-	for (int i = N-1; i >= 0; --i) {
-		cin >> v[i];
+	int me;
+	cin >> me;
+
+	priority_queue<int> pq;
+	for (int i = 1; i < N; ++i) {
+		int n;
+		cin >> n;
+		pq.push(n);
 	}
 
 	int cnt = 0;
-	while (1) {
-		int idx = max_element(v.begin(), v.end()) - v.begin();
-		if (idx == N-1)
-			break;
-		else {
-			v[idx]--;
-			v[N-1]++;
-			++cnt;
-		}
+	while (!pq.empty() && me <= pq.top()) {
+		int n = pq.top();
+		pq.pop();
+		n--;
+		me++;
+		++cnt;
+		pq.push(n);
 	}
-	cout << cnt << "\n";
-
+	cout << cnt;
 }
