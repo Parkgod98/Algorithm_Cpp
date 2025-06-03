@@ -12,23 +12,23 @@ int main() {
 	cin >> N >> M;
 
 	map<string, int> mp;
-	for (int i = 0; i < N + M; ++i) {
+	for (int i = 0; i < N; ++i) {
 		string s;
 		cin >> s;
-		mp[s]++;
+		mp[s] = 1;
 	}
 
-	int sum = 0;
-	for (auto &it : mp) {
-		if (it.second >= 2) {
-			++sum;
+	map<string, bool> mp2;
+	for (int i = 0; i < M; ++i) {
+		string s;
+		cin >> s;
+		if (mp[s] == 1) {
+			mp2[s] = true;
 		}
 	}
 
-	cout << sum << "\n";
-	for (auto &it : mp) {
-		if (it.second >= 2) {
-			cout << it.first << "\n";
-		}
+	cout << mp2.size() << "\n";
+	for (auto &it : mp2) {
+		cout << it.first << "\n";
 	}
 }
