@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <list>
 #include <unordered_map>
 #include <queue>
 using namespace std;
@@ -11,28 +12,25 @@ int main() {
 	int N, K;
 	cin >> N >> K;
 
-	queue<int> q;
+	list<int> li;
 	for (int i = 1; i <= N; ++i)
-		q.push(i);
+		li.push_back(i);
 
-	vector<int> res;
-	while (!q.empty()) {
-		int cnt = 0;
-
-		while (!q.empty() && cnt < K -1) {
-			int n = q.front();
-			q.pop();
-			q.push(n);
-			cnt++;
-		}
-		res.push_back(q.front());
-		q.pop();
-	}
 	cout << "<";
-	for (int i = 0; i < res.size(); ++i) {
-		if (i == res.size() - 1)
-			cout << res[i] << ">";
+	auto it = li.begin();
+	while (!li.empty()) {
+		for (int i = 0; i < K - 1; ++i) {
+			++it;
+			if (it == li.end())
+				it = li.begin();
+		}
+		if (!(li.size() == 1)) {
+			cout << *it << ", ";
+		}
 		else
-			cout << res[i] << ", ";
+			cout << *it << ">";
+		it = li.erase(it);
+		if (it == li.end())
+			it = li.begin();
 	}
 }
