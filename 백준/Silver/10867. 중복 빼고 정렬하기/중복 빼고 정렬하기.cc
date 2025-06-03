@@ -6,20 +6,21 @@
 #include <list>
 #include <map>
 #include <deque>
+#include <set>
 using namespace std;
 
 int main() {
 	int N;
 	cin >> N;
 
-	map<int, bool> mp;
+	set<int> s;
 	for (int i = 0; i < N; ++i) {
 		int n;
 		cin >> n;
-		mp[n] = true;
+		s.insert(n);
 	}
 
-	for (auto it = mp.begin(); it != mp.end(); ++it) {
-		cout << it->first << " ";
+	for (auto it = s.begin(); it != s.end(); ++it) {
+		cout << *it << " ";
 	}
 }
