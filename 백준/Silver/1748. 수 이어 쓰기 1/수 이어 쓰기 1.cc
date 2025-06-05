@@ -13,19 +13,9 @@ int main() {
 
 	int res = 0;
 
-	int mask = 9;
-	int weight = 1;
-
-	int i;
-	for (i = 10; i <= N; i *= 10) {
-		res += (mask*weight);
-		mask *= 10;
-		++weight;
+	for (int i = 1; i <= N; i *= 10) {
+		res += N - i + 1;
 	}
-
-	i /= 10;
-	int remain = N - i + 1;
-	res += remain * weight;
 
 	cout << res;
 }
