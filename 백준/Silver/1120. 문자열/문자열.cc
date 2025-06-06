@@ -15,8 +15,8 @@ int main() {
 
 	for (int i = 0; i <= b.size() - a.size(); ++i) {
 		int cnt = 0;
-		for (int j = i; j < i+a.size(); ++j) {
-			if (a[j - i] != b[j]) {
+		for (int j = 0; j < a.size(); ++j) {
+			if (a[j] != b[i+j]) {
 				++cnt;
 			}
 		}
