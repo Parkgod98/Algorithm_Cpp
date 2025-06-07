@@ -1,37 +1,27 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
+#include <unordered_map>
 #include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <queue>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
 
-int main()
-{
-	int n;
-	cin >> n;
+int main() {
+	int X;
+	cin >> X;
 
-	vector<int> v(n + 1,99999999);
-	v[n] = 0;
-	for (int i = n; i >=1; --i) {
+	vector<int> v(X + 1, X+1);
+	v[X] = 0;
+	for (int i = X; i >= 1; --i) {
 		if (i % 3 == 0) {
-			v[i / 3] = min(v[i / 3], v[i] + 1);
+			v[i / 3] = min(v[i] + 1,v[i/3]);
 		}
 		if (i % 2 == 0) {
-			v[i / 2] = min(v[i / 2], v[i] + 1);
+			v[i / 2] = min(v[i] + 1, v[i/2]);
 		}
-		v[i - 1] = min(v[i - 1], v[i]+1);
+		v[i - 1] = min(v[i] + 1, v[i-1]);
 	}
-	cout << v[1];
+	cout << v[1] << "\n";
 }
