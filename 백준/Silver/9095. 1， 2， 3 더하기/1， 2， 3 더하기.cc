@@ -1,42 +1,27 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <queue>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
 
+int main() {
+	int T;
+	cin >> T;
 
-
-
-int main()
-{
-	int n;
-	cin >> n;
-	
-	vector<int> dp(12);
-	dp[1] = 1;
-	dp[2] = 2;
-	dp[3] = 4;
-	dp[4] = 7;
-	for (int i = 5; i <= 12; ++i) {
-		dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+	vector<int> v(11);
+	v[1] = 1;
+	v[2] = 2;
+	v[3] = 4;
+	for (int i = 4; i <= 10; ++i) {
+		v[i] = v[i - 1] + v[i - 2] + v[i - 3];
 	}
 
-	for (int i = 0; i < n; ++i) {
-		int k;
-		cin >> k;
-		cout << dp[k] << "\n";
+	for (int tc = 1; tc <= T; ++tc) {
+		int n;
+		cin >> n;
+
+		cout << v[n] << "\n";
 	}
 }
