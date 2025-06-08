@@ -22,15 +22,9 @@ int main() {
 		int N;
 		cin >> N;
 
-		if (N >= 3)
-			cout << fibo[N - 2] + fibo[N - 3] << " " << fibo[N] << "\n";
-		else if (N == 0)
-			cout << "1 0\n";
-		else if (N == 1)
-			cout << "0 1\n";
-		else if (N == 2)
-			cout << "1 1\n";
+		if (N >= 1)
+			cout << fibo[N - 1] << " " << fibo[N] << "\n";
 		else
-			cout << "1 2\n";
+			cout << "1 0\n";
 	}
 }
