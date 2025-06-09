@@ -14,33 +14,39 @@ int main() {
 		int N, M;
 		cin >> N >> M;
 
+		vector<int> v(11);
 		queue<pair<int,int>> q;
-		priority_queue<pair<int, int>> pq;
-
 		for (int i = 0; i < N; ++i) {
 			int n;
 			cin >> n;
-			q.push({ n,-i });
-			pq.push({ n,-i });
+			q.push({ n,i });
+			v[n]++;
 		}
 
 		int cnt = 0;
-		while (!pq.empty()) {
-			if (pq.top().first == q.front().first) {
+		while (!q.empty()) {
+			bool IsOkay = true;
+			for (int i = q.front().first+1; i <= 10; ++i){
+				if (v[i]) {
+					IsOkay = false;
+					break;
+				}
+			}
+
+			if (IsOkay) {
 				++cnt;
-				if (-q.front().second == M) {
+				if (q.front().second == M) {
 					cout << cnt << "\n";
 					break;
 				}
 				else {
-					pq.pop();
+					v[q.front().first]--;
 					q.pop();
 				}
 			}
 			else {
-				pair<int, int> p = q.front();
+				q.push(q.front());
 				q.pop();
-				q.push(p);
 			}
 		}
 	}
