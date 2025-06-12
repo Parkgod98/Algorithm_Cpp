@@ -1,44 +1,32 @@
-//#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <string>
 #include <vector>
 #include <algorithm>
-#include <string>
+#include <set>
+#include <queue>
 #include <cmath>
 #include <map>
 using namespace std;
 
+int main() {
+	int T;
+	cin >> T;
 
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
-
-int main()
-{
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	int t;
-	cin >> t;
 	
-	for (int i = 0; i < t; ++i) {
-		int n;
-		cin >> n;
+	for (int tc = 1; tc <= T; ++tc) {
+		int k;
+		cin >> k;
 
-		map<string, int> m;
-		for (int j = 0; j < n; ++j) {
-			string a,kind;
-			cin >> a >> kind;
-			m[kind] += 1;
+		map<string, int> mp;
+		for (int i = 0; i < k; ++i) {
+			string a, b;
+			cin >> a >> b;
+			mp[b]++;
 		}
-		long long res = 1;
-
-		for (auto it : m)
-			res *= (it.second + 1);
-		res -= 1;
-		cout << res << "\n";
+		long long n = 1;
+		for (auto &it : mp) {
+			n *= (it.second+1);
+		}
+		cout << n - 1 << "\n";
 	}
-}
+}  
