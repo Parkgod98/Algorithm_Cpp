@@ -26,7 +26,7 @@ int main() {
 		int k;
 		cin >> k;
 
-		while (start <= n && s.top() != k) {
+		while (start <= k) {
 			s.push(start);
 			res.push_back('+');
 			start++;
@@ -35,12 +35,12 @@ int main() {
 			s.pop();
 			res.push_back('-');
 		}
+		else {
+			cout << "NO\n";
+			return 0;
+		}
 	}
 
-	if (s.size() == 1) {
-		for (char &c : res)
-			cout << c << "\n";
-	}
-	else
-		cout << "NO" << "\n";
+	for (char &c : res)
+		cout << c << "\n";
 }  
