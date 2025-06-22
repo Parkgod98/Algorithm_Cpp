@@ -17,39 +17,27 @@ int main() {
 	cin >> N;
 
 	stack<int> st;
-	queue<int> q;
+	int target = 1;
 	for (int i = 0; i < N; ++i) {
 		int n;
 		cin >> n;
-		q.push(n);
-	}
 
-	int target = 1;
-
-	bool success = true;
-	while (target <= N) {
-		if (!q.empty() && q.front() == target) {
-			q.pop();
-			target++;
-		}
-		else if (!st.empty() && st.top() == target) {
-			st.pop();
+		if (n == target) {
 			target++;
 		}
 		else {
-			if (!q.empty()) {
-				st.push(q.front());
-				q.pop();
-			}
-			else {
-				success = false;
-				break;
-			}
+			st.push(n);
+		}
+
+		while (!st.empty() && st.top() == target) {
+			st.pop();
+			++target;
 		}
 	}
-	if (success)
-		cout << "Nice" << "\n";
+
+	if (st.empty())
+		cout << "Nice";
 	else
-		cout << "Sad" << "\n";
+		cout << "Sad";
 	
 }  
