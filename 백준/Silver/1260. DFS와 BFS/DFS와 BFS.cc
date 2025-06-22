@@ -1,74 +1,75 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <queue>
+#include <cmath>
+#include <map>
+#include <list>
+#include <queue>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
+int N, M, S;
 
-void DFS(vector<vector<int>>& v, vector<int>& visited, int s)
-{
-	cout << s << " ";
-	visited[s] = 1;
-	sort(v[s].begin(), v[s].end());
-	for (int nx : v[s]) {
-		if (!visited[nx]) {
-			DFS(v, visited, nx);
+vector<vector<int>> v;
+vector<bool> visited;
+void DFS(int node) {
+	if (visited[node])
+		return;
+
+	visited[node] = true;
+	cout << node << " ";
+
+	for (int &i : v[node]) {
+		if (!visited[i]) {
+			DFS(i);
 		}
 	}
 }
 
-void BFS(vector<vector<int>>& v, vector<int>& visited, int s)
-{
+void BFS() {
 	queue<int> q;
-	q.push(s);
-	sort(v[s].begin(), v[s].end());
+	q.push(S);
+	visited[S] = true;
+
 	while (!q.empty()) {
-		int k = q.front();
+
+		int cur = q.front();
 		q.pop();
-		if (!visited[k])
-			cout << k << " ";
-		visited[k] = 1;
-		for (int nx : v[k]) {
-			if (!visited[nx]) {
-				q.push(nx);
-				
+		cout << cur << " ";
+		for (int &i : v[cur]) {
+			if (!visited[i]) {
+				q.push(i);
+				visited[i] = true;
 			}
 		}
 	}
 }
 
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 
-int main()
-{
-	int n, m, s;
-	cin >> n >> m >> s;
+	cin >> N >> M >> S;
 
-	vector<vector<int>> v(n+1);
-	for (int i = 0; i < m; ++i) {
-		int a, b;
-		cin >> a >> b;
-		v[a].push_back(b);
-		v[b].push_back(a);
+	v = vector<vector<int>>(N+1);
+	visited = vector<bool>(N + 1);
+	for (int i = 0; i < M; ++i) {
+		int s, e;
+		cin >> s >> e;
+
+		v[s].push_back(e);
+		v[e].push_back(s);
 	}
 
-	vector<int> visited(n+1);
-	DFS(v, visited,s);
-	cout << endl;
-	for (int i = 0; i < visited.size(); ++i)
-		visited[i] = 0;
+	for (int i = 1; i <= N; ++i) {
+		sort(v[i].begin(), v[i].end());
+	}
 
-	BFS(v, visited,s);
+	DFS(S);
+	cout << "\n";
 
-}
+	visited = vector<bool>(N + 1);
+	BFS();
+	cout << "\n";
+}  
