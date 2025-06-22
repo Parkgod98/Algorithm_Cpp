@@ -1,39 +1,46 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <set>
+#include <queue>
+#include <cmath>
+#include <map>
+#include <list>
+#include <queue>
+#include <stack>
 using namespace std;
 
-int main(void) {
-	cin.tie(0);
+int main() {
 	ios_base::sync_with_stdio(0);
-
+	cin.tie(0);
 	int n;
 	cin >> n;
 
-	vector<int> v(n);
-	for(int i = 0; i < n; ++i)
-		cin >> v[i];
 
-	stack<int> st;
-	int s = 1;
+	int start = 1;
+	stack<int> s;
+	s.push(0);
+	vector<char> res;
+	for (int i = 0; i < n; ++i) {
+		int k;
+		cin >> k;
 
-	vector<char> ans;
-	int i = 0;
-	while(i < n && s <= n+1) {
-		if(!st.empty() && st.top() == v[i]) {
-			st.pop();
-			ans.push_back('-');
-			++i;
+		while (start <= n && s.top() != k) {
+			s.push(start);
+			res.push_back('+');
+			start++;
 		}
-		else {
-			st.push(s);
-			ans.push_back('+');
-			s++;
+		if (s.top() == k) {
+			s.pop();
+			res.push_back('-');
 		}
 	}
-	if(!st.empty())
-		cout << "NO";
-	else {
-		for(char c : ans)
+
+	if (s.size() == 1) {
+		for (char &c : res)
 			cout << c << "\n";
 	}
-
-}
+	else
+		cout << "NO" << "\n";
+}  
