@@ -1,40 +1,36 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <queue>
+#include <cmath>
+#include <map>
+#include <list>
+#include <queue>
+#include <stack>
+#include <cmath>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
 
-int main(void)
-{
-	int n;
-	cin >> n;
+int main() {
 
-	vector<int> v(n+1);
-	for (int i = 0; i < n; ++i)
-		cin >> v[i+1];
+	int N;
+	cin >> N;
 
-	vector<int> dp(n + 1,1);
-	
-	for (int i = 2; i <= n; ++i) {
-		for (int j = 1; j < i; ++j) {
+	vector<int> v(N);
+	for (int i = 0; i < N; ++i)
+		cin >> v[i];
+	vector<int> dp(N,1);
+
+	dp[0] = 1;
+	int mx = 1;
+	for (int i = 1; i < N; ++i) {
+		for (int j = 0; j < i; ++j) {
 			if (v[j] < v[i]) {
-				dp[i] = max(dp[i],dp[j]+1);
+				dp[i] = max(dp[j] + 1, dp[i]);
 			}
 		}
+		mx = max(dp[i], mx);
 	}
-	sort(dp.begin(), dp.end());
-	cout << dp[n];
-}
+	cout << mx << "\n";
+}  
