@@ -34,25 +34,21 @@ int main() {
 	int n_idx = 1;
 	int op_idx = 0;
 
-	while (n_idx < num.size() && op_idx < op.size()) {
-		if (op[op_idx] == '-') {
-			int tmp = num[n_idx];
-			int t_op_idx = op_idx+1;
-			int t_n_idx = n_idx + 1;
-			while (t_op_idx < op.size() && op[t_op_idx] != '-') {
-				tmp += num[t_n_idx];
-				t_n_idx++;
-				t_op_idx++;
-			}
-			sum -= tmp;
-			n_idx = t_n_idx;
-			op_idx = t_op_idx;
+	bool flag = false;
+	for (int i = op_idx; i < op.size(); ++i) {
+		if (flag) {
+			sum -= num[n_idx];
 		}
 		else {
-			sum += num[n_idx];
-			n_idx++;
-			op_idx++;
+			if (op[i] == '-') {
+				flag = true;
+				sum -= num[n_idx];
+			}
+			else
+				sum += num[n_idx];
 		}
+		n_idx++;
+
 	}
 	cout << sum << "\n";
 }  
