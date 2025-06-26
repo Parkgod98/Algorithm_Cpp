@@ -14,27 +14,14 @@ vector<vector<int>> v;
 int w, b;
 
 void Check(int y_off, int x_off, int sz) {
-	if (sz == 1) {
-		if (v[y_off][x_off])
-			++b;
-		else
-			++w;
-		return;
-	}
-
 	bool flag = true;
-	int blue, white;
-	blue = white = 0;
+	int color = v[y_off][x_off];
 	for (int i = y_off; i < y_off+sz; ++i) {
 		for (int j = x_off; j < x_off+sz; ++j) {
-			if (v[i][j] == 0)
-				white++;
-			else
-				blue++;
-			if (white > 0 && blue > 0) {
+			if (v[i][j] != color) {
 				flag = false;
 				Check(y_off, x_off, sz / 2);
-				Check(y_off+(sz/2), x_off, sz / 2);
+				Check(y_off + (sz / 2), x_off, sz / 2);
 				Check(y_off, x_off + (sz / 2), sz / 2);
 				Check(y_off + (sz / 2), x_off + (sz / 2), sz / 2);
 				return;
@@ -43,17 +30,11 @@ void Check(int y_off, int x_off, int sz) {
 	}
 
 	if (flag) {
-		if (white > 0 && blue == 0)
-			++w;
-		else if (white == 0 && blue > 0)
+		if (color == 1)
 			++b;
+		else
+			++w;
 	}
-
-}
-
-void DFS(int sz) {
-
-
 }
 
 int main() {
@@ -68,5 +49,4 @@ int main() {
 	Check(0, 0, N);
 
 	cout << w << "\n" << b << "\n";
-
 }  
