@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <set>
-#include <queue>
 #include <map>
 #include <list>
 #include <queue>
@@ -18,7 +17,7 @@ int main() {
 	vector<bool> v(n+1, true);
 	v[0] = v[1] = false;
 
-	for (int i = 2; i <= n; ++i) {
+	for (int i = 2; i*i <= n; ++i) {
 		for (int j = i*2; j <= n; j += i) {
 			v[j] = false;
 		}
