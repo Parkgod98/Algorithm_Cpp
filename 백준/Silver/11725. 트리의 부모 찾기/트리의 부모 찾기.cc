@@ -11,16 +11,6 @@
 using namespace std;
 vector<int> arr;
 vector<vector<int>> v;
-void DFS(int node, int prev) {
-	if (arr[node] != -1)
-		return;
-
-	arr[node] = prev;
-	for (int &i : v[node]) {
-		if (arr[i] == -1)
-			DFS(i,node);
-	}
-}
 
 int main() {
 	int N;
@@ -36,7 +26,21 @@ int main() {
 
 	arr = vector<int>(N + 1,-1);
 
-	DFS(1,0);
+	arr[1] = 0;
+	queue<int> q;
+	q.push(1);
+
+	while (!q.empty()) {
+		int cur = q.front();
+		q.pop();
+
+		for (int &i : v[cur]) {
+			if (arr[i] == -1) {
+				arr[i] = cur;
+				q.push(i);
+			}
+		}
+	}
 
 	for (int i = 2; i <= N; ++i)
 		cout << arr[i] << "\n";
