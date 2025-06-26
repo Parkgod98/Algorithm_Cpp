@@ -24,9 +24,8 @@ int main() {
 	sort(v2.begin(), v2.end());
 	v2.erase(unique(v2.begin(), v2.end()), v2.end());
 
-	int rank = 0;
 	for (int i = 0; i < v2.size(); ++i)
-		mp[v2[i]] = rank++;
+		mp[v2[i]] = i;
 
 	for (int i = 0; i < N; ++i) {
 		cout << mp[v[i]] << " ";
