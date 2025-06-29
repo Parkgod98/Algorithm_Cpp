@@ -10,28 +10,22 @@
 #include <cmath>
 using namespace std;
 int N, M;
-set<string> s;
 vector<int> v, ans;
 vector<int> visited;
 void Comb() {
 	if (ans.size() == M) {
-		string n = "";
-		for (int i = 0; i < M; ++i) {
-			n += ans[i];
-		}
-		if (s.find(n) == s.end()) {
-			s.insert(n);
-			for (int &i : ans)
-				cout << i << " ";
-			cout << "\n";
-		}
+		for (int &i : ans)
+			cout << i << " ";
+		cout << "\n";
 		return;
 	}
 
+	int tmp = -1;
 	for (int i = 0; i < N; ++i) {
-		if (!visited[i]) {
+		if (!visited[i] && tmp != v[i]) {
 			ans.push_back(v[i]);
 			visited[i] = 1;
+			tmp = v[i];
 			Comb();
 			ans.pop_back();
 			visited[i] = 0;
