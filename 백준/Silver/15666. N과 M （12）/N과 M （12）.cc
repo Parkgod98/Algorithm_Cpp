@@ -9,13 +9,13 @@
 #include <stack>
 #include <cmath>
 using namespace std;
-int N, M;
-vector<int> v,ans;
+int N, M,cur;
+int arr[8];
+vector<int> v;
 void DFS(int idx) {
-	if (ans.size() == M) {
-		for (int &i : ans) {
-			cout << i << " ";
-		}
+	if (cur == M) {
+		for (int i = 0; i < M; ++i)
+			cout << arr[i] << " ";
 		cout << "\n";
 		return;
 	}
@@ -23,10 +23,11 @@ void DFS(int idx) {
 	int tmp = -1;
 	for (int i = idx; i < N; ++i) {
 		if (v[i] != tmp) {
-			ans.push_back(v[i]);
+			arr[cur] = v[i];
+			cur++;
 			tmp = v[i];
 			DFS(i);
-			ans.pop_back();
+			cur--;
 		}
 	}
 }
