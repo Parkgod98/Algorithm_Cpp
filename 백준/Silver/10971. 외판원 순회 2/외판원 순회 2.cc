@@ -14,6 +14,8 @@ vector<vector<int>> W;
 vector<int> visited;
 int mn = 2000000000;
 void DFS(int start, int cur, int depth,int cost) {
+	if (mn < cost)
+		return;
 	if (depth == N) {
 		mn = min(cost, mn);
 		return;
@@ -44,8 +46,6 @@ int main() {
 
 	for (int i = 0; i < N; ++i) {
 		DFS(i,i,0,0);
-		for (int j = 0; j < N; ++j)
-			visited[j] = 0;
 	}
 
 	cout << mn << "\n";
