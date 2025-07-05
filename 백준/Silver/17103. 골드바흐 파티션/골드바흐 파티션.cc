@@ -17,6 +17,8 @@ int main() {
 	vector<bool> v(1000001,true);
 	v[0] = v[1] = false;
 	for (int i = 2; i*i <= 1000000; ++i) {
+		if (!v[i])
+			continue;
 		for (int j = i * 2; j <= 1000000; j += i) {
 			v[j] = false;
 		}
