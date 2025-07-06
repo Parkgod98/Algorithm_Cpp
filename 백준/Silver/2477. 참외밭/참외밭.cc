@@ -1,55 +1,40 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <map>
+#include <list>
+#include <queue>
+#include <stack>
+#include <cmath>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
 
+int K;
+int main(void){
+	cin >> K;
 
-int main(void)
-{
-	int k;
-	cin >> k;
-
-	vector<pair<int, int>> v;
+	vector<pair<int,int>> v(12);
 	for (int i = 0; i < 6; ++i) {
-		int direction, len;
-		cin >> direction >> len;
-		v.push_back({ direction,len });
+		int a, b;
+		cin >> a >> b;
+		v[i] = v[i + 6] = { a,b };
 	}
-	
-	int max_height, max_width;
-	max_height = max_width = 0;
-	for (pair<int, int> p : v) {
-		if (p.first == 3 || p.first == 4)
-			max_height = max(max_height, p.second);
-		else
-			max_width = max(max_width, p.second);
-	}
-	int whole_area = max_height * max_width;
 
-	for (int i = 0; i < 6; ++i)
-		v.push_back(v[i]);
-
-	int small_area = 0;
-	for (int i = 0; i < 9; i++) {
-		if (v[i].first == v[i + 2].first && v[i+1].first == v[i+3].first) {
-			small_area = v[i + 1].second * v[i + 2].second;
-			break;
+	int total, mini;
+	for (int i = 0; i < 9; ++i) {
+		if (v[i].first == v[i + 2].first && v[i + 1].first == v[i + 3].first) {
+			mini = v[i + 1].second * v[i + 2].second;
+			if (i == 0)
+				total = v[i - 1+12].second*v[i + 4].second;
+			else if (i == 8)
+				total = v[i - 1].second*v[(i + 4)%12].second;
+			else
+				total = v[i - 1].second*v[i + 4].second;
 		}
 	}
-	cout << (whole_area - small_area) * k;
-	return 0;
-}		
+
+	long long ans = ((long long)total - mini)*K;
+	cout << ans << "\n";
+
+}
