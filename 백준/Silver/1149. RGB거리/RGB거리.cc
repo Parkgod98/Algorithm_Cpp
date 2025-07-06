@@ -11,34 +11,23 @@
 using namespace std;
 int N;
 vector<vector<int>> cost;
-int mn = 0;
+int mn;
 
 int main(void){
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
 	cin >> N;
+	int r, g, b;
+	cin >> r >> g >> b;
+	vector<vector<int>> cost(N, vector<int>(3));
+	cost[0][0] = r;
+	cost[0][1] = g;
+	cost[0][2] = b;
 
-	cost = vector<vector<int>>(N, vector<int>(3));
-	for (int i = 0; i < N; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			cin >> cost[i][j];
-			mn += cost[i][j];
-		}
-	}
-	vector<vector<int>> dp(N, vector<int>(3,mn));
-	for (int i = 0; i < 3; ++i) {
-		dp[0][i] = cost[0][i];
-	}
 	for (int i = 1; i < N; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			for (int k = 0; k < 3; ++k) {
-				if (j != k) {
-					dp[i][j] = min(dp[i - 1][k] + cost[i][j], dp[i][j]);
-				}
-			}
-		}
+		cin >> r >> g >> b;
+		cost[i][0] = min(cost[i - 1][1], cost[i - 1][2]) + r;
+		cost[i][1] = min(cost[i - 1][0], cost[i - 1][2]) + g;
+		cost[i][2] = min(cost[i - 1][0], cost[i - 1][1]) + b;
 	}
-	for (int i = 0; i < 3; ++i)
-		mn = min(dp[N - 1][i], mn);
-	cout << mn << "\n";
+
+	cout << min(cost[N - 1][0], min(cost[N - 1][1], cost[N - 1][2]));
 }
