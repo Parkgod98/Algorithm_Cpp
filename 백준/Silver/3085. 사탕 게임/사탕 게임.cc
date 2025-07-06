@@ -1,80 +1,81 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <map>
+#include <list>
+#include <queue>
+#include <stack>
+#include <cmath>
 using namespace std;
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
+int N;
+vector<vector<char>> v;
 
-int GetMaxLength(vector<vector<int>>& v)
-{
-	int max_len = 1;
-	/* 가로 최대 구하기 */
-	for (int i = 0; i < v.size(); ++i){
+int Check() {
+	int mx_len = 0;
+	for (int i = 0; i < N; ++i) {
 		int len = 1;
-		for (int j = 0; j < v.size() -1; ++j) {
-			if (v[i][j] == v[i][j + 1])
+		for (int j = 0; j < N-1; ++j) {
+			if (v[i][j] == v[i][j + 1]) {
 				len++;
+			}
 			else
 				len = 1;
-			max_len = max(len, max_len);
+			mx_len = max(len, mx_len);
 		}
+		
+		if (mx_len == N)
+			return N;
 	}
 
-	/* 세로 최대 구하기 */
-	for (int i = 0; i < v.size(); ++i) {
+	for (int j = 0; j < N; ++j) {
 		int len = 1;
-		for (int j = 0; j < v.size() -1; ++j) {
-			if (v[j][i] == v[j + 1][i])
+		for (int i = 0; i < N - 1; ++i) {
+			if (v[i][j] == v[i+1][j]) {
 				len++;
+			}
 			else
 				len = 1;
-			max_len = max(len, max_len);
+			mx_len = max(len, mx_len);
 		}
+		if (mx_len == N)
+			return N;
 	}
-	return max_len;
+
+	return mx_len;
 }
+int main(void){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> N;
 
-
-int main(void)
-{
-	int n;
-	cin >> n;
-	vector<vector<int>> v(n,vector<int>(n));
-
-	for (int i = 0; i < n; ++i) {
-		string s;
-		cin >> s;
-		for (int j = 0; j < n; ++j)
-			v[i][j] = s[j];
+	v = vector<vector<char>>(N, vector<char>(N));
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j)
+			cin >> v[i][j];
 	}
-	int max_len = 1;
-	for (int i = 0; i < v.size(); ++i) {
-		for (int j = 0; j < v.size()-1; ++j) {
+
+
+	int mx = 0;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N-1; ++j) {
 			if (v[i][j] != v[i][j + 1]) {
 				swap(v[i][j], v[i][j + 1]);
-				max_len = max(max_len, GetMaxLength(v));
+				mx = max(mx,Check());
 				swap(v[i][j], v[i][j + 1]);
 			}
-			if (v[j][i] != v[j + 1][i]) {
+			if (v[j][i] != v[j+1][i]) {
 				swap(v[j][i], v[j+1][i]);
-				max_len = max(max_len, GetMaxLength(v));
-				swap(v[j][i], v[j + 1][i]);
+				mx = max(mx, Check());
+				swap(v[j][i], v[j+1][i]);
 			}
+			if (mx == N)
+				break;
 		}
+		if (mx == N)
+			break;
 	}
 
-	cout << max_len << "\n";
-	return 0;
-}		
+	cout << mx << "\n";
+}
