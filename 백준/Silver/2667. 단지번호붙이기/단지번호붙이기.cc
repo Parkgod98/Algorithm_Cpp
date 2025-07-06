@@ -1,73 +1,64 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
 #include <set>
+#include <map>
+#include <list>
+#include <queue>
+#include <stack>
+#include <cmath>
 using namespace std;
-typedef long long ll;
-
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
-
+int N;
+vector<vector<int>> v;
+vector<vector<int>> visited;
 int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
+int main(void){
+	cin >> N;
 
-
-void DFS(int y, int x, vector<vector<int>>& v, vector<vector<bool>>& visited, int& count, int n)
-{
-	visited[y][x] = 1;
-	count++;
-	for (int i = 0; i < 4; ++i) {
-		int ny = y + dy[i];
-		int nx = x + dx[i];
-		if (ny >= n || nx >= n || ny < 0 || nx < 0)
-			continue;
-		if (!visited[ny][nx] && v[ny][nx] == 1) {
-			DFS(ny, nx, v, visited, count, n);
-		}
-	}
-}
-int main()
-{
-	int n;
-	cin >> n;
-	
-	vector<vector<int>> v(n);
-	vector<vector<bool>> visited(n);
-
-	for (int i = 0; i < n; ++i) {
+	v = vector<vector<int>>(N, vector<int>(N));
+	visited = vector<vector<int>>(N, vector<int>(N));
+	for (int i = 0; i < N; ++i) {
 		string s;
 		cin >> s;
-		for (int j = 0; j < n; ++j) {
-			v[i].push_back(s[j] - '0');
-			visited[i].push_back(0);
-		}
+		for (int j = 0; j < N; ++j)
+			v[i][j] = s[j] - '0';
 	}
 
-	vector<int> res;
-	int count = 0;
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < n; ++j) {
+	vector<int> ans;
+	int cnt = 1;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
 			if (v[i][j] == 1 && !visited[i][j]) {
-				DFS(i, j, v, visited, count, n);
-				res.push_back(count);
-				count = 0;
+				queue<pair<int, int>> q;
+				q.push({ i,j });
+				visited[i][j] = cnt;
+
+				int cur_cnt = 0;
+				while (!q.empty()) {
+					auto it = q.front();
+					q.pop();
+					int y = it.first;
+					int x = it.second;
+					++cur_cnt;
+
+					for (int k = 0; k < 4; ++k) {
+						int ny = y + dy[k];
+						int nx = x + dx[k];
+						if (ny < 0 || ny >= N || nx < 0 || nx >= N || v[ny][nx] == 0 || visited[ny][nx])
+							continue;
+						q.push({ ny,nx });
+						visited[ny][nx] = cnt;
+					}
+				}
+				ans.push_back(cur_cnt);
+				++cnt;
 			}
 		}
 	}
-	sort(res.begin(), res.end());
-	cout << res.size() << "\n";
-	for (int i : res)
+	sort(ans.begin(), ans.end());
+	cout << cnt - 1 << "\n";
+	for (int &i : ans)
 		cout << i << "\n";
-
 }
