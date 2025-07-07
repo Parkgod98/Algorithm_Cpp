@@ -24,12 +24,7 @@ int main(void) {
 
 	for (int i = 1; i <= N; ++i) {
 		for (int j = 1; j <= N; ++j) {
-			p_sum[i][j] = p_sum[i][j - 1] + v[i][j];
-		}
-	}
-	for (int i = 1; i <= N; ++i) {
-		for (int j = 1; j <= N; ++j) {
-			p_sum[j][i] = p_sum[j - 1][i] + p_sum[j][i];
+			p_sum[i][j] = v[i][j] + p_sum[i - 1][j] + p_sum[i][j - 1] - p_sum[i - 1][j - 1];
 		}
 	}
 
