@@ -11,10 +11,21 @@
 using namespace std;
 int N;
 
+struct cmp {
+	bool operator()(int a, int b) {
+		if (abs(a) == abs(b)) {
+			return a > b;
+		}
+		return abs(a) > abs(b);
+	}
+};
+
 int main(void) {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	cin >> N;
 
-	priority_queue<pair<long long,long long>,vector<pair<long long, long long>>, greater<>> pq;
+	priority_queue<int, vector<int>, cmp> pq;
 	for (int i = 0; i < N; ++i) {
 		long long x;
 		cin >> x;
@@ -22,18 +33,13 @@ int main(void) {
 			if (!pq.empty()) {
 				auto it = pq.top();
 				pq.pop();
-				cout << it.second << "\n";
+				cout << it << "\n";
 			}
 			else
 				cout << 0 << "\n";
 		}
 		else {
-			if (x < 0) {
-				pq.push({ -x,x });
-			}
-			else {
-				pq.push({ x,x });
-			}
+				pq.push(x);
 		}
 	}
 }
