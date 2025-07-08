@@ -1,55 +1,62 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
+int n;
 
-void DFS(vector<vector<int>>& v, int y,int x, int h,vector<vector<int>> &visited)
-{
-	visited[y][x] = 1;
-	for (int i = 0; i < 4; ++i) {
-		int ny = y + dy[i];
-		int nx = x + dx[i];
-		if (ny < 0 || nx < 0 || ny >= v.size() || nx >= v.size() || visited[ny][nx] || v[ny][nx] <=h)
-			continue;
-		DFS(v, ny, nx, h, visited);
+int bfs(vector<vector<int>>& v, int limit) {
+
+	vector<vector<bool>> visited(n, vector<bool>(n, false));
+
+	queue<pair<int, int>> q;
+	int cnt = 0;
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			if (!visited[i][j] && v[i][j] > limit) {
+				++cnt;
+				q.push({ i,j });
+				visited[i][j] = true;
+				while (!q.empty()) {
+					auto it = q.front();
+					q.pop();
+
+					for (int k = 0; k < 4; ++k) {
+						int ny = it.first + dy[k];
+						int nx = it.second + dx[k];
+						if (ny < 0 || nx < 0 || ny >= n || nx >= n || visited[ny][nx] || (v[ny][nx] <= limit))
+							continue;
+						q.push({ ny,nx });
+						visited[ny][nx] = true;
+					}
+				}
+
+			}
+		}
 	}
+
+	return cnt;
 }
-
-int main(void)
+int main()
 {
-	int n;
-	cin >> n;
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 
-	// 영역 입력 받기
-	int mx = 0; // 가장 높은 지역의 높이
-	vector<vector<int>> v(n, vector<int>(n));
-	for (int i = 0; i < v.size(); ++i) {
-		for (int j = 0; j < v.size(); ++j) {
+	cin >> n;
+	int mx = 0;
+	vector<vector<int>> v(n, vector<int>(n, 0));
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
 			cin >> v[i][j];
 			mx = max(mx, v[i][j]);
 		}
 	}
 
-	int mx_count = 0;
-	int count = 0;
-	for (int h = 0; h <= mx; ++h) {
-		vector<vector<int>> visited(n, vector<int>(n));
-		for (int r = 0; r < v.size(); ++r) {
-			for (int c = 0; c < v.size(); ++c) {
-				if (v[r][c] > h && !visited[r][c]) {
-					DFS(v, r, c, h, visited);
-					count++;
-				}
-			}
-		}
-		mx_count = max(mx_count, count);
-		count = 0;
+	int res = 1;
+	for (int i = 1; i <= mx; ++i) {
+		res = max(res, bfs(v,i));
 	}
 
-	cout << mx_count;
+	cout << res << "\n";
 }
