@@ -1,91 +1,42 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
-#include <map>
 #include <cmath>
-#include <stack>
+#include <algorithm>
 #include <queue>
-#include <set>
+#include <string>
 using namespace std;
-
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
-
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
-
-void PrintV(vector<vector<int>>& v)
-{
-	for (vector<int> a : v) {
-		for (int i : a)
-			cout << i << " ";
-		cout << endl;
-	}
-}
-
-int Check(vector<vector<int>>& v, int y1, int x1, int y2, int x2)
-{
-	bool flag0 = false;
-	bool flag1 = false;
-	if (y1 == y2 && x1 == x2) {
-		return v[y2][x2];
-	}
-	for (int i = y1; i < y2; ++i) {
-		for (int j = x1; j < x2; ++j) {
-			if (v[i][j] == 1)
-				flag1 = true;
-			else
-				flag0 = true;
-			if (flag0 && flag1)
-				return -1;
+int N;
+vector<vector<int>> v;
+string ans = "";
+void DFS(int y, int x, int sz) {
+	int cur = v[y][x];
+	for (int i = y; i < y + sz; ++i) {
+		for (int j = x; j < x + sz; ++j) {
+			if (v[i][j] != cur) {
+				ans.push_back('(');
+				DFS(y, x, sz / 2);
+				DFS(y, x + sz / 2, sz / 2);
+				DFS(y + sz / 2, x, sz / 2);
+				DFS(y + sz / 2, x + sz / 2, sz / 2);
+				ans.push_back(')');
+				return;
+			}
 		}
 	}
-	if (flag0)
-		return 0;
-	return 1;
+	ans.push_back(cur+'0');
 }
-
-void DFS(vector<vector<int>>& v, int y1, int x1, int y2, int x2, string &ret)
-{
-	int mode = Check(v, y1, x1, y2, x2);
-	if (mode == 0)
-		ret += "0";
-	else if (mode == 1)
-		ret += "1";
-	else {
-		ret += '(';
-		DFS(v, y1, x1, y1 + (y2-y1)/2, x1 +(x2-x1)/2, ret);
-		DFS(v, y1, x1 + (x2-x1)/ 2, y1 + (y2-y1) / 2, x2 , ret);
-		DFS(v, y1 + (y2-y1) / 2, x1, y2, x1 + (x2-x1) / 2, ret);
-		DFS(v, y1 + (y2-y1) / 2, x1 + (x2-x1) / 2, y2, x2, ret);
-		ret += ')';
-	}
-}
-
 int main()
 {
-	int n;
-	cin >> n;
-
-	vector<vector<int>> v(n);
-	for (int i = 0; i < n; ++i) {
+	cin >> N;
+	v = vector<vector<int>>(N, vector<int>(N));
+	for (int i = 0; i < N; ++i) {
 		string s;
 		cin >> s;
-		int len = s.length();
-		for (int j = 0; j < len; ++j) {
-			v[i].push_back(s[j] - '0');
-		}
+		for (int j = 0; j < N; ++j)
+			v[i][j] = s[j] - '0';
 	}
 
-	string ret = "";
-	DFS(v, 0, 0, n, n,ret);
-	cout << ret;
 
+	DFS(0, 0, N);
+	cout << ans << "\n";
 }
