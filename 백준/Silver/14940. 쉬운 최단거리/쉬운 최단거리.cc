@@ -9,6 +9,8 @@ int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
 int main()
 {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
 	cin >> N >> M;
 	v = vector<vector<int>>(N, vector<int>(M));
 
