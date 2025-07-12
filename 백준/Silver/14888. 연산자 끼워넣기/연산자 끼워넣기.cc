@@ -2,51 +2,41 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <set>
-#include <map>
-#include <list>
-#include <queue>
-#include <stack>
-#include <cmath>
+
 using namespace std;
 int mx = -2000000000;
 int mn = 2000000000;
-int main(void) {
-	int N;
-	cin >> N;
+vector<int> op,v;
+int N;
+void Solve(int res, int idx) {
+	if (idx == N) {
+		mn = min(mn, res);
+		mx = max(mx, res);
+		return;
+	}
 
-	vector<int> v(N);
-	for (int i = 0; i < N; ++i)
-		cin >> v[i];
-
-	vector<int> op;
 	for (int i = 0; i < 4; ++i) {
-		int n;
-		cin >> n;
-		for (int j = 0; j < n; ++j) {
-			op.push_back(i);
+		if (op[i] > 0) {
+			op[i]--;
+			if (i == 0) 
+				Solve(res + v[idx], idx + 1);
+			else if (i == 1) 
+				Solve(res - v[idx], idx + 1);
+			else if (i == 2) 
+				Solve(res*v[idx], idx + 1);
+			else
+				Solve(res / v[idx], idx + 1);
+			op[i]++;
 		}
 	}
-	
-	do {
-		int res = v[0];
-		for (int i = 0; i < N-1; ++i) {
-			if (op[i] == 0) {
-				res += v[i + 1];
-			}
-			else if (op[i] == 1) {
-				res -= v[i + 1];
-			}
-			else if (op[i] == 2) {
-				res *= v[i + 1];
-			}
-			else {
-				res /= v[i + 1];
-			}
-		}
-		mx = max(mx, res);
-		mn = min(mn, res);
-	} while (next_permutation(op.begin(), op.end()));
-
+}
+int main(void) {
+	cin >> N;
+	v = vector<int>(N);
+	for (int i = 0; i < N; ++i)
+		cin >> v[i];
+	op = vector<int>(4);
+	cin >> op[0] >> op[1] >> op[2] >> op[3];
+	Solve(v[0], 1);
 	cout << mx << "\n" << mn << "\n";
 }
