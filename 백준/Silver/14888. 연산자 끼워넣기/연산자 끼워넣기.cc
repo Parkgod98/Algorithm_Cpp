@@ -19,41 +19,30 @@ int main(void) {
 	for (int i = 0; i < N; ++i)
 		cin >> v[i];
 
-	vector<char> op;
+	vector<int> op;
 	for (int i = 0; i < 4; ++i) {
 		int n;
 		cin >> n;
 		for (int j = 0; j < n; ++j) {
-			if (i == 0)
-				op.push_back('+');
-			else if (i == 1) {
-				op.push_back('-');
-			}
-			else if (i == 2)
-				op.push_back('*');
-			else
-				op.push_back('/');
+			op.push_back(i);
 		}
 	}
-	sort(op.begin(), op.end());
 	
 	do {
-		int idx = 0;
-		int op_idx = 0;
 		int res = v[0];
-		while (idx + 1 < N) {
-			if (op[op_idx] == '+') {
-				res = res + v[idx + 1];
+		for (int i = 0; i < N-1; ++i) {
+			if (op[i] == 0) {
+				res += v[i + 1];
 			}
-			else if (op[op_idx] == '-') {
-				res = res - v[idx + 1];
+			else if (op[i] == 1) {
+				res -= v[i + 1];
 			}
-			else if (op[op_idx] == '*')
-				res = res * v[idx + 1];
-			else if (op[op_idx] == '/')
-				res = res / v[idx + 1];
-			idx++;
-			op_idx++;
+			else if (op[i] == 2) {
+				res *= v[i + 1];
+			}
+			else {
+				res /= v[i + 1];
+			}
 		}
 		mx = max(mx, res);
 		mn = min(mn, res);
