@@ -10,26 +10,19 @@ int main(void) {
 	string S;
 	cin >> S;
 
-	string mask(2*N+1,'a');
-	for (int i = 0; i < 2*N + 1; ++i) {
-		if (i % 2 == 0)
-			mask[i] = 'I';
-		else
-			mask[i] = 'O';
-	}
-
-	int idx = S.find(mask);
 	int cnt = 0;
-	if (idx != -1) {
-		++cnt;
-		idx++;
-	}
-	while (idx != string::npos) {
-		idx = S.find(mask, idx);
-		if (idx != -1) {
-			++cnt;
-			idx = idx + 1;
+	for (int i = 0; i < M-2; ++i) {
+		if (S[i] == 'O')
+			continue;
 
+		int Pn = 0;
+		while (S[i + 1] == 'O' && S[i + 2] == 'I') {
+			Pn++;
+			if (Pn == N) {
+				++cnt;
+				Pn--;
+			}
+			i += 2;
 		}
 	}
 
