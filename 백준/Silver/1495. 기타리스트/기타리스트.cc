@@ -5,17 +5,6 @@
 using namespace std;
 int N, S, M;
 vector<int> v,visited;
-int mx = 0;
-
-void PrintV(vector<vector<int>> &v) {
-	for (int i = 0; i < v.size(); ++i) {
-		for (int j = 0; j < v[i].size(); ++j) {
-			cout << v[i][j] << " ";
-		}
-		cout << "\n";
-	}
-	cout << "\n\n";
-}
 
 int main(){
 	cin >> N >> S >> M;
@@ -37,12 +26,12 @@ int main(){
 		}
 	}
 
-	int mx = -1;
-	for (int j = 0; j <= M; ++j) {
+	for (int j = M; j >= 0; --j) {
 		if (dp[N][j]) {
-			mx = j;
+			cout << j << "\n";
+			return 0;
 		}
 	}
 
-	cout << mx << "\n";
+	cout << -1 << "\n";
 }
