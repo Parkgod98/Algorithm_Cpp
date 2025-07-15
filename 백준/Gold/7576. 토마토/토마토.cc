@@ -1,51 +1,60 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <string>
 using namespace std;
-
+int N, M;
+vector<vector<int>> v,visited;
 int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
 
-int main()
-{
-	int c, r;
-	cin >> c >> r;
+int main(){
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> M >> N;
+	v = visited = vector<vector<int>>(N, vector<int>(M));
 
+	int total = 0;
 	queue<pair<int, int>> q;
-	vector<vector<int>> v(r, vector<int>(c, 0));
-	vector<vector<int>> visited(r, vector<int>(c, 0));
-	int total_tomato = 0;
-	for (int i = 0; i < r; ++i) {
-		for (int j = 0; j < c; ++j) {
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < M; ++j) {
 			cin >> v[i][j];
 			if (v[i][j] == 1) {
 				q.push({ i,j });
 				visited[i][j] = 1;
 			}
 			else if (v[i][j] == 0)
-				total_tomato++;
+				++total;
 		}
 	}
 
-	
 	int cnt = 1;
 	while (!q.empty()) {
 		auto it = q.front();
 		q.pop();
 
+		int y = it.first;
+		int x = it.second;
 		for (int i = 0; i < 4; ++i) {
-			int ny = it.first + dy[i];
-			int nx = it.second + dx[i];
+			int ny = y + dy[i];
+			int nx = x + dx[i];
 
-			if (ny < 0 || nx < 0 || ny >= r || nx >= c || visited[ny][nx] || v[ny][nx] != 0)
+			if (ny < 0 || ny >= N || nx < 0 || nx >= M || visited[ny][nx] || v[ny][nx] != 0)
 				continue;
+
 			q.push({ ny,nx });
-			visited[ny][nx] = visited[it.first][it.second] + 1;
+			visited[ny][nx] = visited[y][x] + 1;
 			cnt = max(cnt, visited[ny][nx]);
-			total_tomato--;
+			total--;
 		}
 	}
-	if (total_tomato != 0)
+
+	if (total != 0) {
 		cout << -1 << "\n";
+	}
 	else
-		cout << cnt -1 << "\n";
+		cout << cnt - 1 << '\n';
 }
