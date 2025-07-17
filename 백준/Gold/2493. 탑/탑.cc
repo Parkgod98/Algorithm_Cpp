@@ -1,31 +1,36 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <string>
+#include <stack>
 using namespace std;
+int N;
 
-int main(void) {
+int main() {
 	cin.tie(0);
 	ios_base::sync_with_stdio(0);
-
-	int n;
-	cin >> n;
-
-	vector<int> v(n);
-
-	for(int i = 0; i < n; ++i)
+	cin >> N;
+	vector<int> v(N+1);
+	for (int i = 1; i <= N; ++i)
 		cin >> v[i];
 
-	stack<int> st;
-	map<int, int> mp;
-	for(int i = n - 1; i >= 0; --i) {
-		while(!st.empty() && st.top() < v[i]) {
-			mp[st.top()] = i + 1;
+	stack<pair<int,int>> st;
+	vector<int> res(N + 1);
+	for (int i = N; i >= 1; --i) {
+		while (!st.empty() && v[i] > st.top().first) {
+			res[st.top().second] = i;
 			st.pop();
 		}
-		st.push(v[i]);
+		st.push({ v[i],i });
 	}
-	while(!st.empty()) {
-		mp[st.top()] = 0;
+	while (!st.empty()) {
+		res[st.top().second] = 0;
 		st.pop();
 	}
-	for(int i = 0; i < n; ++i)
-		cout << mp[v[i]] << " ";
+
+	for (int i = 1; i <= N; ++i)
+		cout << res[i] << " ";
 }
