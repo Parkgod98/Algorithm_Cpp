@@ -1,66 +1,48 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
 #include <queue>
+#include <algorithm>
 #include <set>
+#include <map>
+#include <string>
+#include <stack>
 using namespace std;
-typedef long long ll;
-
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
-
-void Remove(vector<int>& v, int parent)
-{
-	for (int i = 0; i < v.size(); ++i) {
-		if (v[i] == parent) {
-			Remove(v, i);
+int N;
+vector<int> v;
+void DFS(int cur) {
+	for (int i = 0; i < N; ++i) {
+		if (v[i] == cur) {
 			v[i] = -2;
+			DFS(i);
 		}
 	}
 }
 
-int main()
-{
-	int n;
-	cin >> n;
+int main() {
+	cin >> N;
+	v = vector<int>(N);
+	for (int i = 0; i < N; ++i)
+		cin >> v[i];
 
-	vector<int> v(n);
-	for (int i = 0; i < n; ++i) {
-		int k;
-		cin >> k;
-		v[i] = k;
-	}
+	int erase;
+	cin >> erase;
 
-	int tar;
-	cin >> tar;
-	v[tar] = -2;
-	Remove(v, tar);
+	v[erase] = -2;
+	DFS(erase);
 
-	int count = 0;
-	int flag = 0;
-	for (int i = 0; i < v.size(); ++i) {
+	int cnt = 0;
+	vector<int> visited(N);
+	for (int i = 0; i < N; ++i) {
 		if (v[i] == -2)
+			visited[i] = 1;
+		else if (v[i] == -1)
 			continue;
-		for (int j = 0; j < v.size(); ++j) {
-			if (i == v[j]) {
-				flag = 1;
-				break;
-			}
-		}
-		if (flag == 0) {
-			count++;
-		}
-		flag = 0;
+		else
+			visited[v[i]] = 1;
 	}
-	cout << count;
+
+	for (int i = 0; i < N; ++i)
+		if (!visited[i])
+			++cnt;
+	cout << cnt << "\n";
 }
