@@ -7,35 +7,28 @@ using namespace std;
 int L, C;
 vector<char> v;
 vector<char> ans;
+int za, mo;
 
-bool Check() {
-	int za = 0;
-	int mo = 0;
-
-	for (int i = 0; i < L; ++i) {
-		if (ans[i] == 'a' || ans[i] == 'e' || ans[i] == 'i' || ans[i] == 'o' || ans[i] == 'u')
-			++mo;
-		else
-			za++;
-	}
-	if (za >= 2 && mo >= 1)
-		return true;
-	return false;
-}
 void Comb(int idx) {
-	if (ans.size() == L) {
-		if (Check()) {
-			for (char &c : ans)
-				cout << c;
-			cout << "\n";
-		}
+	if (ans.size() == L && za >= 2 && mo >= 1) {
+		for (char &c : ans)
+			cout << c;
+		cout << "\n";
 		return;
 	}
 
 	for (int i = idx; i < C; ++i) {
 		ans.push_back(v[i]);
+		if (v[i] == 'a' || v[i] == 'e' || v[i] == 'i' || v[i] == 'o' || v[i] == 'u')
+			mo++;
+		else
+			za++;
 		Comb(i + 1);
 		ans.pop_back();
+		if (v[i] == 'a' || v[i] == 'e' || v[i] == 'i' || v[i] == 'o' || v[i] == 'u')
+			mo--;
+		else
+			za--;
 	}
 }
 int main() {
