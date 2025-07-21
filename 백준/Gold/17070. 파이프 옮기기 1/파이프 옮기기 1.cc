@@ -8,9 +8,6 @@ using namespace std;
 int N,dir;
 vector<vector<int>> v;
 int cnt;
-struct pipe {
-	pair<int, int> one, two;
-};
 
 bool Check(int y, int x) {
 
@@ -24,23 +21,23 @@ void DFS(int y1, int x1, int y2, int x2, int dir) {
 	}
 
 	if (dir == 0) { // 가로
-		if (Check(y1, x1 + 1) && Check(y2,x2+1) && v[y1][x1+1] != 1 && v[y2][x2+1] != 1) 
+		if (Check(y1, x1 + 1) && Check(y2,x2+1)) 
 			DFS(y1, x1 + 1, y2, x2 + 1, 0);
-		if (Check(y1, x1 + 1) && Check(y2 + 1, x2 + 1) && Check(y2+1,x2) && Check(y2,x2+1) && v[y1][x1 + 1] != 1 && v[y2 + 1][x2 + 1] != 1)
+		if (Check(y1, x1 + 1) && Check(y2 + 1, x2 + 1) && Check(y2+1,x2) && Check(y2,x2+1))
 			DFS(y1, x1 + 1, y2 + 1, x2 + 1, 1);
 	}
 	else if (dir == 1) { // 대각
-		if (Check(y1 + 1, x1+1) && Check(y2, x2+1) && v[y1 + 1][x1+1] != 1 && v[y2][x2+1] != 1)
+		if (Check(y1 + 1, x1+1) && Check(y2, x2+1))
 			DFS(y1 + 1, x1+1, y2, x2+1, 0);
-		if (Check(y1 + 1, x1+1) && Check(y2 + 1, x2) && v[y1 + 1][x1+1] != 1 && v[y2 + 1][x2] != 1)
+		if (Check(y1 + 1, x1+1) && Check(y2 + 1, x2))
 			DFS(y1 + 1, x1+1, y2 + 1, x2, 2);
-		if (Check(y1 + 1, x1+1) && Check(y2 + 1, x2 + 1) && Check(y2 + 1, x2) && Check(y2, x2 + 1) && v[y1 + 1][x1+1] != 1 && v[y2 + 1][x2 + 1] != 1)
+		if (Check(y1 + 1, x1+1) && Check(y2 + 1, x2 + 1) && Check(y2 + 1, x2) && Check(y2, x2 + 1))
 			DFS(y1 + 1, x1+1, y2 + 1, x2 + 1, 1);
 	}
 	else { // 세로
-		if (Check(y1+1, x1) && Check(y2+1, x2) && v[y1+1][x1] != 1 && v[y2+1][x2] != 1)
+		if (Check(y1+1, x1) && Check(y2+1, x2))
 			DFS(y1+1, x1, y2+1, x2, 2);
-		if (Check(y1+1, x1) && Check(y2 + 1, x2 + 1) && Check(y2 + 1, x2) && Check(y2, x2 + 1) && v[y1+1][x1] != 1 && v[y2 + 1][x2 + 1] != 1)
+		if (Check(y1+1, x1) && Check(y2 + 1, x2 + 1) && Check(y2 + 1, x2) && Check(y2, x2 + 1))
 			DFS(y1+1, x1, y2 + 1, x2 + 1, 1);
 	}
 }
