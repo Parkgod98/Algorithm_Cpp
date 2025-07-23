@@ -7,7 +7,6 @@
 #include <stack>
 using namespace std;
 int N, M;
-vector<int> dp(101, 0);
 vector<int> skip(101);
 vector<int> visited(101, 99999999);
 int mn = 99999999;
