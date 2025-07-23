@@ -16,10 +16,6 @@ void DFS(int cur, int cnt) {
 		visited[cur] = cnt;
 	else
 		return;
-	if (cur == 100) {
-		mn = min(mn, cnt);
-		return;
-	}
 	if (skip[cur] != 0) {
 			DFS(skip[cur],cnt);
 			return;
@@ -41,5 +37,5 @@ int main() {
 	}
 
 	DFS(1,1);
-	cout << mn -1 << "\n";
+	cout << visited[100]-1 << "\n";
 }
