@@ -31,15 +31,13 @@ int main() {
 
 	int res = 0;
 	for (int i = H - 1; i >= 0; --i) {
-		int start, end;
-		bool Left, Right;
-		Left = Right = false;
+		bool Left = false;
 		int cnt = 0;
 		for (int j = 0; j < W + 2; ++j) {
 			if (!Left && v[i][j] == 1) {
 				Left = true;
 			}
-			else if (!Right && v[i][j] == 1) {
+			else if (v[i][j] == 1) {
 				if (Left) {
 					res += cnt;
 					cnt = 0;
