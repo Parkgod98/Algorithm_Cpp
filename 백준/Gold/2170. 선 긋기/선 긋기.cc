@@ -16,8 +16,6 @@ int main() {
 	for (int i = 0; i < N; ++i) {
 		int a, b;
 		cin >> a >> b;
-		if (a > b)
-			swap(a, b);
 		v[i] = { a,b };
 	}
 
