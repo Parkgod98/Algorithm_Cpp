@@ -8,42 +8,32 @@
 #include <set>
 using namespace std;
 int N;
+vector<int> v,ans;
+vector<int> visited;
+void DFS(int cur, int start) {
+	if (visited[cur] && cur == start) {
+		ans.push_back(cur);
+		return;
+	}
+	if (visited[cur])
+		return;
+
+	visited[cur] = 1;
+	DFS(v[cur], start);
+	visited[cur] = 0;
+}
 
 int main() {
 	cin >> N;
-
-	vector<int> v(N + 1);
-	set<int> a, b;
-	for (int i = 1; i <= N; ++i) {
+	v = visited = vector<int>(N + 1);
+	for (int i = 1; i <= N; ++i)
 		cin >> v[i];
-		a.insert(i);
-		b.insert(v[i]);
+
+	for (int i = 1; i <= N; ++i) {
+		DFS(i, i);
 	}
 
-	while (1) {
-		bool Find = false;
-		for (auto it = a.begin(); it != a.end();) {
-			if (b.find(*it) == b.end()) {
-				it = a.erase(it);
-				Find = true;
-			}
-			else
-				++it;
-		}
-		if (!Find)
-			break;
-		b.clear();
-		for (int n : a) {
-			b.insert(v[n]);
-		}
-	}
-
-	cout << a.size() << "\n";
-	vector<int> ans;
-	for (int n : a)
-		ans.push_back(n);
-	sort(ans.begin(), ans.end());
-	for (int &i : ans)
-		cout << i << "\n";
-
+	cout << ans.size() << "\n";
+	for (int &n : ans)
+		cout << n << "\n";
 }
