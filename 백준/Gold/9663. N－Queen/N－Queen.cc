@@ -15,6 +15,7 @@ void DFS(int cur) {
 		for (int j = 1; j < cur; ++j) {
 			if ((v[j] == i) || (abs(cur - j) == abs(i - v[j]))) {
 				Can = false;
+				break;
 			}
 		}
 		if (Can) {
