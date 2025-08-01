@@ -11,20 +11,23 @@ int visited[26] = { 0 };
 int mx = 0;
 
 void DFS(int y, int x, int depth) {
-	if (y < 0 || y >= R || x < 0 || x >= C || visited[v[y][x]]) {
+	if (y < 0 || y >= R || x < 0 || x >= C || visited[v[y][x] - 'A']) {
 		return;
 	}
 
-	visited[v[y][x]] = 1;
+	visited[v[y][x] - 'A'] = 1;
 	for (int i = 0; i < 4; ++i) {
 		int ny = y + dy[i];
 		int nx = x + dx[i];
 		DFS(ny, nx, depth + 1);
 	}
-	visited[v[y][x]] = 0;
+	visited[v[y][x]-'A'] = 0;
 	mx = max(mx, depth);
 }
 int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
 	cin >> R >> C;
 	v = vector<vector<char>>(R, vector<char>(C));
 	for (int i = 0; i < R; ++i) {
