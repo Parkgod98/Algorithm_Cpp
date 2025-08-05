@@ -14,20 +14,20 @@ int main() {
 	for (int i = 1; i <= N; ++i) {
 		cin >> p_sum[i];
 	}
-	for (int i = 1; i <= N; ++i) {
-		p_sum[i] += p_sum[i - 1];
-	}
 
 	int s, e;
-	s = e = 0;
+	e = 1;
+	s = 1;
+	long long sum = 0;
 	int min_length = INF;
 	while (e <= N && s <= e) {
-		long long sum = p_sum[e] - p_sum[s];
 		if (sum < S) {
+			sum += p_sum[e];
 			e++;
 		}
-		else {
+		while(sum >=S) {
 			min_length = min(e-s, min_length);
+			sum -= p_sum[s];
 			s++;
 		}
 	}
