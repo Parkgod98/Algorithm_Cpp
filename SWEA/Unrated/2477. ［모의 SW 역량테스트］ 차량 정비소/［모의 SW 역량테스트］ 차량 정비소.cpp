@@ -27,6 +27,7 @@ vector<int> who;     // 누가 들어가있는지.
 vector<int> finished2;
 vector<int> who2;
 vector<int> res;
+int cnt = 0;
 
 int Go(int &time, int idx) { // 해당 시간에 대기열에 들어가야 될사람들 전부 push하는 함수.
 	int res = idx;
@@ -90,6 +91,7 @@ void RepairOut(int time) {
 	for (int i = 1; i <= M; ++i) {
 		if (finished2[i] >= 1 && finished2[i] == time) {
 			finished2[i] = who2[i] = 0;
+			++cnt;
 		}
 	}
 }
@@ -126,6 +128,8 @@ int main() {
 			RepairOut(time);
 			RepairIn(time);
 			++time;
+			if(cnt == K)
+				break;
 		}
 
 		for (int i = 1; i <= K; ++i) {
@@ -136,5 +140,6 @@ int main() {
 			sum = -1;
 		cout << "#" << tc << " " << sum << "\n";
 		sum = 0;
+		cnt = 0;
 	}
 }
