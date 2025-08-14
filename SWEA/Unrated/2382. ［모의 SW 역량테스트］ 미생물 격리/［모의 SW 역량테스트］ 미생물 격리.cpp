@@ -10,6 +10,7 @@ int dy[4] = { -1,1,0,0 };
 int dx[4] = { 0,0,-1,1 };
 int N, M, K;
 vector<vector<int>> v,visited;
+vector<pair<int, int>> used;
 struct Micro {
 	int y, x;
 	int num;
@@ -35,6 +36,7 @@ void InitVisited() {
 }
 
 void CheckVisited() {
+	used.clear();
 	int SZ = micro.size();
 	for (int i = 1; i < SZ; ++i) {
 		if (!micro[i].die) {
@@ -45,6 +47,8 @@ void CheckVisited() {
 			int ny = y + dy[dir];
 			int nx = x + dx[dir];
 			//cout << ny << " " << nx << "\n";
+			if (visited[ny][nx] == 0)
+				used.push_back({ ny,nx });
 			visited[ny][nx]++;
 		}
 	}
@@ -75,52 +79,59 @@ Micro MergeMicro(int y,int x, vector<int> &tmp) {
 }
 
 void UpdateMicro() {
-	for (int i = 0; i < N; ++i) {
-		for (int j = 0; j < N; ++j) {
-			if (visited[i][j] >= 2) {
 
-				vector<int> tmp;
-				for (int d = 0; d < 4; ++d) {
-					int ny = i + dy[d];
-					int nx = j + dx[d];
-					if (ny < 0 || ny >= N || nx < 0 || nx >= N)
-						continue;
+	for (auto &p : used) {
+		int i = p.first;
+		int j = p.second;
 
-					if (v[ny][nx]) {
-						int idx = v[ny][nx];
-						int dir = micro[idx].dir;
+		if (visited[i][j] >= 2) {
 
-						if (ny + dy[dir] == i && nx + dx[dir] == j) {
-							tmp.push_back(idx);
-							v[ny][nx] = 0;
-						}
+			vector<int> tmp;
+			for (int d = 0; d < 4; ++d) {
+				int ny = i + dy[d];
+				int nx = j + dx[d];
+				if (ny < 0 || ny >= N || nx < 0 || nx >= N)
+					continue;
+
+				if (v[ny][nx]) {
+					int idx = v[ny][nx];
+					int dir = micro[idx].dir;
+
+					if (ny + dy[dir] == i && nx + dx[dir] == j) {
+						tmp.push_back(idx);
+						v[ny][nx] = 0;
 					}
 				}
-				Micro new_micro = MergeMicro(i, j, tmp);
-				micro[tmp[0]] = new_micro;
 			}
-			else if (visited[i][j] == 1) {
+			Micro new_micro = MergeMicro(i, j, tmp);
+			micro[tmp[0]] = new_micro;
+		}
+		else if (visited[i][j] == 1) {
 
-				for (int d = 0; d < 4; ++d) {
-					int ny = i + dy[d];
-					int nx = j + dx[d];
-					if (ny < 0 || ny >= N || nx < 0 || nx >= N)
-						continue;
-					if (v[ny][nx]) {
-						int idx = v[ny][nx];
-						int dir = micro[idx].dir;
-						if (ny + dy[dir] == i && nx + dx[dir] == j) {
-							v[ny][nx] = 0;
-							micro[idx].y = i;
-							micro[idx].x = j;
-							//v[ny][nx] = idx; // 끝나고 한번에 처리해야겠다.
-							break;
-						}
+			for (int d = 0; d < 4; ++d) {
+				int ny = i + dy[d];
+				int nx = j + dx[d];
+				if (ny < 0 || ny >= N || nx < 0 || nx >= N)
+					continue;
+				if (v[ny][nx]) {
+					int idx = v[ny][nx];
+					int dir = micro[idx].dir;
+					if (ny + dy[dir] == i && nx + dx[dir] == j) {
+						v[ny][nx] = 0;
+						micro[idx].y = i;
+						micro[idx].x = j;
+						//v[ny][nx] = idx; // 끝나고 한번에 처리해야겠다.
+						break;
 					}
 				}
 			}
 		}
 	}
+	/*for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			
+		}
+	}*/
 }
 
 void MarkingMicroInMap() {
