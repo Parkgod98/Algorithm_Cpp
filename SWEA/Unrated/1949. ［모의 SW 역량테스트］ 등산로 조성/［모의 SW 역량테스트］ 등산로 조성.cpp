@@ -62,9 +62,15 @@ void Start(int y, int x, int depth) {
 
 void GoAllCases() {
 
+	for (auto &p : start_point) {
+		visited[p.first][p.second] = 1;
+		Start(p.first, p.second, 1);
+		visited[p.first][p.second] = 0;
+	}
+
 	for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < N; ++j) {
-			for (int k = 0; k <= K; ++k) {
+			for (int k = 1; k <= K; ++k) {
 				v[i][j] -= k;
 				for (auto &p : start_point) {
 					if (v[p.first][p.second] != mx_height)
@@ -87,7 +93,6 @@ int main() {
 		Input();
 		GetStartPoint();
 		GoAllCases();
-
 		cout << "#" << tc << " " << mx_length << "\n";
 	}
 }
