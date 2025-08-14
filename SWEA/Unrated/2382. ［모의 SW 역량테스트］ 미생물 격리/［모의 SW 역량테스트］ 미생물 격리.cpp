@@ -97,7 +97,7 @@ void UpdateMicro() {
 					}
 				}
 				Micro new_micro = MergeMicro(i, j, tmp);
-				micro.push_back(new_micro);
+				micro[tmp[0]] = new_micro;
 			}
 			else if (visited[i][j] == 1) {
 
@@ -171,8 +171,6 @@ int CheckSum() {
 
 
 int main() {
-    ios::sync_with_stdio(false);
-	cin.tie(nullptr);
 	int T;
 	cin >> T;
 
@@ -203,3 +201,5 @@ int main() {
 		cout << "#" << tc << " " << CheckSum() << "\n";
 	}
 }
+
+
