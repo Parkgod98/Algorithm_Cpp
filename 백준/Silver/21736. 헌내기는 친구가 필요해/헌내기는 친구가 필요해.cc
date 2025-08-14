@@ -2,9 +2,6 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <string>
 using namespace std;
 int N, M;
 vector<vector<char>> v;
@@ -17,6 +14,8 @@ struct Point {
 };
 Point doy;
 int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
 	cin >> N >> M;
 	v = vector<vector<char>>(N, vector<char>(M));
 	for (int i = 0; i < N; ++i) {
@@ -55,7 +54,4 @@ int main() {
 	else
 		cout << cnt << "\n";
 
-
 }
-
-
