@@ -66,61 +66,35 @@ void BFS() {
 					if (v[y][x] == 2) {
 						if (i == 1 || i == 3)
 							continue;
-						if (i == 0 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 5 || v[ny][nx] == 6))
-							continue;
-						else if (i == 2 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 4 || v[ny][nx] == 7))
-							continue;
 					}
 					else if (v[y][x] == 3) {
 						if (i == 0 || i == 2)
-							continue;
-						if (i == 1 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 6 || v[ny][nx] == 7))
-							continue;
-						if (i == 3 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 4 || v[ny][nx] == 5))
 							continue;
 					}
 					else if (v[y][x] == 4) {
 						if (i == 2 || i == 3)
 							continue;
-						if (i == 0 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 5 || v[ny][nx] == 6))
-							continue;
-						if (i == 1 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 6 || v[ny][nx] == 7))
-							continue;
 					}
 					else if (v[y][x] == 5) {
 						if (i == 0 || i == 3)
-							continue;
-						if (i == 1 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 6 || v[ny][nx] == 7))
-							continue;
-						if (i == 2 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 4 || v[ny][nx] == 7))
 							continue;
 					}
 					else if (v[y][x] == 6) {
 						if (i == 0 || i == 1)
 							continue;
-						if (i == 3 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 4 || v[ny][nx] == 5))
-							continue;
-						if (i == 2 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 4 || v[ny][nx] == 7))
-							continue;
 					}
 					else if (v[y][x] == 7) {
 						if (i == 1 || i == 2)
 							continue;
-						if (i == 0 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 5 || v[ny][nx] == 6))
-							continue;
-						if (i == 3 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 4 || v[ny][nx] == 5))
-							continue;
 					}
-					else if (v[y][x] == 1) {
-						if (i == 0 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 5 || v[ny][nx] == 6))
-							continue;
-						if (i == 1 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 6 || v[ny][nx] == 7))
-							continue;
-						if (i == 2 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 4 || v[ny][nx] == 7))
-							continue;
-						if (i == 3 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 4 || v[ny][nx] == 5))
-							continue;
-					}
+					if (i == 0 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 5 || v[ny][nx] == 6))
+						continue;
+					if (i == 1 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 6 || v[ny][nx] == 7))
+						continue;
+					if (i == 2 && !(v[ny][nx] == 1 || v[ny][nx] == 2 || v[ny][nx] == 4 || v[ny][nx] == 7))
+						continue;
+					if (i == 3 && !(v[ny][nx] == 1 || v[ny][nx] == 3 || v[ny][nx] == 4 || v[ny][nx] == 5))
+						continue;
 					
 					
 					if (v[ny][nx] == 0)
