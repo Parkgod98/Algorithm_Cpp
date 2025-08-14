@@ -29,10 +29,15 @@ void PrintV(vector<vector<int>> &v) {
 }
 
 void InitVisited() {
-	for (int i = 0; i < N; ++i) {
+	for (auto &p : used) {
+		int i = p.first;
+		int j = p.second;
+		visited[i][j] = 0;
+	}
+	/*for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < N; ++j)
 			visited[i][j] = 0;
-	}
+	}*/
 }
 
 void CheckVisited() {
