@@ -86,7 +86,8 @@ bool FullCheck() {
 
 void Comb2(int idx,int tar, int k) {
 	if (idx == k) {
-		//PrintV();
+		if (Finish)
+			return;
 		if (FullCheck())
 			Finish = true;
 		return;
@@ -94,10 +95,8 @@ void Comb2(int idx,int tar, int k) {
 	for (int i = 0; i < 2; ++i) {
 		vector<int> tmp = v[medicine_cases[tar][idx]];
 		InjectMedicine(medicine_cases[tar][idx],i);
-		//PrintV();
 		Comb2(idx + 1, tar, k);
 		v[medicine_cases[tar][idx]] = tmp;
-		//PrintV();
 	}
 }
 
