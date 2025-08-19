@@ -1,71 +1,32 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <string>
 #include <algorithm>
-#include <map>
-#include <cmath>
-#include <stack>
-#include <queue>
-#include <set>
+#include <string>
 using namespace std;
+int N, M, J;
 
-//ios_base::sync_with_stdio(false);
-//cin.tie(NULL);
-//
-//cout << fixed;
-//cout.precision(2);
-// atoi(s.c_str());
-// stoi()
+int main() {
+	cin >> N >> M;
+	int s = 1;
+	int e = s + M; // e는 포함을 못함.
 
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
-
-int main()
-{
-	int n, m;
-	cin >> n >> m;
-
-	int j;
-	cin >> j;
-
-	int ret = 0;
-	int s = 0;
-	int f = m -1;
-	for (int i = 0; i < j; ++i) {
-		int k;
-		cin >> k;
-		k = k - 1;
-		if (s <= k && k <= f)
+	cin >> J;
+	int res = 0;
+	for (int i = 0; i < J; ++i) {
+		int apple;
+		cin >> apple;
+		if (s <= apple && apple < e)
 			continue;
-		else {
-			int sk_len, fk_len;
-			sk_len = abs(s - k);
-			fk_len = abs(f - k);
-			if (sk_len > fk_len) {
-				ret += fk_len;
-				s += fk_len;
-				f += fk_len;
-			}
-			else if (sk_len == fk_len) {
-				ret += sk_len;
-				if (k < s) {
-					s -= sk_len;
-					f -= fk_len;
-				}
-				else {
-					s += fk_len;
-					f += fk_len;
-				}
-			}
-			else {
-				ret += sk_len;
-				f -= sk_len;
-				s -= sk_len;
-			}
+		else if (apple < s) {
+			res += (s - apple);
+			e -= (s - apple);
+			s = apple;
+		}
+		else if (apple >= e) {
+			res += (apple - e + 1);
+			s += (apple - e + 1);
+			e = apple + 1;
 		}
 	}
-	cout << ret;
-
-	
+	cout << res << "\n";
 }
