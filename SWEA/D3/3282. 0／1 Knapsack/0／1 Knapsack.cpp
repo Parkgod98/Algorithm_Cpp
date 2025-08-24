@@ -9,6 +9,27 @@ struct Item {
 	int v, c;
 };
 vector<Item> v;
+vector<vector<int>> dp;
+
+int recur(int idx, int volume) {
+
+	if (volume > K)
+		return -1000000000;
+
+	if (idx >= N + 1) {
+		return 0;
+	}
+	
+	if (dp[idx][volume] != -1)
+		return dp[idx][volume];
+
+	int a = recur(idx + 1, volume) + 0;
+	int b = recur(idx + 1, volume + v[idx].v) + v[idx].c;
+
+	dp[idx][volume] = max(a, b);
+
+	return max(a, b);
+}
 int main() {
 	int T;
 	cin >> T;
@@ -21,19 +42,8 @@ int main() {
 			cin >> vi >> c;
 			v[i] = { vi,c };
 		}
-		vector<vector<int>> dp(N + 1, vector<int>(K + 1));
-
-		int res = 0;
-		for (int i = 1; i <= N; ++i) {
-			for (int j = 1; j <= K; ++j) {
-				if (j >= v[i].v) {
-					dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - v[i].v] + v[i].c);
-				}
-				else
-					dp[i][j] = dp[i - 1][j];
-				res = max(dp[i][j], res);
-			}
-		}
+		dp = vector<vector<int>>(N + 1, vector<int>(K + 1, -1));
+		int res = recur(1, 0);
 
 		cout << "#" << tc << " " << res << "\n";
 	}
