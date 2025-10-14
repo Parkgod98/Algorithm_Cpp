@@ -49,7 +49,6 @@ int main() {
 		int a, b, c;
 		cin >> a >> b >> c;
 		v.push_back({ a,b,c });
-		v.push_back({ b,a,c });
 	}
 	sort(v.begin(), v.end());
 
@@ -57,10 +56,10 @@ int main() {
 		parent[i] = i;
 
 	int sum = 0;
-	//cout << "\n";
 
 	int mx = 0;
-	for (int i = 0; i <2* M; ++i) {
+	int cnt = 0;
+	for (int i = 0; i <M; ++i) {
 		Edge &eg = v[i];
 		int s = eg.s;
 		int e = eg.e;
@@ -69,11 +68,10 @@ int main() {
 		if (union_parent(s, e)) {
 			sum += cost;
 			mx = max(mx, cost);
-			//cout << s << " " << e << " " << cost << "\n";
+			++cnt;
+			if (cnt == N - 1)
+				break;
 		}
 	}
-	/*for (int i = 1; i <= N; ++i)
-		cout << parent[i] << " ";
-	cout << "\n";*/
 	cout << sum - mx<< "\n";
 }
