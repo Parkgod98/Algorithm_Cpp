@@ -5,7 +5,6 @@ using namespace std;
 
 int N, M;
 vector<vector<int>> v;
-vector<vector<int>> area;
 
 int rnum, w_h, mx_area;
 struct Point {
@@ -83,17 +82,12 @@ void BFS() {
 }
 int main() {
 	cin >> M >> N;
-	v = area = vector<vector<int>>(N, vector<int>(M));
+	v = vector<vector<int>>(N, vector<int>(M));
 	for (int i = 0; i < N; ++i) {
 		for (int j = 0; j < M; ++j) {
 			cin >> v[i][j];
 		}
 	}
-
-	//for (int d = 0; d < 4; ++d) {
-	//	int mask = 1 << d;
-	//	cout << mask << "\n";
-	//}
 	BFS();
 
 
