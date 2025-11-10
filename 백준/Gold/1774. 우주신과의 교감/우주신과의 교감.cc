@@ -41,7 +41,7 @@ bool union_parent(int a, int b) {
 	if (pa < pb)
 		parent[pb] = pa;
 	else
-		parent[pb] = pa;
+		parent[pa] = pb;
 
 	return true;
 }
