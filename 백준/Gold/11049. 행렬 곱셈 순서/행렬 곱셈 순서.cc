@@ -1,42 +1,47 @@
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <cstring>
 #include <vector>
-#include <algorithm>
+#include <climits>
+
 using namespace std;
-int N;
-vector<pair<int, int>> v;
-vector<vector<pair<int, int>>> dp_matrix;
 
-vector<vector<int>> dp;
+string s;
+int ans = 0;
+int dp[505][505];
+int a[505], b[505];
 
-int Sum(int dx, int mid, int dy) {
-	return dp_matrix[dx][mid].first * dp_matrix[dx][mid].second * dp_matrix[mid + 1][dy].second;
+int solve(int s, int e) {
+    if (dp[s][e] != -1)
+        return dp[s][e];
+
+
+    int &ret = dp[s][e];
+    if (s == e)
+        return ret = 0;
+
+
+    ret = INT_MAX;
+    for (int i = s; i < e; ++i) {
+        // 연산 횟수 a[s] * b[i] * b[e]
+        ret = min(ret, a[s] * b[i] * b[e] + solve(s, i) + solve(i + 1, e));
+    }
+
+    return ret;
 }
 
 
-int main()
-{
-	cin >> N;
-	v = vector<pair<int, int>>(N + 1);
-	dp_matrix = vector<vector<pair<int, int>>>(N + 1,vector<pair<int,int>>(N+1));
-	dp = vector<vector<int>>(N + 1, vector<int>(N + 1));
-	for (int i = 1; i <= N; ++i) {
-		cin >> v[i].first >> v[i].second;
-		dp_matrix[i][i] = v[i];
-	}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	for (int i = 1; i < N; ++i) {
-		for (int dx = 1; dx + i <= N; ++dx) {
-			int dy = dx + i;
-			dp[dx][dy] = 2147483647;
+    int n;
+    cin >> n;
+    memset(dp, -1, sizeof(dp));
 
-			for (int mid = dx; mid < dy; ++mid) {
-				dp[dx][dy] = min(dp[dx][dy], dp[dx][mid] + dp[mid + 1][dy] + Sum(dx, mid, dy));
-			}
-			dp_matrix[dx][dy].first = v[dx].first;
-			dp_matrix[dx][dy].second = v[dy].second;
-		}
-	}
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i] >> b[i];
+    }
 
-	cout << dp[1][N] << "\n";
-	return 0;
+    cout << solve(0, n - 1) << '\n';
 }
