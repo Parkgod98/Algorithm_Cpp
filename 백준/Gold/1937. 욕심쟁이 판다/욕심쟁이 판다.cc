@@ -49,18 +49,9 @@ int main()
 		for (int j = 0; j < N; ++j) {
 			if(dp[i][j] == -1)
 				dp[i][j] = DFS(i, j, 0);
-			
+			mx = max(dp[i][j], mx);
 		}
 	}
-
-	for (int i = 0; i < N; ++i) {
-			for (int j = 0; j < N; ++j) {
-				//cout << dp[i][j] << " ";
-				mx = max(dp[i][j], mx);
-			}
-			//cout << "\n";
-		}
-	//cout << "\n";
 
 	cout << mx + 1<< "\n";
 }
