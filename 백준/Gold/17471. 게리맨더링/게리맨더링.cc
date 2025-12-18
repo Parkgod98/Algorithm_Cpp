@@ -2,7 +2,6 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#include <queue>
 using namespace std;
 int N;
 #define INF 99999999
@@ -48,17 +47,14 @@ bool Connected() {
 		}
 	}
 
-	for (int i = 1; i <= N; ++i) {
+	for (int i = 1; i <= N; ++i) 
 		if (visited1[i] != selected[i])
 			return false;
-	}
-	for (int i = 1; i <= N; ++i) {
+	for (int i = 1; i <= N; ++i) 
 		if (visited2[i] != !selected[i])
 			return false;
-	}
 	return true;
 }
-
 int Calculate() {
 	int sum1, sum2;
 	sum1 = sum2 = 0;
