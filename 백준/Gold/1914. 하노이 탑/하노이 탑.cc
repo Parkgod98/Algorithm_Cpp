@@ -1,10 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <queue>
 #include <map>
 #include <string>
-#include <stack>
 #include <cmath>
 using namespace std;
 int N;
