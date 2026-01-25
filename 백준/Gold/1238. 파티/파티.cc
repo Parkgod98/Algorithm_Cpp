@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include <map>
 #include <queue>
 using namespace std;
 #define INF 999999999
@@ -44,7 +43,6 @@ vector<int> distra(int start) {
 			dist[nxt] = cost + nxt_cost;
 		}
 	}
-
 	return dist;
 }
 
@@ -63,7 +61,6 @@ vector<int> distra2(int start) {
 
 		if (dist[cur] < cost)
 			continue;
-
 		for (auto iit : v2[cur]) {
 			int nxt = iit.nxt;
 			int nxt_cost = iit.cost;
@@ -98,6 +95,4 @@ int main() {
 			mx = x_dist[i] + x_dist2[i];
 	}
 	cout << mx << "\n";
-
-
 }
