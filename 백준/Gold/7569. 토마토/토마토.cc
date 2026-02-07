@@ -1,81 +1,65 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
 
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
-int dz[2] = { 1, - 1 };
-int r, c,h;
+int N, M, H;
+int arr[101][101][101];
+int visited[101][101][101];
+int dy[6] = { -1,0,1,0,0,0 };
+int dx[6] = { 0,1,0,-1,0,0 };
+int dz[6] = { 0,0,0,0,1,-1 };
 
-void PrintV(vector<vector<vector<int>>> &v) {
-	for (int i = 0; i < h; ++i) {
-		for (int j = 0; j < r; ++j) {
-			for (int k = 0; k < c; ++k) {
-				cout << v[i][j][k] << " ";
-			}
-			cout << "\n";
-		}
-	}
-}
-
-int main()
-{
-	ios_base::sync_with_stdio(0);
+struct Point {
+	int z, y, x;
+};
+queue<Point> q;
+int main() {
+    ios_base::sync_with_stdio(0);
 	cin.tie(0);
-
-	cin >> c >> r >> h;
-	vector<vector<vector<int>>> v(h, vector<vector<int>>(r, vector<int>(c, 0)));
-	vector<vector<vector<int>>> visited(h, vector<vector<int>>(r, vector<int>(c, 0)));
-	queue<vector<int>> q;
-
-	int total_tomato = 0;
-	for (int i = 0; i < h; ++i) {
-		for (int j = 0; j < r; ++j) {
-			for (int k = 0; k < c; ++k) {
-				cin >> v[i][j][k]; 
-				if (v[i][j][k] == 1) {
-					q.push({ i,j,k });
-					visited[i][j][k] = 1;
+	cin >> M >> N >> H;
+	
+	int cnt = 0;
+	for (int k = 0; k < H; ++k) {
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < M; ++j) {
+				cin >> arr[k][i][j];
+				if (arr[k][i][j] == 1) {
+					q.push({ k,i,j });
+					visited[k][i][j] = 1;
 				}
-				else if (v[i][j][k] == 0)
-					total_tomato++;
-				
+				else if (arr[k][i][j] == 0)
+					++cnt;
 			}
 		}
 	}
 
-	int days = 0;
+
+	int mx = 0;
 	while (!q.empty()) {
-		vector<int> tmp = q.front();
+		int z = q.front().z;
+		int y = q.front().y;
+		int x = q.front().x;
 		q.pop();
-		int z, y, x;
-		z = tmp[0];
-		y = tmp[1];
-		x = tmp[2];
 
-		for (int i = 0; i < 4; ++i) {
-			int ny = y + dy[i];
-			int nx = x + dx[i];
-			if (ny < 0 || nx < 0 || ny >= r || nx >= c || visited[z][ny][nx] || v[z][ny][nx] == -1)
+		mx = max(visited[z][y][x], mx);
+		for (int d = 0; d < 6; ++d) {
+			int ny = y + dy[d];
+			int nx = x + dx[d];
+			int nz = z + dz[d];
+			if (ny < 0 || ny >= N || nx < 0 || nx >= M || nz < 0 || nz >= H || visited[nz][ny][nx])
 				continue;
-			q.push({ z,ny,nx });
-			visited[z][ny][nx] = visited[z][y][x] + 1;
-			total_tomato--;
+			if (arr[nz][ny][nx] == 0) {
+				q.push({ nz,ny,nx });
+				visited[nz][ny][nx] = visited[z][y][x]+1;
+				--cnt;
+			}
 		}
-		for (int i = 0; i < 2; ++i) {
-			int nz = z + dz[i];
-			if (nz < 0 || nz >= h || visited[nz][y][x] || v[nz][y][x] == -1)
-				continue;
-			q.push({ nz,y,x });
-			visited[nz][y][x] = visited[z][y][x] + 1;
-			total_tomato--;
-		}
-		days = visited[z][y][x];
 	}
 
-	if (total_tomato > 0)
+	if (!cnt)
+		cout << mx-1 << "\n";
+	else
 		cout << -1 << "\n";
-	else {
-		cout << days-1 << "\n";
-	}
+
 }
