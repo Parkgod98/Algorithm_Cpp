@@ -136,10 +136,6 @@ int main() {
 	}
 	sort(e_list.begin(), e_list.end());
 
-	//for (int i = 0; i < e_list.size(); ++i) {
-	//	cout << e_list[i].s << " " << e_list[i].e << " " << e_list[i].len << "\n";
-	//}
-
 	// 각자 부모가 누군지 초기화.
 	for (int i = 0; i < 7; ++i)
 		parent[i] = i;
