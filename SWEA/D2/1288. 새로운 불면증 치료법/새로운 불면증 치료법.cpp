@@ -1,25 +1,28 @@
 #include <iostream>
 using namespace std;
-int N;
 
 int main() {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
 	int T;
 	cin >> T;
 
-	for (int tc = 1; tc <= T; ++tc) {
-		cin >> N;
-		int visited = 0;
-		int i = 0;
-		while (visited != ((1 << 10) - 1)) {
-			++i;
-			int tmp = N * i;
-			while (tmp != 0) {
-				visited |= (1 << (tmp % 10));
-				tmp /= 10;
+	for(int tc = 1; tc <= T; ++tc) {
+		int orig;
+		cin >> orig;
+
+		int mask = 0;
+
+		int cur = orig;
+		while(mask != 0b1111111111) {
+			int nxt = cur;
+			while(nxt != 0) {
+				mask |= (1 << (nxt % 10));
+				nxt /= 10;
 			}
+
+			cur += orig;
 		}
-		cout << "#" << tc << " " << N*i << "\n";
+
+		cout << "#" << tc << " " << cur - orig << "\n";
 	}
+
 }
