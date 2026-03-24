@@ -1,30 +1,32 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <string>
-#include <queue>
-
 using namespace std;
-int mn = 1000000;
+
 int main() {
 	int T;
 	cin >> T;
 
-	for (int tc = 1; tc <= T; ++tc) {
-		int N;
-		cin >> N;
+	for(int tc = 1; tc <= T; ++tc) {
 
-		int cnt = 1;
-		for (int i = 0; i < N; ++i) {
-			int k;
-			cin >> k;
+		int k;
+		cin >> k;
 
-			if (abs(0 - k) < mn)
-				mn = abs(0 - k);
-			else if (abs(0 - k) == mn)
+		int mx = 100001;
+		int cnt = 0;
+		for(int i = 0; i < k; ++i) {
+			int cur;
+			cin >> cur;
+
+			if(cur < 0)
+				cur *= -1;
+			if(mx > cur) {
+				mx = cur;
+				cnt = 1;
+			}
+			else if(mx == cur)
 				++cnt;
 		}
-		cout << "#" << tc << " " << mn << " " <<cnt  << "\n";
-		mn = 1000000;
+
+		cout << "#" << tc << " " << mx << " " << cnt << "\n";
 	}
+
 }
