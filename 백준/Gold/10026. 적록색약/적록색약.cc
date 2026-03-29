@@ -1,65 +1,95 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <set>
+#include <map>
+#include <string>
 using namespace std;
-
+int N;
+vector<vector<char>> v;
+vector<vector<int>> visited;
 int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
-int n;
-void bfs(vector<vector<char>>& v, vector<vector<bool>> &visited, int y, int x, int mode) {
-	queue<pair<int, int>> q;
-	q.push({ y,x });
-	visited[y][x] = true;
-	while (!q.empty()) {
-		auto it = q.front();
-		q.pop();
-		y = it.first;
-		x = it.second;
-		for (int i = 0; i < 4; ++i) {
-			int ny = y + dy[i];
-			int nx = x + dx[i];
-			if (ny < 0 || nx < 0 || ny >= n || nx >= n || visited[ny][nx] || v[ny][nx] != v[y][x])
-				continue;
-			q.push({ ny,nx });
-			visited[ny][nx] = true;
-		}
-	}
-}
 
-int main()
-{
-	cin >> n;
-	
-	vector<vector<char>> v(n, vector<char>(n));
+int main(){
+	cin >> N;
+	v = vector<vector<char>>(N, vector<char>(N));
+	visited = vector<vector<int>>(N, vector<int>(N));
 
-	for (int i = 0; i < n; ++i) {
+	for (int i = 0; i < N; ++i) {
 		string s;
 		cin >> s;
-		for (int j = 0; j < s.size(); ++j) {
+		for (int j = 0; j < N; ++j)
 			v[i][j] = s[j];
-		}
 	}
 
-	for (int i = 0; i < 2; ++i) {
-		vector<vector<bool>> visited(n, vector<bool>(n, false));
-		int cnt = 0;
-		if (i == 1) {
-			for (int j = 0; j < n; ++j) {
-				for (int k = 0; k < n; ++k) {
-					if (v[j][k] == 'G')
-						v[j][k] = 'R';
+	int res1, res2;
+	res1 = res2 = 0;
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			if (!visited[i][j]) {
+				int cur = v[i][j];
+				++res1;
+				queue<pair<int, int>> q;
+				q.push({ i,j });
+				visited[i][j] = 1;
+
+				while (!q.empty()) {
+					auto it = q.front();
+					q.pop();
+
+					int y = it.first;
+					int x = it.second;
+					for (int k = 0; k < 4; ++k) {
+						int ny = y + dy[k];
+						int nx = x + dx[k];
+						if (ny < 0 || ny >= N || nx < 0 || nx >= N || visited[ny][nx] || v[ny][nx] != cur)
+							continue;
+
+						q.push({ ny,nx });
+						visited[ny][nx] = 1;
+					}
 				}
 			}
 		}
-		for (int y = 0; y < n; ++y) {
-			for (int x = 0; x < n; ++x) {
-				if (!visited[y][x]) {
-					bfs(v, visited,y,x,i);
-					++cnt;
+	}
+
+	visited = vector<vector<int>>(N, vector<int>(N));
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < N; ++j) {
+			if (!visited[i][j]) {
+				int cur = v[i][j];
+				++res2;
+				queue<pair<int, int>> q;
+				q.push({ i,j });
+				visited[i][j] = 1;
+
+				while (!q.empty()) {
+					auto it = q.front();
+					q.pop();
+
+					int y = it.first;
+					int x = it.second;
+					for (int k = 0; k < 4; ++k) {
+						int ny = y + dy[k];
+						int nx = x + dx[k];
+						if (ny < 0 || ny >= N || nx < 0 || nx >= N || visited[ny][nx])
+							continue;
+						if (cur == 'R' && v[ny][nx] == 'B')
+							continue;
+						if (cur == 'G' && v[ny][nx] == 'B')
+							continue;
+						if (cur == 'B' && v[ny][nx] != 'B')
+							continue;
+
+						q.push({ ny,nx });
+						visited[ny][nx] = 1;
+					}
 				}
 			}
 		}
-		cout << cnt << "\n";
 	}
-	
 
+	cout << res1 << " " << res2 << "\n";
 }
