@@ -1,60 +1,61 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
 using namespace std;
 
-int dy[4] = {-1,0,1,0};
-int dx[4] = {0,1,0,-1};
-#define SZ 100001
-int s, e;
+int N, K;
+int visited[100002];
+int parent[100002];
 
-struct Node {
-	int p;
-};
-
-int main()
-{
+int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
+	
+	cin >> N >> K;
 
-	cin >> s >> e;
-	vector<int> visited(SZ);
-	vector<Node> par(SZ);
 	queue<int> q;
-	q.push(s);
-	visited[s] = 1;
-	par[s].p = -1;
+	q.push(N);
+	visited[N] = 1;
 
-	vector<int> res;
 	while (!q.empty()) {
 		int n = q.front();
 		q.pop();
-
-		if (n == e) {
-			cout << visited[n] - 1 << "\n";
-			for (int i = e; i != -1; i = par[i].p)
-				res.push_back(i);
+		if (n == K) {
+			cout << visited[K] - 1 << "\n";
 			break;
 		}
 
-		if (n + 1 <= SZ && !visited[n+1]) {
-			q.push(n + 1);
-			visited[n + 1] = visited[n] + 1;
-			par[n + 1].p = n;
-		}
-		if (n - 1 >= 0 && !visited[n-1]) {
+		if (n - 1 >= 0 && visited[n - 1] == 0) {
 			q.push(n - 1);
 			visited[n - 1] = visited[n] + 1;
-			par[n - 1].p = n;
+			parent[n - 1] = n;
 		}
-		if (n * 2 <= SZ && !visited[n*2]) {
+		if (n + 1 <= 100000 && visited[n + 1] == 0) {
+			q.push(n + 1);
+			visited[n + 1] = visited[n] + 1;
+			parent[n + 1] = n;
+
+		}
+		if (n * 2 <= 100000 && visited[n * 2] == 0) {
 			q.push(n * 2);
 			visited[n * 2] = visited[n] + 1;
-			par[n * 2].p = n;
+			parent[n * 2] = n;
+
 		}
 	}
 
-	for (int i = res.size() - 1; i >= 0; --i)
-		cout << res[i] << " ";
-	cout << "\n";
+	vector<int> res;
+	int cur = K;
+	while(1){
+		res.push_back(cur);
+		if (cur == N)
+			break;
+		cur = parent[cur];
+	}
 
+	for (int i = res.size() - 1; i >= 0; --i) {
+		cout << res[i] << " ";
+	}
+	cout << "\n";
 }
