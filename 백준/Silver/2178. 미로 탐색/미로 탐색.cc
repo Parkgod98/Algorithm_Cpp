@@ -1,46 +1,61 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
 using namespace std;
 
+int N, M;
+
+int mp[102][102];
+int visited[102][102];
 int dy[4] = { -1,0,1,0 };
 int dx[4] = { 0,1,0,-1 };
 
-void bfs(vector<vector<int>>& mp, vector<vector<int>>& visited, int y, int x) {
-	int cnt = 0;
-	queue<pair<int, int>> q;
-	q.push({ y,x });
-	visited[y][x] = visited[y][x];
-	while (!q.empty()) {
-		pair<int, int> p = q.front();
-		q.pop();
-		cnt++;
-		y = p.first;
-		x = p.second;
-		for (int i = 0; i < 4; ++i) {
-			int ny = y + dy[i];
-			int nx = x + dx[i];
-			if (ny < 0 || nx < 0 || ny >= mp.size() || nx >= mp[0].size() || visited[ny][nx] || mp[ny][nx] == 0)
-				continue;
-			q.push({ ny,nx });
-			visited[ny][nx] = visited[y][x] +1;
+struct Point {
+	int y, x;
+};
+
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> N >> M;
+
+	for (int i = 0; i < N; ++i) {
+		for (int j = 0; j < M; ++j) {
+			char c;
+			cin >> c;
+
+			mp[i][j] = c - '0';
 		}
 	}
-}
 
+	int cnt = 0;
 
-int main()
-{
-	int n, m;
-	cin >> n >> m;
+	queue<Point> q;
+	q.push({ 0,0 });
+	visited[0][0] = 1;
 
-	vector<vector<int>> v(n, vector<int>(m,0));
-	vector<vector<int>> visited(n, vector<int>(m, false));
-	for (int i = 0; i < n; ++i) {
-		string s;
-		cin >> s;
-		for (int j = 0; j < s.size(); ++j)
-			v[i][j] = s[j] - '0';
+	while (!q.empty()) {
+		auto it = q.front();
+		q.pop();
+
+		int y = it.y;
+		int x = it.x;
+
+		for (int d = 0; d < 4; ++d) {
+			int ny = y + dy[d];
+			int nx = x + dx[d];
+
+			if (ny < 0 || ny >= N || nx < 0 || nx >= M || visited[ny][nx])
+				continue;
+			if (mp[ny][nx] == 0)
+				continue;
+
+			q.push({ ny,nx });
+			visited[ny][nx] = visited[y][x] + 1;
+		}
 	}
-	bfs(v,visited,0, 0);
-	cout << visited[n - 1][m - 1] +1 << "\n";
+
+	cout << visited[N - 1][M - 1] << "\n";
 }
