@@ -6,11 +6,20 @@
 using namespace std;
 int n, m;
 vector<int> v;
-int UnionFind(int cur) {
 
-	if (cur == v[cur])
-		return cur;
-	return v[cur] = UnionFind(v[cur]);
+int UnionFind(int cur) {
+	int root = cur;
+
+	while (root != v[root]) {
+		root = v[root];
+	}
+
+	while (cur != v[cur]) {
+		v[cur] = root;
+		cur = v[cur];
+	}
+
+	return root;
 }
 
 int main(void) {
