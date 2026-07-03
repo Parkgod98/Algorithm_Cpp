@@ -1,49 +1,41 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-using namespace std;
-int N;
-struct Node {
-	int num;
-	char value;
-	int left, right;
-};
-
-vector<Node> v;
-
-void in_order(Node& cur) {
-	if (cur.left != 0) 
-		in_order(v[cur.left]);
-	cout << cur.value;
-	if (cur.right != 0)
-		in_order(v[cur.right]);
+#include <cstdio>
+#include <cstring>
+ 
+const int T = 10;
+int N, ans_idx;
+char dat[100];
+char answer[101];
+ 
+void inorder(int cnt)
+{
+    if (cnt > N) return;
+    inorder(2 * cnt);
+    answer[ans_idx++] = dat[cnt - 1];
+    inorder(2 * cnt + 1);
 }
-int main() {
-
-	for (int tc = 1; tc <= 10; ++tc) {
-		cin >> N;
-		v = vector<Node>(N+1);
-		for (int i = 1; i <= N; ++i) {
-			int n;
-			char c;
-			cin >> n >> c;
-			if (n * 2 + 1 <= N) {
-				int a, b;
-				cin >> a >> b;
-				v[i] = { n,c,a,b };
-			}
-			else if (n * 2 == N) {
-				int a;
-				cin >> a;
-				v[i] = { n,c,a,0 };
-			}
-			else
-				v[i] = { n,c };
-		}
-
-		cout << "#" << tc << " ";
-		in_order(v[1]);
-		cout << "\n";
-	}
+ 
+int main()
+{
+    int idx, left, right;
+    char c;
+ 
+    for (int tc = 1; tc <= T; tc++) {
+        scanf("%d", &N);
+        for (int i = 0; i < N; i++) {
+            scanf("%d", &idx);
+            scanf(" %c", &c);
+            if (2 * idx <= N)
+                scanf("%d", &left);
+            if (2 * idx + 1 <= N)
+                scanf("%d", &right);
+            dat[i] = c;
+        }
+ 
+        inorder(1);
+        printf("#%d %s\n", tc, answer);
+        memset(answer, 0, 100);
+        ans_idx = 0;
+    }
+ 
+    return 0;
 }
