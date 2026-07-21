@@ -1,31 +1,30 @@
-#include<iostream>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-#define SIZE 1000002
+#define SZ 1000002
 
-int arr[SIZE];
-int main(int argc, char** argv)
-{
+int price[SZ];
+
+int main() {
+
 	int T;
 	cin >> T;
-	ios::sync_with_stdio(0);
-	cin.tie(0);
 
 	for (int tc = 1; tc <= T; ++tc) {
 		int N;
+
 		cin >> N;
-
 		for (int i = 0; i < N; ++i) {
-			cin >> arr[i];
+			cin >> price[N - i - 1];
 		}
 
-		int mx = arr[N - 1];
-		long long sum = 0;
-		for (int i = N - 1; i >= 0; --i) {
-			if (mx < arr[i])
-				mx = arr[i];
-			sum += (mx - arr[i]);
-
+		long long res = 0;
+		int mx = 0;
+		for (int i = 0; i < N; ++i) {
+			mx = max(mx, price[i]);
+			res += (mx - price[i]);
 		}
-		cout << "#" << tc << " " << sum << "\n";
+
+		cout << "#" << tc << " " << res << "\n";
 	}
 }
