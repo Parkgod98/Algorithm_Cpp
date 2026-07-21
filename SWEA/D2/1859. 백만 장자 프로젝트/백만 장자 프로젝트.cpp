@@ -1,27 +1,31 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 #define SZ 1000002
 
 int price[SZ];
+int T, N;
 
 int main() {
 
-	int T;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
 	cin >> T;
 
 	for (int tc = 1; tc <= T; ++tc) {
-		int N;
 
 		cin >> N;
+
+		int mx = 0;
+		long long res = 0;
+
 		for (int i = 0; i < N; ++i) {
 			cin >> price[N - i - 1];
 		}
 
-		long long res = 0;
-		int mx = 0;
 		for (int i = 0; i < N; ++i) {
-			mx = max(mx, price[i]);
+			if (mx < price[i])
+				mx = price[i];
 			res += (mx - price[i]);
 		}
 
