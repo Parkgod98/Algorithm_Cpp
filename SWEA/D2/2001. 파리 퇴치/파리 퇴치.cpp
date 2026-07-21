@@ -1,45 +1,39 @@
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <vector>
-#include <cctype>
-#include <set>
-#include <queue>
-#include <map>
-#include <cmath>
 using namespace std;
 
-int T;
-int N, M;
-vector<vector<int>> v;
-int main(){
+int T, N, M;
+int arr[15][15];
+
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
 	cin >> T;
 
 	for (int tc = 1; tc <= T; ++tc) {
 		cin >> N >> M;
-		v = vector<vector<int>>(N, vector<int>(N));
+
 		for (int i = 0; i < N; ++i) {
 			for (int j = 0; j < N; ++j) {
-				cin >> v[i][j];
+				cin >> arr[i][j];
 			}
 		}
 
-		int mx = 0;
+		int res = 0;
 		for (int i = 0; i < N - M + 1; ++i) {
 			for (int j = 0; j < N - M + 1; ++j) {
-
+				
 				int sum = 0;
-				for (int s = i; s < i + M; ++s) {
-					for (int e = j; e < j + M; ++e) {
-						sum += v[s][e];
+				for (int y = i; y < i + M; ++y) {
+					for (int x = j; x < j + M; ++x) {
+						sum += arr[y][x];
 					}
 				}
-				mx = max(sum, mx);
+				if (res < sum)
+					res = sum;
 			}
 		}
 
-		cout << "#" << tc << " " << mx << "\n";
+		cout << "#" << tc << " " << res << "\n";
 	}
-
-
 }
