@@ -4,15 +4,16 @@
 using namespace std;
 
 int solution(vector<vector<int>> board, int k) {
-    int sum = 0;
-    for (int i = 0; i < board.size(); ++i) {
-        if (i > k)
-            continue;
-        for (int j = 0; j < board[i].size(); ++j) {
-            if (i + j > k)
-                continue;
-                sum += board[i][j];
+    int answer = 0;
+    
+    int r = board.size();
+    int c = board[0].size();
+    for (int i = 0; i < r; ++i){
+        for (int j = 0; j < c; ++j){
+            if(i + j <= k){
+                answer += board[i][j];
+            }
         }
     }
-    return sum;
+    return answer;
 }
