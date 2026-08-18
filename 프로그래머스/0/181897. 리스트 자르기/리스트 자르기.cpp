@@ -1,27 +1,26 @@
 #include <string>
 #include <vector>
-enum {a,b,c};
+
 using namespace std;
 
 vector<int> solution(int n, vector<int> slicer, vector<int> num_list) {
-	vector<int> answer;
-	switch (n) {
-	case 1 :
-		for (int i = 0; i <= slicer[b]; ++i)
-			answer.push_back(num_list[i]);
-		break;
-	case 2 :
-		for (int i = slicer[a]; i < num_list.size(); ++i)
-			answer.push_back(num_list[i]);
-		break;
-	case 3 :
-		for (int i = slicer[a]; i <= slicer[b]; ++i)
-			answer.push_back(num_list[i]);
-		break;
-	case 4 :
-		for (int i = slicer[a]; i <= slicer[b]; i+=c)
-			answer.push_back(num_list[i]);
-		break;
-	}
-	return answer;
+    vector<int> answer;
+    
+    if(n == 1){
+        for (int i =0; i <= slicer[1]; ++i)
+            answer.push_back(num_list[i]);
+    }
+    else if(n == 2){
+        for (int i =slicer[0]; i < num_list.size(); ++i)
+            answer.push_back(num_list[i]);
+    }
+    else if(n == 3){
+        for (int i =slicer[0]; i <= slicer[1]; ++i)
+            answer.push_back(num_list[i]);
+    }
+    else{
+        for (int i =slicer[0]; i <= slicer[1]; i+=slicer[2])
+            answer.push_back(num_list[i]);
+    }
+    return answer;
 }
