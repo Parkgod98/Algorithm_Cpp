@@ -1,23 +1,22 @@
 #include <string>
 #include <vector>
-#include <map>
+
 using namespace std;
 
 vector<int> solution(vector<int> arr, int k) {
-    vector<int> answer;
-    map<int,bool> mp;
-    for (int i = 0; i < arr.size(); ++i){
-        if(!mp[arr[i]]){
-            mp[arr[i]] = true;
-            if(answer.size() < k)
-                answer.push_back(arr[i]);
-            else
+    vector<int> ans;
+    int visited[100001] = {0};
+    
+    for (int &n : arr){
+        if(!visited[n]){
+            ans.push_back(n);
+            visited[n] = 1;
+            if(ans.size() == k)
                 break;
         }
     }
-    int size = answer.size();
-    for (int i = 0; i < k-size; ++i){
-        answer.push_back(-1);
-    }
-    return answer;
+    
+    while(ans.size() < k)
+        ans.push_back(-1);
+    return ans;
 }
