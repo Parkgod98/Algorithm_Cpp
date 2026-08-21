@@ -1,25 +1,27 @@
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 vector<int> solution(vector<int> arr, vector<vector<int>> queries) {
-    vector<int> answer;
-    int mx = *max_element(arr.begin(),arr.end()) + 1;
-    for (vector<int> &v : queries){
-        int mn = mx;
-        bool IsFind = false;
-        for (int i = v[0]; i <= v[1]; ++i){
-            if(arr[i] > v[2] && arr[i] < mn){
-                mn = arr[i];
-                IsFind = true;
+    vector<int> ans;
+    
+    for(vector<int> &v : queries){
+        int s = v[0];
+        int e = v[1];
+        int k = v[2];
+        
+        int mn = 9999999;
+        for (s; s <= e; ++s){
+            if(arr[s] > k && mn > arr[s]){
+                mn = arr[s];
             }
         }
-        if(!IsFind)
-            answer.push_back(-1);
+        if(mn == 9999999)
+            ans.push_back(-1);
         else
-            answer.push_back(mn);
+            ans.push_back(mn);
     }
-    return answer;
+    return ans;
 }
