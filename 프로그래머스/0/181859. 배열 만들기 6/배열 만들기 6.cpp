@@ -4,20 +4,27 @@
 using namespace std;
 
 vector<int> solution(vector<int> arr) {
-	vector<int> stk;
-	int i = 0;
-	while (i < arr.size()) {
-		if (stk.size() == 0)
-			stk.push_back(arr[i]);
-		else {
-			if (stk[stk.size() - 1] == arr[i])
-				stk.pop_back();
-			else
-				stk.push_back(arr[i]);
-		}
-		i++;
-	}
+    int i = 0;
+    int sz = arr.size();
+    vector<int> stk;
+    while(i < sz){
+        if(stk.empty()){
+            stk.push_back(arr[i]);
+            ++i;
+        }
+        else{
+            if(stk[stk.size()-1] == arr[i]){
+                stk.pop_back();
+                ++i;
+            }
+            else{
+                stk.push_back(arr[i]);
+                ++i;
+            }
+        }
+    }
+    
     if(stk.size() == 0)
         stk.push_back(-1);
-	return stk;
+    return stk;
 }
