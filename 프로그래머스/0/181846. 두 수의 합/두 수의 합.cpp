@@ -10,18 +10,14 @@ string solution(string a, string b) {
     int aidx = a.size() -1;
     int bidx = b.size() - 1;
     int carry = 0;
-    while(aidx >= 0 && bidx >= 0){
-        int sum = (a[aidx--] - '0') + (b[bidx--] - '0') + carry;
-        carry = sum/10;
-        ans += (sum%10 + '0');
-    }
-    while(aidx >= 0){
-        int sum = (a[aidx--] - '0') + carry;
-        carry = sum/10;
-        ans += (sum%10 + '0');
-    }
-    while(bidx >= 0){
-        int sum = (b[bidx--] - '0') + carry;
+    while(aidx >= 0 || bidx >= 0){
+        
+        int sum = carry;
+        if(aidx >= 0)
+            sum += (a[aidx--] - '0');
+        
+        if(bidx >= 0)
+            sum += (b[bidx--] - '0');
         carry = sum/10;
         ans += (sum%10 + '0');
     }
