@@ -4,16 +4,20 @@
 using namespace std;
 
 vector<string> solution(vector<string> picture, int k) {
-	vector<string> answer;
-	int len = picture[0].size();
-	for (string& s : picture) {
-		string tmp = "";
-		for (int i = 0; i < len; ++i) {
-			for (int j = 0; j < k; ++j)
-				tmp.push_back(s[i]);
-		}
-        for (int i = 0; i < k; ++i)
-		    answer.push_back(tmp);
-	}
-		return answer;
+    int sz = picture.size();
+    vector<string> ans(sz*k);
+    
+    int ii = 0;
+    for (string &s : picture){
+        
+        string n = "";
+        int n_sz = s.size();
+        for (int i = 0; i < n_sz; ++i){
+            for (int j = 0; j < k; ++j)
+                n += s[i];
+        }
+        for (int j = 0; j < k; ++j)
+            ans[ii++] = n;
+    }
+    return ans;
 }
