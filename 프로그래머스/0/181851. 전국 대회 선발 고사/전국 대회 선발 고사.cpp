@@ -4,26 +4,27 @@
 using namespace std;
 
 int solution(vector<int> rank, vector<bool> attendance) {
-    int answer = 0;
     
-    vector<int> v;
+    int first,second,third;
+    first = second = third = -1;
     
-    int sz = attendance.size();
-    for (int i = 0; i < sz; ++i){
-        if(attendance[i])
-            v.push_back(i);
-    }
-    
-    for (int i = 0; i < v.size(); ++i){
-        for (int j = i+1; j < v.size(); ++j){
-            if(rank[v[i]] > rank[v[j]]){
-                int tmp = v[i];
-                v[i] = v[j];
-                v[j] = tmp;
-            }
+    for (int i = 0; i < rank.size(); ++i){
+        if(!attendance[i])
+            continue;
+        
+        if(first == -1 || rank[i] < rank[first]){
+            third = second;
+            second = first;
+            first = i;
+        }
+        else if(second == -1 || rank[i] < rank[second]){
+            third = second;
+            second = i;
+        }
+        else if(third == -1 || rank[i] < rank[third]){
+            third = i;
         }
     }
     
-    int sum = v[0]*10000 + v[1]*100 + v[2];
-    return sum;
+    return first * 10000 + second *100 + third;
 }
