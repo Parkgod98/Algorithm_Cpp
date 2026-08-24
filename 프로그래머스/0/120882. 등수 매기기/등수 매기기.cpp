@@ -10,9 +10,7 @@ struct Point{
     int idx;
     
     bool operator<(const Point &other) const {
-        if(sum != other.sum)
-            return sum > other.sum;
-        return idx < other.idx;
+        return sum > other.sum;
     }
 };
 
@@ -24,8 +22,6 @@ vector<int> solution(vector<vector<int>> score) {
     for (int i = 0; i < sz; ++i){
         v.push_back({score[i][0] + score[i][1],i});
     }
-    
-    int cur = 1;
     sort(v.begin(),v.end());
     
     int prev = -1;
@@ -34,9 +30,8 @@ vector<int> solution(vector<vector<int>> score) {
             rank[v[i].idx] = rank[v[i-1].idx];
         }
         else{
-           rank[v[i].idx] = cur; 
+           rank[v[i].idx] = i+1; 
         }
-        ++cur;
         prev = v[i].sum;
     }
     return rank;
