@@ -2,35 +2,30 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
-void Make(vector<int> &v, int num, int sz, int tar){
-    if(sz == tar){
-        v.push_back(num);
-        return;
-    }
-    if(num!=0)
-        Make(v,num*10,sz+1,tar);
-    Make(v,num*10+5,sz+1,tar);
-}
-
 vector<int> solution(int l, int r) {
     vector<int> answer;
+    queue<int> q;
+    q.push(5);
     
-    vector<int> all_cases;
-    
-    for (int i = 1; i <= 6; ++i){
-        Make(all_cases,0,0,i);
-    }
-    
-    for (int i = 0; i < all_cases.size(); ++i){
-        if(all_cases[i] >= l && all_cases[i] <= r)
-            answer.push_back(all_cases[i]);
-        else if(all_cases[i] > r)
+    while(!q.empty()){
+        int num = q.front();
+        q.pop();
+        
+        if(num >= l && num <= r)
+            answer.push_back(num);
+        else if(num > r)
             break;
+        
+        q.push(num*10);
+        q.push(num*10+5);
     }
+    
     if(answer.size() == 0)
         return vector<int>(1,-1);
     return answer;
+
 }
