@@ -1,27 +1,36 @@
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
+void Make(vector<int> &v, int num, int sz, int tar){
+    if(sz == tar){
+        v.push_back(num);
+        return;
+    }
+    if(num!=0)
+        Make(v,num*10,sz+1,tar);
+    Make(v,num*10+5,sz+1,tar);
+}
+
 vector<int> solution(int l, int r) {
     vector<int> answer;
-    for (int i = l; i <=r; ++i){
-        if (i%5 !=0)
-            continue;
-        else{
-            string s = to_string(i);
-            bool only5_0 = true;
-            for (char &c : s){
-                if (c != '5' && c!= '0'){
-                    only5_0 = false;
-                    break;
-                }
-            }
-            if(only5_0)
-                answer.push_back(i);
-        }
+    
+    vector<int> all_cases;
+    
+    for (int i = 1; i <= 6; ++i){
+        Make(all_cases,0,0,i);
     }
-    if (answer.size() == 0)
-        answer.push_back(-1);
+    
+    for (int i = 0; i < all_cases.size(); ++i){
+        if(all_cases[i] >= l && all_cases[i] <= r)
+            answer.push_back(all_cases[i]);
+        else if(all_cases[i] > r)
+            break;
+    }
+    if(answer.size() == 0)
+        return vector<int>(1,-1);
     return answer;
 }
