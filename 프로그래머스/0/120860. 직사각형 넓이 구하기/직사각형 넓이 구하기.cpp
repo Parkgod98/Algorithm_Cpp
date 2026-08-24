@@ -19,6 +19,6 @@ int solution(vector<vector<int>> dots) {
         mn_y = min(v[1],mn_y);
     }
     
-    int ans = abs(mx_x-mn_x) * abs(mx_y-mn_y);
+    int ans = (mx_x-mn_x) * (mx_y-mn_y);
     return ans;
 }
