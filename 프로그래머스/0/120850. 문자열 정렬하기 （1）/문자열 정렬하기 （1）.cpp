@@ -5,13 +5,20 @@
 using namespace std;
 
 vector<int> solution(string my_string) {
-    vector<int> answer;
+    vector<int> ans;
     
+
+    int visited[10] = {0};
     for (char &c : my_string){
-        if(c >= '0' && c <= '9')
-            answer.push_back(c-'0');
+        if(isdigit(c))
+            visited[c-'0']++;
     }
     
-    sort(answer.begin(),answer.end());
-    return answer;
+    for (int i = 0; i < 10; ++i){
+        while(visited[i] != 0){
+            ans.push_back(i);
+            visited[i]--;
+        }
+    }
+    return ans;
 }
