@@ -1,13 +1,11 @@
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 int solution(int n) {
     
-    for (int i = 1; i * i <= n; ++i){
-        if(i*i == n)
-            return 1;
-    }
-    return 2;
+    int r = sqrt(n);
+    return r*r == n ? 1 : 2;
 }
