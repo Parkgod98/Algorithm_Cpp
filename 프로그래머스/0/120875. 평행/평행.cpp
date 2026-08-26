@@ -1,18 +1,62 @@
 #include <string>
 #include <vector>
-#include <iostream>
+
 using namespace std;
 
-int solution(vector<vector<int>> dots) {
-    vector<pair<int,int>> v1 = { {0,1},{0,2},{0,3} };
-    vector<pair<int,int>> v2 = { {2,3},{1,3},{1,2} };
-
-    for (int i = 0; i < 3; ++i) {
-        double l1 = (double)(dots[v1[i].first][1]- dots[v1[i].second][1]) /(dots[v1[i].first][0] - dots[v1[i].second][0]);
-        double l2 = (double)(dots[v2[i].first][1] - dots[v2[i].second][1]) / (dots[v2[i].first][0] - dots[v2[i].second][0]);
-        if (l1 == l2) {
-            return 1;
+double SameIncline(vector<vector<int>> &dots, int visited[4]){
+    
+    int y1,y2,x1,x2;
+    y1 = y2 = x1 = x2 = -1;
+    
+    int ty1,ty2,tx1,tx2;
+    ty1 = ty2 = tx1 = tx2 = -1;
+    
+    for (int i = 0; i < 4; ++i){
+        if(visited[i]){
+            if(y1 == -1){
+                x1 = dots[i][0];
+                y1 = dots[i][1];
+            }
+            else{
+                x2 = dots[i][0];
+                y2 = dots[i][1];
+            }
         }
+        else{
+            if(ty1 == -1){
+                tx1 = dots[i][0];
+                ty1 = dots[i][1];
+            }
+            else{
+                tx2 = dots[i][0];
+                ty2 = dots[i][1];
+            }
+        }
+    }
+    
+    double slope1 = (double)(y2 - y1) / (x2-x1);
+    double slope2 = (double)(ty2 - ty1) / (tx2-tx1);
+    
+    if(slope1 == slope2)
+        return true;
+    return false;
+}
+
+int solution(vector<vector<int>> dots) {
+    int answer = 0;
+    
+    int visited[4] = {0};
+    for (int i = 0; i < 4; ++i){
+        visited[i] = 1;
+        for (int j = i + 1; j < 4; ++j){
+            visited[j] = 1;
+            if(SameIncline(dots,visited))
+                return 1;
+            
+            
+            visited[j] = 0;
+        }
+        visited[i] = 0;
     }
     return 0;
 }
