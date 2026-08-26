@@ -1,49 +1,55 @@
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
 #include <iostream>
-#include <algorithm>
-#include <cmath>
+
 using namespace std;
 
 int solution(int a, int b, int c, int d) {
-	int answer = 0;
-	vector<int> v = { a,b,c,d };
-	sort(v.begin(), v.end());
-	map<int,int> mp;
-	for (int i = 0; i < 4; ++i) {
-		if (mp[v[i]])
-			mp[v[i]] += 1;
-		else
-			mp[v[i]] = 1;
-	}
-	if (mp.size() == 1)
-		return 1111 * a;
-	else if (mp.size() == 2) {
-		int p, q;
-		p = q = -1;
-		for (auto& it : mp) {
-			if (it.second == 3)
-				p = it.first;
-			else if (it.second == 1)
-				q = it.first;
-		}
-		if (p == -1) {
-			v.erase(unique(v.begin(), v.end()), v.end());
-			return (v[0] + v[1]) * abs(v[0] - v[1]);;
-		}
-		return pow((10*p + q),2);
-	}
-	else if (mp.size() == 3) {
-		int ans = 1;
-		for (auto& it : mp) {
-			if (it.second == 1)
-				ans *= it.first;
-		}
-		return ans;
-	}
-	else {
-		return min(min(a, b), min(c, d));
-	}
+    int answer = 0;
+    
+    int visited[7] = {0};
+    visited[a]++;
+    visited[b]++;
+    visited[c]++;
+    visited[d]++;
+    
+    int three = -1;
+    int two1 = -1;
+    int two2 = -1;
+    int x,y,z,w;
+    x = y = z = w = -1;
+    for (int i = 1; i <= 6; ++i){
+        if(visited[i] == 4){
+            return 1111*i;
+        }
+        else if(visited[i] == 3){
+            three = i;
+        }
+        else if(visited[i] == 2){
+            if(two1 == -1)
+                two1 = i;
+            else
+                two2 = i;
+        }
+        else if(visited[i] == 1){
+            if(x == -1)
+                x = i;
+            else if(y == -1)
+                y = i;
+            else if(z == -1)
+                z = i;
+            else
+                w = i;
+        }
+    }
+    
+    if(three != -1){
+        cout << three << " " << a << "\n";
+        return (10*three + x) * (10*three + x);
+    }
+    else if(two1 != -1 && two2 != -1)
+        return (two1 + two2) * (two1- two2 > 0 ? two1 - two2 : -(two1-two2));
+    else if(two1 !=-1 && x!=-1 && y!=-1)
+        return x*y;
+    return x;
 }
