@@ -5,34 +5,32 @@
 
 using namespace std;
 
-struct Point{
-    int sum;
-    int idx;
-    
-    bool operator<(const Point &other) const {
-        return sum > other.sum;
-    }
-};
 
 vector<int> solution(vector<vector<int>> score) {
-    vector<int> rank(score.size());
-    vector<Point> v;
+    
+    int sc[202] = {0};
+    
+    for (vector<int> &v : score){
+        sc[v[0] + v[1]]++;
+    }
+    
+    vector<int> ans(score.size(),0);
+    int r = 1;
     
     int sz = score.size();
-    for (int i = 0; i < sz; ++i){
-        v.push_back({score[i][0] + score[i][1],i});
-    }
-    sort(v.begin(),v.end());
+    int rank[202] = {0};
     
-    int prev = -1;
-    for (int i = 0; i < v.size(); ++i){
-        if(v[i].sum == prev){
-            rank[v[i].idx] = rank[v[i-1].idx];
+    for (int i = 200; i >= 0; --i){
+        if(sc[i] > 0)
+            rank[i] = r;
+        while(sc[i] > 0){
+            r++;
+            sc[i]--;
         }
-        else{
-           rank[v[i].idx] = i+1; 
-        }
-        prev = v[i].sum;
     }
-    return rank;
+    for (int i = 0; i < sz; ++i){
+        ans[i] = rank[score[i][0] + score[i][1]];
+    }
+    
+    return ans;
 }
