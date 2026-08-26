@@ -4,14 +4,24 @@
 using namespace std;
 
 int solution(vector<vector<int>> lines) {
-    vector<int> v(201,0);
-    for (vector<int> &vv : lines){
-        for (int i = vv[0]+100; i < vv[1]+100; ++i)
-            v[i]++;
+    int visited[250] = {0};
+    
+    for (vector<int> &v : lines){
+        int s = v[0];
+        int e = v[1];
+        
+        for (int i = s +101; i <= e+101; ++i)
+            visited[i] +=1;
+        visited[e+101] -=1;
     }
+    
     int cnt = 0;
-    for (int i : v)
-        if(i>=2)
-            cnt++;
+    for (int i = 0; i < 250; ++i)
+        if(visited[i] >= 2)
+            ++cnt;
+    
+
+    
     return cnt;
+
 }
