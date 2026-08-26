@@ -3,7 +3,7 @@
 
 using namespace std;
 
-double SameIncline(vector<vector<int>> &dots, int visited[4]){
+bool SameIncline(vector<vector<int>> &dots, int visited[4]){
     
     int y1,y2,x1,x2;
     y1 = y2 = x1 = x2 = -1;
@@ -34,10 +34,7 @@ double SameIncline(vector<vector<int>> &dots, int visited[4]){
         }
     }
     
-    double slope1 = (double)(y2 - y1) / (x2-x1);
-    double slope2 = (double)(ty2 - ty1) / (tx2-tx1);
-    
-    if(slope1 == slope2)
+    if((y2 - y1) * (tx2-tx1) == (x2-x1) *(ty2 - ty1) )
         return true;
     return false;
 }
@@ -52,11 +49,10 @@ int solution(vector<vector<int>> dots) {
             visited[j] = 1;
             if(SameIncline(dots,visited))
                 return 1;
-            
-            
             visited[j] = 0;
         }
         visited[i] = 0;
+        break;
     }
     return 0;
 }
