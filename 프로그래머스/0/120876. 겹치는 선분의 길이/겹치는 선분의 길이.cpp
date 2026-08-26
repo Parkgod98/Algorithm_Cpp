@@ -10,18 +10,19 @@ int solution(vector<vector<int>> lines) {
         int s = v[0];
         int e = v[1];
         
-        for (int i = s +101; i <= e+101; ++i)
-            visited[i] +=1;
-        visited[e+101] -=1;
+        visited[s+101]++;
+        visited[e+101]--;
     }
     
-    int cnt = 0;
-    for (int i = 0; i < 250; ++i)
-        if(visited[i] >= 2)
-            ++cnt;
+    int diff = 0;
+    int ans = 0;
+    for (int i = 0; i < 250; ++i){
+        diff += visited[i];
+        
+        if(diff >= 2)
+            ++ans;
+    }
     
-
-    
-    return cnt;
+    return ans;
 
 }
