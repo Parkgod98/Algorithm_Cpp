@@ -1,25 +1,21 @@
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
-#include <iostream>
-#include <algorithm>
+
 using namespace std;
 
-
 vector<int> solution(vector<int> numbers) {
-	vector<int> answer;
-	map<int, bool> mp;
-	for (int i = 0; i < numbers.size(); ++i) {
-		for (int j = i + 1; j < numbers.size(); ++j) {
-			if (mp.find(numbers[i] + numbers[j]) == mp.end()) {
-				mp[numbers[i] + numbers[j]] = true;
-			}
-		}
-	}
-	answer.reserve(mp.size());
-	for (auto& it : mp) {
-		answer.emplace_back(it.first);
-	}
-	return answer;
-}
+    int arr[201] = {0};
+    int sz = numbers.size();
+    
+    for (int i = 0; i < sz; ++i){
+        for (int j = i + 1; j < sz; ++j){
+            arr[numbers[i] + numbers[j]] = 1;
+        }
+    }
+    
+    vector<int> ans;
+    for (int i = 0; i <= 200; ++i)
+        if(arr[i])
+            ans.push_back(i);
+    return ans;
+}   
