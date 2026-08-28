@@ -1,19 +1,16 @@
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
-#include <iostream>
-#include <algorithm>
+
 using namespace std;
 
 string solution(string s, int n) {
-    string answer = "";
-    for (char c : s) {
-        if (isalpha(c)) {
-            char base = islower(c) ? 'a' : 'A';
-            c = (c - base + n) % 26 + base;
+    for (char &c : s){
+        if(islower(c)){
+            c = (c - 'a' +n)%26 +'a';
         }
-        answer += c;
+        else if(isupper(c)){
+            c = (c - 'A' +n)%26 +'A';
+        }
     }
-    return answer;
+    return s;
 }
