@@ -1,39 +1,19 @@
 #include <string>
 #include <vector>
-#include <set>
-#include <map>
-#include <iostream>
-#include <algorithm>
+
 using namespace std;
 
-
 vector<int> solution(string s) {
-	map<char, int> char_index;
-	vector<int> answer;
-	answer.reserve(s.size());
+    vector<int> ans(26,-1);
+    
+    vector<int> prev(s.size(),-1);
+    int sz = s.size();
+    for (int i = 0; i < sz; ++i){
+        if(ans[s[i]-'a'] != -1){
+            prev[i] = i - ans[s[i] -'a'];
+        }
+        ans[s[i]-'a'] = i;
 
-	for (int i = 0; i < s.size(); ++i) {
-		if (char_index.find(s[i]) == char_index.end()) {
-			answer.push_back(-1);
-		}
-		else {
-			answer.push_back(i - char_index[s[i]]);
-		}
-		char_index[s[i]] = i;
-	}
-	return answer;
-}
-
-template <typename T>
-
-void PrintV(const vector<T>& v) {
-	cout << "[ ";
-	for (const auto& elem : v) {
-		cout << elem << " ";
-	}
-	cout << "]" << "\n";
-}
-
-int main(void) {
-	PrintV(solution("banana"));
+    }
+    return prev;
 }
