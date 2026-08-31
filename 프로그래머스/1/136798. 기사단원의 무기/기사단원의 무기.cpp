@@ -1,40 +1,32 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
+
 using namespace std;
 
-int CountDivisor( int n ){
-    int sum = 0;
-    for( int i = 1; i <= sqrt( n ); ++i ){
-        if( n % i == 0 ){
-            if( i * i != n )
-                sum += 2;
+int CountYak(int n){
+    int cnt = 0;
+    
+    for (int i = 1; i * i <= n; ++i){
+        if(n%i == 0){
+            if(n/i == i)
+                cnt += 1;
             else
-                sum += 1;
+                cnt+=2;
         }
     }
-    return sum;
+    return cnt;
 }
 
-
-int solution( int number, int limit, int power ) {
-    int answer = 0;
-
-    for( int i = 1; i <= number; ++i ){
-        int attack = CountDivisor( i );
-        if( attack > limit )
-            answer += power;
+int solution(int number, int limit, int power) {
+    int ans = 0;
+    
+    for (int i = 1; i <= number; ++i){
+        
+        int k = CountYak(i);
+        if(limit < k)
+            ans += power;
         else
-            answer += attack;
+            ans += k;
     }
-
-    return answer;
+    return ans;
 }
