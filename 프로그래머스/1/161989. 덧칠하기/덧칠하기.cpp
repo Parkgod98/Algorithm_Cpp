@@ -3,18 +3,17 @@
 
 using namespace std;
 
-int solution( int n, int m, vector<int> section )
-{
-    int answer = 1;
-    int start = section[0] + m - 1;
-    for( int i = 1; i < section.size(); ++i )
-    {
-        if( section[i] > start )
-        {
-            start = section[i] + m - 1;
-            answer++;
-        }
-        
+int solution(int n, int m, vector<int> section) {
+    
+    int ans = 0;
+    int start = 1;
+    
+    int sz = section.size();
+    for (int i = 0; i < sz; ++i){
+        if(section[i] < start)
+            continue;
+        start = section[i]+m;
+        ++ans;
     }
-    return answer;
+    return ans;
 }
