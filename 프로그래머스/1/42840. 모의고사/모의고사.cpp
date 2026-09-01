@@ -2,33 +2,41 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
+
 using namespace std;
 
-vector<int> solution( vector<int> answers )
-{
-    vector<vector<int>> v = { {1,2,3,4,5},{2,1,2,3,2,4,2,5},{3,3,1,1,2,2,4,4,5,5} };
-    vector<int> mp = { -1,0,0,0 };
-    for( int i = 0; i < answers.size(); ++i )
-    {
-        for( int j = 0; j < v.size(); ++j )
-        {
-            if( v[j][i % v[j].size()] == answers[i] )
-                mp[j + 1]++;
-        }
+vector<int> solution(vector<int> answers) {
+    vector<int> answer;
+    
+    int sz = answers.size();
+    int arr[5] = {1,2,3,4,5};
+    int arr2[8] = {2,1,2,3,2,4,2,5};
+    int arr3[10] = {3,3,1,1,2,2,4,4,5,5};
+    
+    int a,b,c;
+    a = b = c = 0;
+    int a1,a2,a3;
+    a1 = a2 = a3 = 0;
+    for (int i = 0; i < sz; ++i){
+        if(answers[i] == arr[a1++])
+            a++;
+        if(answers[i] == arr2[a2++])
+            b++;
+        if(answers[i] == arr3[a3++])
+            c++;
+        
+        a1%=5;
+        a2%=8;
+        a3%=10;
     }
-    int mx = *max_element( mp.begin(), mp.end() );
+    
     vector<int> ans;
-    for( int i = 1; i < 4; ++i )
-    {
-        if( mx == mp[i] )
-            ans.push_back( i );
-    }
+    int k = max(a,max(b,c));
+    if(k == a)
+        ans.push_back(1);
+    if(k == b)
+        ans.push_back(2);
+    if(k == c)
+        ans.push_back(3);
     return ans;
 }
