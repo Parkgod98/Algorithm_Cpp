@@ -1,44 +1,31 @@
 #include <string>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
 int solution(string s) {
     int ans = 0;
     
-    while(1){
-        int start = 1;
-        int not_start = 0;
-
-        char c = s[0];
-        int sz = s.size();
+    int start = 1;
+    int cur = 0;
+    
+    int sz = s.size();
+    char c = s[0];
+    for (int i = 1; i < sz; ++i){
+        if(s[i] == c)
+            ++start;
+        else
+            ++cur;
         
-        bool f = false;
-        for (int i = 1; i < sz; ++i){
-            if(c == s[i])
-                ++start;
-            else
-                ++not_start;
-
-            if(start == not_start){
-                if(i+1 < sz)
-                    s = s.substr(i+1);
-                else
-                    f = true;
-                break;
-            }
-        }
-        if(start == not_start){
+        if(start == cur){
             ++ans;
-            if(f)
-                break;
-        }
-        else{
-            ++ans;
-            break;
+            start = 0;
+            cur = 0;
+            if(i+1 < sz)
+                c = s[i+1];
         }
     }
-    
+    if(start > 0)
+        ++ans;
     return ans;
 }
