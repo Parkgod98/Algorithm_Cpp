@@ -1,48 +1,57 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
 #include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
 #include <stack>
-#include <deque>
+
 using namespace std;
-// 2, 1, 1, 2, 3, 1, 2, 3, 1
 
-
-bool IsCorrect( deque<char> &dq)
-{
-    stack<char> st;
-
-    for( auto&c : dq )
-    {
-        if( !st.empty() && (( st.top() == '(' && c == ')' ) || ( st.top() == '{' && c == '}' ) || ( st.top() == '[' && c == ']' )) )
-            st.pop();
-        else
-            st.push( c );
+int solution(string s) {
+    int so,sc,mo,mc,bo,bc;
+    so = sc = mo = mc = bo = bc = 0;
+    int sz = s.size();
+    
+    deque<char> dq;
+    for (char &c : s){
+        if(c == '(')
+            ++so;
+        else if(c == ')')
+            ++sc;
+        else if(c == '{')
+            ++mo;
+        else if(c == '}')
+            ++mc;
+        else if(c == '[')
+            ++bo;
+        else if(c == ']')
+            ++bc;
+        dq.push_back(c);
     }
-    if( !st.empty() )
-        return false;
-    return true;
-}
-
-int solution( string s )
-{
-    int cnt = 0;
-    deque<char> dq(s.begin(),s.end());
-    for( int i = 0; i < s.size(); ++i )
-    {
-        if( IsCorrect( dq ) )
-            ++cnt;
-        char tmp = dq.front();
+    if(so != sc || mo != mc || bo != bc)
+        return 0;
+    
+    
+    int ans = 0;
+    for (int i = 0; i < sz; ++i){
+        stack<char> st;
+        
+        for (char &c : dq){
+            if(!st.empty()){
+                if(st.top() == '(' && c == ')')
+                    st.pop();
+                else if(st.top() == '[' && c == ']')
+                    st.pop();
+                else if(st.top() == '{' && c == '}')
+                    st.pop();
+                else
+                    st.push(c);
+            }
+            else
+                st.push(c);
+        }
+        if(st.empty())
+            ++ans;
+        dq.push_back(dq.front());
         dq.pop_front();
-        dq.push_back( tmp );
     }
-    return cnt;
+    return ans;
 }
