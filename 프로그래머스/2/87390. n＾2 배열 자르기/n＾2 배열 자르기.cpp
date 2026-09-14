@@ -1,27 +1,35 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
+
 using namespace std;
-// 2, 1, 1, 2, 3, 1, 2, 3, 1
 
-vector<int> solution( int n, long long left, long long right )
-{
+vector<int> solution(int n, long long left, long long right) {
     vector<int> ans;
-
-    for( long long i = left; i <= right; ++i )
-    {
-        ans.push_back( max( i / n, i % n ) + 1 );
+    
+    int sy = left/n;
+    int sx = left%n;
+    int ey = right/n;
+    int ex = right%n;
+    
+    int x = sx;
+    for (int y = sy; y <= ey; ++y){
+        
+        if(y == ey){
+            while(x <= ex){
+                int mx = max(y,x);
+                ans.push_back(mx+1);
+                ++x;
+            }
+        }
+        else{
+            while(x < n){
+                int mx = max(y,x);
+                ans.push_back(mx+1);
+                ++x;
+            }
+        }
+        x%=n;
     }
     return ans;
 }
