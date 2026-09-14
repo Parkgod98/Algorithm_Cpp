@@ -6,30 +6,12 @@ using namespace std;
 
 vector<int> solution(int n, long long left, long long right) {
     vector<int> ans;
-    
-    int sy = left/n;
-    int sx = left%n;
-    int ey = right/n;
-    int ex = right%n;
-    
-    int x = sx;
-    for (int y = sy; y <= ey; ++y){
+
+    for (left; left <= right; ++left){
+        int y = left/n;
+        int x = left%n;
         
-        if(y == ey){
-            while(x <= ex){
-                int mx = max(y,x);
-                ans.push_back(mx+1);
-                ++x;
-            }
-        }
-        else{
-            while(x < n){
-                int mx = max(y,x);
-                ans.push_back(mx+1);
-                ++x;
-            }
-        }
-        x%=n;
+        ans.push_back(max(y,x)+1);
     }
     return ans;
 }
