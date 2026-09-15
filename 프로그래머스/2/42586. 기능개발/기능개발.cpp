@@ -1,47 +1,39 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
+
 using namespace std;
-// 2, 1, 1, 2, 3, 1, 2, 3, 1
 
-vector<int> solution( vector<int> progresses, vector<int> speeds )
-{
-
-    vector<int> days( progresses.size() );
-    for( int i = 0; i < progresses.size(); ++i )
-        days[i] = ceil((100.0 - progresses[i])/speeds[i]); // 7 3 9
-
-    stack<int> st;
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    int sz = speeds.size();
+    vector<int> complete_day(sz,0);
+    
+    
     vector<int> ans;
-    int cnt = 0;
-    for( int i = 0; i < days.size(); ++i )
-    {
-        if( !st.empty() && st.top() < days[i] )
-        {
-            st.pop();
-            ans.push_back( cnt );
-            cnt = 0;
-            st.push( days[i] );
+    for (int i = 0; i < sz; ++i){
+        int remain = 100 - progresses[i];
+        if(remain%speeds[i] == 0){
+            complete_day[i] = remain/speeds[i];
         }
-        else if (st.empty())
-        {
-            st.push( days[i] );
+        else{
+            complete_day[i] = remain/speeds[i]+1;
         }
-        ++cnt;
     }
-    if( !st.empty() )
-        ans.push_back( cnt );
-
+    
+    int cnt = 1;
+    int anchor = complete_day[0];
+    int idx = 1;
+    while(idx < sz){
+        if(complete_day[idx] <= anchor){
+            ++cnt;
+        }
+        else{
+            ans.push_back(cnt);
+            cnt = 1;
+            anchor = complete_day[idx];
+        }
+        ++idx;
+    }
+    ans.push_back(cnt);
     return ans;
 }
