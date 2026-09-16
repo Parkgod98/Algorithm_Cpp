@@ -1,47 +1,44 @@
-#include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
 #include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
 using namespace std;
 
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
+int dy[4] = {-1,0,1,0};
+int dx[4] = {0,1,0,-1};
 
-int solution( vector<vector<int> > maps )
+struct Point{
+    int y,x;
+};
+
+int solution(vector<vector<int> > maps)
 {
-    int cnt = 0;
-
-    queue<pair<int, int>> q;
-    vector<vector<int>> visited( maps.size(), vector<int>( maps[0].size(), 0 ) );
-    q.push( { 0,0 } );
+    
+    int r = maps.size();
+    int c = maps[0].size();
+    
+    vector<vector<int>> visited(r,vector<int>(c,0));
+    
+    queue<Point> q;
+    q.push({0,0});
     visited[0][0] = 1;
-    while( !q.empty() )
-    {
-        auto p = q.front();
+    
+    while(!q.empty()){
+        auto it = q.front();
         q.pop();
-        for( int i = 0; i < 4; ++i )
-        {
-            int ny = p.first + dy[i];
-            int nx = p.second + dx[i];
-            if( ny < 0 || nx < 0 || ny >= maps.size() || nx >= maps[0].size() || visited[ny][nx] || maps[ny][nx] == 0 )
+        
+        int y = it.y;
+        int x = it.x;
+        
+        for (int d = 0; d < 4; ++d){
+            int ny = y + dy[d];
+            int nx = x + dx[d];
+            
+            if(ny < 0 || ny >= r || nx < 0 || nx >= c || visited[ny][nx] || maps[ny][nx] == 0)
                 continue;
-            q.push( { ny,nx } );
-            visited[ny][nx] = visited[p.first][p.second] + 1;
+            
+            q.push({ny,nx});
+            visited[ny][nx] = visited[y][x] + 1;
         }
     }
-    if( visited[maps.size() - 1][maps[0].size() - 1] == 0 )
-        return -1;
-    else
-        return visited[maps.size() - 1][maps[0].size() - 1];
+    
+    return visited[r-1][c-1] == 0 ? -1 : visited[r-1][c-1];
 }
