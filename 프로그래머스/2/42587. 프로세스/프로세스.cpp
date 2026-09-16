@@ -1,47 +1,44 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
 #include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
+
 using namespace std;
 
-
-int solution( vector<int> priorities, int location )
-{
-    priority_queue<int> pq;
-    queue<pair<int, int>> q;
-    for( int i = 0; i < priorities.size(); ++i )
-    {
-        pq.push( priorities[i] );
-        q.push( { i,priorities[i] } );
+int solution(vector<int> priorities, int location) {
+    int remain[10] = {0};
+    queue<int> q;
+    for (int &n : priorities){
+        q.push(n);
+        remain[n]++;        
     }
-
+    
     int cnt = 0;
-    while( !q.empty() )
-    {
-        pair<int, int> p = q.front();
+    
+    while(!q.empty()){
+        int n = q.front();
         q.pop();
-        if( p.second < pq.top() )
-        {
-            q.push( p );
+        location--;
+        
+        bool f = true;
+        for (int i = n + 1; i <= 9; ++i){
+            if(remain[i] > 0){
+                f = false;
+                break;
+            }
         }
-        else
-        {
-            pq.pop();
+        
+        if(f){
             ++cnt;
-            if( p.first == location )
+            remain[n]--;
+            if(location == -1){
                 return cnt;
+            }
+        }
+        else{
+            q.push(n);
+            if(location == -1)
+                location = q.size()-1;
         }
     }
-
+    return 0;
 }
