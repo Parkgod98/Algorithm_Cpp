@@ -1,89 +1,76 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
 #include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
+#include <iostream>
+#include <algorithm>
 #include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
 using namespace std;
 
-bool compare( vector<int> a, vector<int> b )
-{
+bool cmp(vector<int> &a, vector<int> &b){
     return a.size() < b.size();
 }
 
-vector<int> solution( string s )
-{
-    vector<vector<int>> v;
-    bool s_flag = false;
-    int sum = 0;
+vector<int> Parse(int s, int e, string &ss){
+    
     vector<int> tmp;
-    for( int i = 1; i < s.size() - 1; ++i )
-    {
-        
-        if( s[i] == '{' )
-        {
-            s_flag = true;
+    string t = ss.substr(s,e-s+1);
+    
+    int num = 0;
+    
+    int i = 0;
+    while(i < t.size()){
+        if(!isdigit(t[i])){
+            ++i;
+            if(num != 0){
+                tmp.push_back(num);
+                num = 0;
+            }
         }
-        else if( s[i] == '}' )
-        {
-            tmp.push_back( sum );
-            sum = 0;
-            v.push_back( tmp );
-            tmp.clear();
-            s_flag = false;
-        }
-        else if( s_flag && s[i] == ',' )
-        {
-            tmp.push_back( sum );
-            sum = 0;
-        }
-        else if( !s_flag && s[i] == ',' )
-            continue;
-        else
-        {
-            sum = sum * 10 + s[i] - '0';
+        else{
+            num = num*10 + (t[i++] - '0');
         }
     }
-    //for( int i = 0; i < v.size(); ++i )
-    //{
-    //    for( int j = 0; j < v[i].size(); ++j )
-    //        cout << v[i][j] << " ";
-    //    cout << "\n";
-    //}
+    if(num != 0)
+        tmp.push_back(num);
+    
+    return tmp;
+}
 
-    sort( v.begin(), v.end(), compare );
-    map<int, bool> mp;
+vector<int> solution(string s) {
+    
+    vector<vector<int>> v;
+    
+    int idx = 0;
+    int sz = s.size();
+    while(idx < s.size()){
+        while(idx < sz && !(s[idx] == ',' && s[idx-1] == '}'))
+            ++idx;
+        
+        int start = idx -1;
+        while(s[start] != '{')
+            --start;
+        
+        if(idx == sz){
+            v.push_back(Parse(start,idx-2,s));
+        }
+        else
+            v.push_back(Parse(start,idx-1,s));
+        ++idx;
+    }   
+    
+    sort(v.begin(),v.end(),cmp);
+    set<int> st;
     vector<int> ans;
-    for( auto& vec : v )
-    {
-        for( int i = 0; i < vec.size(); ++i )
-        {
-            if( mp[vec[i]] )
-                continue;
-            else
-            {
-                ans.push_back( vec[i] );
-                mp[vec[i]] = true;
+    
+    for (vector<int> &it : v){
+        for (int &n : it){
+            if(st.find(n) == st.end()){
+                st.insert(n);
+                ans.push_back(n);
             }
         }
     }
-    //for( int i = 0; i < v.size(); ++i )
-    //{
-    //    for( int j = 0; j < v[i].size(); ++j )
-    //        cout << v[i][j] << " ";
-    //    cout << "\n";
-    //}
-    //for( int i = 0; i < ans.size(); ++i )
-    //    cout << ans[i] << " ";
-
+    
+    
     return ans;
 }
