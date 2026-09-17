@@ -1,48 +1,44 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
 #include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
-#include <unordered_set>
+
 using namespace std;
+map<string,int> mp;
+char arr[5] = {'A','E','I','O','U'};
 
-vector<string> v;
-char c[5] = { 'A','E','I','O','U' };
-
-void DFS(string &s)
-{
-    if( s.size() == 5 )
-        return;
-    for( int i = 0; i < 5; ++i )
-    {
-        s += c[i];
-        v.push_back(s);
-        DFS(s);
+int solution(string word) {
+    int cnt = 0;
+    
+    string s = "";
+    for (int i = 0; i < 5; ++i){
+        s.push_back(arr[i]);
+        ++cnt;
+        mp[s] = cnt;
+        for (int j = 0; j < 5; ++j){
+            s.push_back(arr[j]);
+            ++cnt;
+            mp[s] = cnt;
+            for (int k = 0; k < 5; ++k){
+                s.push_back(arr[k]);
+                ++cnt;
+                mp[s] = cnt;
+                for (int y = 0; y < 5; ++y){
+                    s.push_back(arr[y]);
+                    ++cnt;
+                    mp[s] = cnt;
+                    for (int x = 0; x < 5; ++x){
+                        s.push_back(arr[x]);
+                        ++cnt;
+                        mp[s] = cnt;
+                        s.pop_back();
+                    }
+                    s.pop_back();
+                }
+                s.pop_back();
+            }
+            s.pop_back();
+        }
         s.pop_back();
     }
-}
-
-int solution( string word )
-{
-
-
-    string ans = "";
-    DFS( ans );
-    for( int i = 0; i < 20; ++i )
-        cout << v[i] << "\n";
-    for( int i = 0; i < v.size(); ++i)
-    {
-        if( word == v[i] )
-            return i + 1;
-    }
+    return mp[word];
 }
