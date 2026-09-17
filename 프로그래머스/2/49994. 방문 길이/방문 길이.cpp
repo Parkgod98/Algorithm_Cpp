@@ -1,55 +1,46 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
-#include <unordered_set>
 using namespace std;
+int dy[4] = {-1,0,1,0};
+int dx[4] = {0,1,0,-1};
 
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
-
-int arr[11][11];
-set<pair<pair<int, int>, pair<int, int>>> visited_path;
-
-map<char, int> mat = { {'U',0},{'R',1},{'D',2},{'L',3} };
-
-int solution( string dirs )
-{
-    for( int i = 0; i < 11; ++i )
-    {
-        fill( arr[i], arr[i] + 11, 0 );
-    }
-
-    int sy, sx;
-    sy = sx = 5;
-    int cnt = 0;
-
-    for( int i = 0; i < dirs.size(); ++i )
-    {
-        int ny = sy + dy[mat[dirs[i]]];
-        int nx = sx + dx[mat[dirs[i]]];
-        if( ny < 0 || nx < 0 || ny >= 11 || nx >= 11 )
+int solution(string dirs) {
+    int ans = 0;
+    
+    
+    int y = 5;
+    int x = 5;
+    vector<vector<vector<int>>> v = vector<vector<vector<int>>>(12,vector<vector<int>>(12,vector<int>(4,0)));
+    
+    for (char &c : dirs){
+        int d = 0;
+        if(c == 'U'){
+            d = 0;
+        }
+        else if(c == 'R'){
+            d = 1;
+        }
+        else if(c == 'D'){
+            d = 2;
+        }
+        else{
+            d = 3;
+        }
+        
+        int ny = y + dy[d];
+        int nx = x + dx[d];
+        
+        if(ny < 0 || ny > 10 || nx < 0 || nx > 10)
             continue;
-        pair<int, int> from = { sy,sx };
-        pair<int, int> to = { ny,nx };
-        if( from > to )
-            swap( from, to );
-        if( visited_path.find( { from, to } ) == visited_path.end() )
-            ++cnt;
-        visited_path.insert( { from,to } );
-        sy = ny;
-        sx = nx;
+        
+        if(!v[y][x][d] && !v[ny][nx][(d+2)%4])
+            ++ans;
+        
+        v[y][x][d] = v[ny][nx][(d+2)%4] = 1;
+        
+        y = ny;
+        x = nx;
     }
-    return cnt;
+    return ans;
 }
