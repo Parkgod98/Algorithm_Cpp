@@ -6,48 +6,57 @@ using namespace std;
 
 int ans = 0;
 
-void DFS(vector<char> &v, vector<int> &visited, string &s, vector<bool> &chk){
+void DFS(vector<char> &v, vector<int> &visited, int n, vector<bool> &IsPrime){
     
-    if(s.size() > 0){
-        int n = stoi(s);
-        if(chk[n]){
-            ++ans;
-            chk[n] = false;
-        }
+    if(IsPrime[n]){
+        ++ans;
+        IsPrime[n] = false; // 같은 숫자 중복 카운트 방지
     }
     
-    for (int i = 0; i < v.size(); ++i){
+    for(int i = 0; i < v.size(); ++i){
         if(!visited[i]){
             visited[i] = 1;
-            s += v[i];
-            DFS(v,visited,s,chk);
-            s.pop_back();
+            
+            int next = n * 10 + v[i] - '0';
+            DFS(v, visited, next, IsPrime);
+            
             visited[i] = 0;
         }
     }
 }
 
 int solution(string numbers) {
-    vector<bool> IsPrime(10000001,true);
-    IsPrime[0] = IsPrime[1] = false;
+    ans = 0;
     
-    for (int i = 2; i * i <= 10000000; ++i){
+    string tmp = numbers;
+    sort(tmp.rbegin(), tmp.rend());
+    
+    int mx = stoi(tmp);
+    
+    vector<bool> IsPrime(mx + 1, true);
+    
+    if(mx >= 0)
+        IsPrime[0] = false;
+    
+    if(mx >= 1)
+        IsPrime[1] = false;
+    
+    for(int i = 2; i * i <= mx; ++i){
         if(!IsPrime[i])
             continue;
-        for (int j = i * i; j <= 10000000; j+=i){
+        
+        for(int j = i * i; j <= mx; j += i){
             IsPrime[j] = false;
         }
     }
     
     vector<char> v;
-    for (char &c : numbers)
+    for(char &c : numbers)
         v.push_back(c);
-    sort(v.begin(),v.end());
     
-    vector<int> visited(v.size(),0);
-    string s = "";
-    DFS(v,visited,s, IsPrime);
+    vector<int> visited(v.size(), 0);
     
+    DFS(v, visited, 0, IsPrime);
     
     return ans;
 }
