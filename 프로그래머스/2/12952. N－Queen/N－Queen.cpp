@@ -1,50 +1,40 @@
-#include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
+
 int cnt = 0;
 
-void DFS(int n, vector<vector<int>> &v, int r){
-    if(r == n){
+void DFS(int n, int r, vector<int>& queen) {
+    if (r == n) {
         ++cnt;
         return;
     }
-    
-    
-    for (int i = 0; i < n; ++i){
-        bool f = false;
-        for (int rr = r - 1; rr >= 0; --rr){
-            if(v[rr][i] == 1){
-                f = true;
+
+    for (int c = 0; c < n; ++c) {
+        bool valid = true;
+
+        for (int prev = 0; prev < r; ++prev) {
+            if (queen[prev] == c ||
+                abs(r - prev) == abs(c - queen[prev])) {
+                valid = false;
                 break;
             }
-            if(f)
-                break;
-            for (int j = 0; j < n; ++j){
-                if(j != i && v[rr][j] == 1){
-                    if(abs(r-rr) == (abs(j-i))){
-                        f = true;
-                        break;
-                    }
-                }
-            }
-            if(f)
-                break;
         }
-        
-        if(f)
+
+        if (!valid)
             continue;
-        v[r][i] = 1;
-        DFS(n,v,r+1);
-        v[r][i] = 0;
+
+        queen[r] = c;
+        DFS(n, r + 1, queen);
     }
 }
 
 int solution(int n) {
-    
-    vector<vector<int>> v(n,vector<int>(n,0));
-    
-    DFS(n,v,0);
-    
+    cnt = 0;
+
+    vector<int> queen(n, -1);
+    DFS(n, 0, queen);
+
     return cnt;
 }
