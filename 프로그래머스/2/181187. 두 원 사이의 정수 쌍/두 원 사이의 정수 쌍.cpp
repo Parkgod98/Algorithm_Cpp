@@ -20,11 +20,8 @@ long long solution(int r1, int r2) {
         ll start = 1;
         if(i < r1)
             start = (ll)(ceil(sqrt(rr1*rr1 - i*i)));
-            
-        if(start != 0)
-            cnt += (j - start) + 1;
-        else
-            cnt += (j-start);
+        
+        cnt += (j-start) +1;
     }
     
     cnt*=4;
