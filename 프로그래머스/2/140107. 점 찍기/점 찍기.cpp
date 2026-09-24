@@ -8,9 +8,12 @@ long long solution(int k, int d) {
     
     ll cnt = 0;
     ll dd = d;
+    ll j = (dd/k)*k;
     for (ll i = 0; i <= dd; i += k){
-        ll kk = dd*dd - i*i;
-        cnt += (long long)sqrt(kk)/(long long)k + 1;
+        while(i*i + j * j > dd*dd)
+            j -= k;
+        
+        cnt += j/k + 1;
     }
     
     return cnt;
