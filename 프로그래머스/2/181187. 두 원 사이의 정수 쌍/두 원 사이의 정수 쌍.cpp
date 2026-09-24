@@ -12,19 +12,17 @@ long long solution(int r1, int r2) {
     
     ll rr1 = r1;
     ll rr2 = r2;
-    for (ll i = 1; i < r2; ++i){
+    for (ll i = 1; i <= r2; ++i){
         
-        while(!(i*i + j*j <= rr2*rr2))
-            --j;
+        ll mx_y = floor(sqrt(rr2*rr2 - i*i));
         
-        ll start = 1;
-        if(i < r1)
-            start = (ll)(ceil(sqrt(rr1*rr1 - i*i)));
+        ll mn_y = 0;
+        if(rr1 >= i)
+            mn_y = ceil(sqrt(rr1*rr1 - i*i));
         
-        cnt += (j-start) +1;
+        cnt += (mx_y - mn_y)+1;
     }
     
     cnt*=4;
-    cnt += (r2-r1+1)*4 ;
     return cnt;
 }
