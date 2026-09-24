@@ -31,9 +31,6 @@ vector<string> solution(vector<vector<string>> plans) {
     
     
     stack<Group> st;
-    for (auto &g : v){
-        cout << g.s << " " << g.start << " " << g.remain << "\n";
-    }
     int sz = v.size();
     
     int cur_time = v[0].start;
@@ -67,21 +64,7 @@ vector<string> solution(vector<vector<string>> plans) {
         }
     }
     
-    if(!st.empty()){
-        if((v[sz-1].start -cur_time) - st.top().remain >= 0){
-            ans.push_back(st.top().s);
-            cur_time += st.top().remain;
-            st.pop();
-        }
-        else{
-            st.top().remain -= (v[sz-1].start - cur_time);
-            cur_time += (v[sz-1].start - cur_time);
-            ans.push_back(v[sz-1].s);
-        }
-    }
-    else{
-        ans.push_back(v[sz-1].s);
-    }
+    ans.push_back(v[sz-1].s);
     while(!st.empty()){
         ans.push_back(st.top().s);
         st.pop();
