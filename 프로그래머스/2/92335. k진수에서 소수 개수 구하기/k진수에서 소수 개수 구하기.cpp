@@ -2,78 +2,54 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
-#include <unordered_set>
 using namespace std;
 
-string Convert( int n, int k )
-{
-    string ans = "";
 
-    while( n != 0 )
-    {
-        ans += to_string( n % k );
-        n /= k;
+int IsPrime(long long n){
+    if(n == 1)
+        return 0;
+    if(n == 2)
+        return 1;
+    for (long long i = 2; i * i <= n; ++i){
+        if(n%i == 0)
+            return 0;
     }
-    reverse( ans.begin(), ans.end() );
     
+    return 1;
+}
+
+int solution(int n, int k) {
+    string t = "";
+    
+    while(n!= 0){
+        t += n%k + '0';
+        n/=k;
+    }
+    reverse(t.begin(),t.end());
+    
+    vector<string> v;
+    
+    int prev;
+    prev = -1;
+    int idx;
+    while(1){
+        idx = t.find('0',prev+1);
+        if(idx == string :: npos)
+            break;
+        
+        string tt = t.substr(prev+1,idx-(prev+1));
+        if(!tt.empty())
+            v.push_back(tt);
+        
+        prev = idx;
+    }
+    if(prev +1 < t.size())
+        v.push_back(t.substr(prev+1));
+    
+    int ans = 0;
+    for (string &s : v){
+        if(IsPrime(stoll(s)))
+            ++ans;
+    }
     return ans;
-}
-// 211020101011입니다.
-vector<string> split( string& s, string sep )
-{
-    vector<string> res;
-
-    int i = s.find( sep );
-    int start = 0;
-    while( i != string::npos )
-    {
-        string token = s.substr( start, i-start );
-        if(token.size() !=0 )
-            res.push_back( token );
-        start = i + 1;
-        i = s.find( sep, start );
-    }
-    if(start != s.size() )
-        res.push_back( s.substr( start ) );
-
-    return res;
-}
-
-bool IsPrime( long long n )
-{
-    if( n < 2 )
-        return false;
-    for( long long i = 2; i <= sqrt( n ); ++i )
-    {
-        if( n%i == 0 )
-            return false;
-    }
-    return true;
-}
-
-int solution( int n, int k )
-{
-    string pas = Convert( n, k );
-
-    int cnt = 0;
-    vector<string> s_v = split( pas, "0" );
-
-    for( string& s : s_v )
-    {
-        if( IsPrime( stoll( s ) ) )
-            ++cnt;
-    }
-
-    return cnt;
 }
