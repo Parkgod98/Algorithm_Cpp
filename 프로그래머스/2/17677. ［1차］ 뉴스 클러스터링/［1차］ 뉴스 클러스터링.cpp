@@ -1,78 +1,67 @@
 #include <string>
-#include <vector>
-#include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
+#include <vector>
 #include <map>
-#include <set>
-#include <cmath>
-#include <unordered_map>
-#include <stack>
-#include <deque>
-#include <list>
-#include <unordered_set>
 using namespace std;
 
-int dy[4] = { -1,0,1,0 };
-int dx[4] = { 0,1,0,-1 };
-
-int solution( string str1, string str2 )
-{
-    vector<string> v1, v2;
-    unordered_set<string> u_set;
-    for( int i = 0; i < str1.size() - 1; ++i )
-    {
-        string s = str1.substr( i, 2 );
-        if( !isalpha( s[0] ) || !isalpha( s[1] ) )
-            continue;
-        transform( s.begin(), s.end(), s.begin(), ::tolower );
-        v1.push_back( s );
-        u_set.insert( s );
-    }
-    for( int i = 0; i < str2.size() - 1; ++i )
-    {
-        string s = str2.substr( i, 2 );
-        if( !isalpha( s[0] ) || !isalpha( s[1] ) )
-            continue;
-        transform( s.begin(), s.end(), s.begin(), ::tolower );
-        v2.push_back( s );
-        u_set.insert( s );
-    }
-
-    unordered_map<string, int> mp1, mp2;
-    for( int i = 0; i < v1.size(); ++i )
-    {
-        mp1[v1[i]]++;
-    }
-    for( int i = 0; i < v2.size(); ++i )
-    {
-        mp2[v2[i]]++;
-    }
-
-    int gyo = 0;
-    int hap = 0;
-    for(const string& s : u_set )
-    {
-        if( mp1[s] && mp2[s] )
-        {
-            gyo += min( mp1[s], mp2[s] );
-            hap += max( mp1[s], mp2[s] );
-        }
-        else if( mp1[s] )
-        {
-            hap += mp1[s];
-        }
-        else if( mp2[s] )
-        {
-            hap += mp2[s];
+int solution(string str1, string str2) {
+    
+    
+    
+    int sz1 = str1.size();
+    vector<string> v1;
+    map<string,int> mp1;
+    for (int i = 0; i < sz1-1; ++i){
+        if(isalpha(str1[i]) && isalpha(str1[i+1])){
+            str1[i] = tolower(str1[i]);
+            str1[i+1] = tolower(str1[i+1]);
+            v1.push_back(str1.substr(i,2));
+            mp1[str1.substr(i,2)]++;
         }
     }
-    int jacade = (( double )gyo / hap)*65536.0;
-    if( gyo == 0 && hap == 0 )
-        return 65536;
-
-    return jacade;
+    
+    int sz2 = str2.size();
+    vector<string> v2;
+    map<string,int> mp2;
+    
+    for (int i = 0; i < sz2-1; ++i){
+        if(isalpha(str2[i]) && isalpha(str2[i+1])){
+            str2[i] = tolower(str2[i]);
+            str2[i+1] = tolower(str2[i+1]);
+            v2.push_back(str2.substr(i,2));
+            mp2[str2.substr(i,2)]++;
+        }
+    }
+    
+    int common = 0;
+    int plus = 0;
+    for (auto &it : mp1){
+        if(mp2.find(it.first) != mp2.end()){
+            
+            if(mp2[it.first] < mp1[it.first]){
+                plus += mp1[it.first];
+                common += mp2[it.first];
+            }
+            else{
+                plus += mp2[it.first];
+                common += mp1[it.first];
+            }
+        }
+        else{
+            plus += mp1[it.first];
+        }
+    }
+    
+    for (auto &it : mp2){
+        if(mp1.find(it.first) == mp1.end()){
+            plus += mp2[it.first];
+        }
+    }
+    
+    int ans = 0;
+    if(mp1.size() == 0 && mp2.size() == 0)
+        ans = 1 * 65536;
+    else
+        ans = ((double)common/plus) * 65536;
+    return ans;
 }
