@@ -47,7 +47,7 @@ vector<int> solution(vector<int> fees, vector<string> records) {
             if(time[i] <= basic_time)
                 ans.push_back(basic_money);
             else{
-                ans.push_back(basic_money + ceil(((double)time[i]-basic_time)/unit_time)*unit_money);
+                ans.push_back(basic_money + (time[i]-basic_time + unit_time -1)/unit_time*unit_money);
             }
         }
     }
