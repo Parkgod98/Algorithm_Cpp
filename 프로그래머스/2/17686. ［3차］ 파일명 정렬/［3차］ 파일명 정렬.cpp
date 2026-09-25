@@ -4,55 +4,50 @@
 #include <iostream>
 using namespace std;
 
-
-struct File{
-    string origin;
-    string head;
-    int num;
-    int order;
-    
-    
-    bool operator<(const File &other) const{
-        if(head != other.head)
-            return head < other.head;
-        if(num != other.num)
-            return num < other.num;
-        return order < other.order;
-    }
-};
-
-
-
-vector<string> solution(vector<string> files) { 
-    vector<string> ans;
-    
+vector<string> solution(vector<string> files) {
     vector<string> head;
     vector<int> num;
-    
-    vector<File> v;
-    int o = 0;
-    for (string &s : files){
+
+    for(string &s : files){
         int idx = 0;
+
         while(idx < s.size() && !isdigit(s[idx]))
             ++idx;
-        
-        File f;
-        f.origin = s;
-        f.order = o++;
+
         string hp = s.substr(0,idx);
-        for (char &c : hp)
+
+        for(char &c : hp)
             c = tolower(c);
-        f.head = hp;
+
+        head.push_back(hp);
+
         int st = idx;
-        while(idx < s.size() && isdigit(s[idx]) && idx - st < 5)
+
+        while(idx < s.size() && isdigit(s[idx]) && idx-st < 5)
             ++idx;
-        f.num = stoi(s.substr(st,idx-st));
-        v.push_back(f);
+
+        num.push_back(stoi(s.substr(st,idx-st)));
     }
-    sort(v.begin(),v.end());
-    
-    for (auto &it : v)
-        ans.push_back(it.origin);
-    
+
+    vector<int> idx(files.size());
+
+    for(int i=0;i<files.size();++i)
+        idx[i] = i;
+
+    sort(idx.begin(),idx.end(),[&](int a,int b){
+        if(head[a] != head[b])
+            return head[a] < head[b];
+
+        if(num[a] != num[b])
+            return num[a] < num[b];
+
+        return a < b;
+    });
+
+    vector<string> ans;
+
+    for(int i : idx)
+        ans.push_back(files[i]);
+
     return ans;
 }
