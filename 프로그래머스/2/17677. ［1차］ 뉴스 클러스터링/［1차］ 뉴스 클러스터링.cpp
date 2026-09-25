@@ -9,26 +9,21 @@ int solution(string str1, string str2) {
     
     
     int sz1 = str1.size();
-    vector<string> v1;
     map<string,int> mp1;
     for (int i = 0; i < sz1-1; ++i){
         if(isalpha(str1[i]) && isalpha(str1[i+1])){
             str1[i] = tolower(str1[i]);
             str1[i+1] = tolower(str1[i+1]);
-            v1.push_back(str1.substr(i,2));
             mp1[str1.substr(i,2)]++;
         }
     }
     
     int sz2 = str2.size();
-    vector<string> v2;
     map<string,int> mp2;
-    
     for (int i = 0; i < sz2-1; ++i){
         if(isalpha(str2[i]) && isalpha(str2[i+1])){
             str2[i] = tolower(str2[i]);
             str2[i+1] = tolower(str2[i+1]);
-            v2.push_back(str2.substr(i,2));
             mp2[str2.substr(i,2)]++;
         }
     }
@@ -37,7 +32,6 @@ int solution(string str1, string str2) {
     int plus = 0;
     for (auto &it : mp1){
         if(mp2.find(it.first) != mp2.end()){
-            
             if(mp2[it.first] < mp1[it.first]){
                 plus += mp1[it.first];
                 common += mp2[it.first];
