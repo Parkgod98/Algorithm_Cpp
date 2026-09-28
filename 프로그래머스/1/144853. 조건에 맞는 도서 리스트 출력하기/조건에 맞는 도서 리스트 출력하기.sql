@@ -1,0 +1,1 @@
+SELECT BOOK_ID, PUBLISHED_DATE from book where category = '인문' and PUBLISHED_DATE like '2021%' order by published_date
