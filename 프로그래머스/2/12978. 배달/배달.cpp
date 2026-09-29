@@ -16,14 +16,14 @@ struct Edge{
     }
 };
 
-vector<vector<Edge>> edge_list;
+vector<Edge> e_list[52];
 
-vector<int> distra(int n, int K){
-    vector<int> dist(edge_list.size(),INF);
-    priority_queue<Edge> pq;
+vector<int> distra(int start, int K, int N){
+    vector<int> dist(N+1,INF);
     
-    dist[n] = 0;
-    pq.push({n,0});
+    priority_queue<Edge> pq;
+    pq.push({start,0});
+    dist[start] = 0;
     
     while(!pq.empty()){
         auto it = pq.top();
@@ -35,43 +35,39 @@ vector<int> distra(int n, int K){
         if(dist[cur_node] < cur_cost)
             continue;
         
-        for (auto &iit : edge_list[cur_node]){
+        for (auto &iit : e_list[cur_node]){
             int nxt = iit.nxt;
-            int edge_cost = iit.cost;
+            int nxt_cost = iit.cost;
             
-            int nxt_cost = cur_cost + edge_cost;
-            
-            if(nxt_cost >= dist[nxt] || nxt_cost > K)
+            if(dist[nxt] <= cur_cost + nxt_cost || cur_cost + nxt_cost > K)
                 continue;
             
-            dist[nxt] = nxt_cost;
-            pq.push({nxt,nxt_cost});
+            pq.push({nxt,cur_cost + nxt_cost});
+            dist[nxt] = cur_cost + nxt_cost;
         }
     }
     
     return dist;
 }
 
-int solution(int N, vector<vector<int>> road, int K) {
+int solution(int N, vector<vector<int> > road, int K) {
     
-    
-    edge_list = vector<vector<Edge>>(N+1);
-    for (vector<int> &v : road){
-        int a = v[0];
-        int b = v[1];
-        int cost = v[2];
+    for (vector<int> &e : road){
+        int a = e[0];
+        int b = e[1];
+        int cost = e[2];
         
-        edge_list[a].push_back({b,cost});
-        edge_list[b].push_back({a,cost});
+        e_list[a].push_back({b,cost});
+        e_list[b].push_back({a,cost});
     }
     
-    int sum = 0;
-    vector<int> ans = distra(1, K);
+    vector<int> dist = distra(1,K,N);
     
+    int ans = 0;
     for (int i = 1; i <= N; ++i){
-        if(ans[i] != 0 && ans[i] <= K)
-            ++sum;
+        if(dist[i] != 0 && dist[i] <= K)
+            ++ans;
     }
 
-    return sum+1;
+    return ans+1;
 }
