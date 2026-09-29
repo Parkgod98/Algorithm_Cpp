@@ -11,10 +11,10 @@ vector<int> solution(int n) {
     vector<int> ans;
     
     int cnt = n;
-    int arr[3000][3000] = {0};
+    int arr[2100][2100] = {0};
     
     int r,c;
-    r = c = 1500;
+    r = c = 1004;
     
     int dir = 0;
     int num = 1;
@@ -32,8 +32,8 @@ vector<int> solution(int n) {
         --cnt;
     }
     
-    for (int i = 0; i < 3000; ++i){
-        for (int j = 0; j < 3000; ++j){
+    for (int i = 0; i < 2100; ++i){
+        for (int j = 0; j < 2100; ++j){
             if(arr[i][j] != 0){
                 ans.push_back(arr[i][j]);
             }
