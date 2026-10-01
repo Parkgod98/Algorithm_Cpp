@@ -6,7 +6,7 @@ using namespace std;
 
 vector<int> v;
 int mx;
-double mx_money;
+int mx_money;
 
 void Comb(int k, int depth, vector<int> &emoticons, vector<vector<int>> &users){
     
@@ -18,10 +18,10 @@ void Comb(int k, int depth, vector<int> &emoticons, vector<vector<int>> &users){
             int limit_sail = u[0];
             int posit = u[1];
             
-            double cur = 0;
+            int cur = 0;
             int sz = emoticons.size();
             for (int i = 0; i < sz; ++i){
-                double price = (1- (double)v[i]/100)*emoticons[i];
+                int price = (emoticons[i] * (100- (double)v[i]) )/100;
                 
                 if(limit_sail <= v[i]){
                     cur += price;
