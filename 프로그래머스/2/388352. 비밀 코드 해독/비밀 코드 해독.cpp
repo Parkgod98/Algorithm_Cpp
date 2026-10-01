@@ -1,36 +1,51 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <iostream>
-#include <sstream>
-#include <cctype>
-#include <queue>
-#include <bitset>
-#include <map>
-#include <set>
-#include <cmath>
-using namespace std;
 
-int solution( int n, vector<vector<int>> q, vector<int> ans )
-{
-    vector<int> mask(n);
-    int anser = 0;
-    for (int i = 0; i <5; ++i){
-        mask[n-i -1] = 1;
-    }
-    do{
-        bool flag = true;
-        for (int i = 0 ; i < q.size(); ++i ){
-            if(ans[i] != (mask[q[i][0]-1] + mask[q[i][1]-1] + mask[q[i][2]-1] + mask[q[i][3]-1] + mask[q[i][4]-1] )){
-                flag = false;                     
+using namespace std;
+vector<int> v;
+int anss;
+void Comb(int n, int k, int depth, int idx, vector<vector<int>> &q, vector<int> &ans, vector<int> &num_list){
+    
+    if(depth == k){
+        bool f = true;
+        for (int i = 0; i < q.size(); ++i){
+            int cnt = 0;
+            for (int j = 0; j < 5; ++j){
+                for (int k = 0; k < 5; ++k){
+                    if(q[i][k] == v[j]){
+                        ++cnt;
+                        break;
+                    }
+                }
+            }
+            if(cnt != ans[i]){
+                f = false;
                 break;
             }
         }
-        if(flag)
-            anser++;
+        if(f){
+            ++anss;
+        }
         
-    }while(next_permutation(mask.begin(),mask.end()));
+        return;
+    }
     
     
-    return anser;
+    for (int i = idx; i < num_list.size(); ++i){
+        v.push_back(num_list[i]);
+        Comb(n,k,depth+1,i+1,q,ans,num_list);
+        v.pop_back();
+    }
+    
+}
+
+int solution(int n, vector<vector<int>> q, vector<int> ans) {
+    anss = 0;
+    vector<int> num_list;
+    for (int i = 1; i <= n; ++i)
+        num_list.push_back(i);
+    
+    Comb(num_list.size(),5,0,0,q,ans,num_list);
+    return anss;
 }
