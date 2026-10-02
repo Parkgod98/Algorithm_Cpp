@@ -1,0 +1,1 @@
+SELECT name,count(name) as COUNT FROM animal_ins group by name HAVING COUNT(NAME) >= 2 order by NAME ASC
