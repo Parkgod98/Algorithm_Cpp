@@ -1,0 +1,1 @@
+SELECT animal_id, name from animal_ins where name LIKE '%EL%' and animal_type='Dog' order by name asc, animal_id asc
