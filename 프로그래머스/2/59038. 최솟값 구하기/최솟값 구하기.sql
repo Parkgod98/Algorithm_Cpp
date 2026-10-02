@@ -1,0 +1,1 @@
+SELECT datetime AS 시간 FROM animal_ins order by DATETIME asc limit 1
