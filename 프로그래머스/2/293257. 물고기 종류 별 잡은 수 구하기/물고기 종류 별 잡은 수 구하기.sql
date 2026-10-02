@@ -1,0 +1,6 @@
+select COUNT(a.fish_type) as FISH_COUNT, b.FISH_NAME AS FISH_NAME FROM FISH_INFO a
+JOIN FISH_NAME_INFO b
+ON a.fish_type = b.fish_type
+GROUP BY FISH_NAME
+HAVING COUNT(*) > 0
+order by FISH_COUNT DESC
