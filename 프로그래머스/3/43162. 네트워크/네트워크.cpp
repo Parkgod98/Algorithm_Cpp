@@ -1,29 +1,48 @@
 #include <string>
 #include <vector>
+#include <set>
 
 using namespace std;
 
-void DFS(int cur, int visited[202], int &n, vector<vector<int>> &computers){
-    if(visited[cur])
-        return;
-    visited[cur] = 1;
+int parent[202] = {0};
+
+int find_parent(int n){
+    if(parent[n] != n)
+        return parent[n] = find_parent(parent[n]);
+    return n;
+}
+
+void union_parent(int a, int b){
+    int pa = find_parent(a);
+    int pb = find_parent(b);
     
-    for (int i = 0; i < n; ++i){
-        if(i != cur && visited[i] == 0 && computers[cur][i] == 1){
-            DFS(i,visited,n,computers);
-        }
-    }
+    if(pa == pb)
+        return;
+    
+    if(pa > pb)
+        parent[pa] = pb;
+    else
+        parent[pb] = pa;
 }
 
 int solution(int n, vector<vector<int>> computers) {
-    int visited[202] = {0};
-    int ans = 0;
+    for (int i = 0; i < n; ++i)
+        parent[i] = i;
+    
     for (int i = 0; i < n; ++i){
-        if(visited[i] == 0){
-            ++ans;
-            DFS(i,visited,n,computers);
+        for (int j = i+1; j < n; ++j){
+            if(computers[i][j] == 1){
+                union_parent(i,j);
+            }
         }
     }
     
-    return ans;
+    int cnt = 0;
+    for (int i = 0; i < n; ++i){
+        if(find_parent(i) == i){
+            ++cnt;
+        }
+    }
+    
+    return cnt;
 }
