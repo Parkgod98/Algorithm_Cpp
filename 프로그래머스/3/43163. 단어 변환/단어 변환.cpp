@@ -50,7 +50,7 @@ int solution(string begin, string target, vector<string> words) {
                 continue;
             
             int diff = 0;
-            for (int k = 0; k < words[i].size(); ++k){
+            for (int k = 0; k < w[i].size(); ++k){
                 if(w[i][k] != w[j][k])
                     ++diff;
             }
