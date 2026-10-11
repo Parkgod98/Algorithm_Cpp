@@ -18,10 +18,10 @@ int solution(vector<vector<int>> triangle) {
                 dp[i][j] = dp[i-1][j-1] + triangle[i][j];
             }
             else if(j-1 >= 0){
-                dp[i][j] = max(dp[i][j],max(dp[i-1][j-1],dp[i-1][j]) + triangle[i][j]);
+                dp[i][j] = max(dp[i-1][j-1],dp[i-1][j]) + triangle[i][j];
             }
             else{
-                dp[i][j] = max(dp[i-1][j] + triangle[i][j],dp[i][j]);
+                dp[i][j] = dp[i-1][j] + triangle[i][j];
             }
             ans = max(ans,dp[i][j]);
         }
