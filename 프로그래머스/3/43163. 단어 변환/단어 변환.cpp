@@ -1,72 +1,45 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iostream>
-
+#include <queue>
 using namespace std;
 
-void DFS(int &ans, int cur, vector<vector<int>> &v, int tar, int depth, vector<vector<int>> &visited){
-    if(cur == tar){
-        ans = min(ans,depth);
-        return;
-    }
-    
-    for (int i = 0; i < v.size(); ++i){
-        if(i != cur && visited[cur][i] == 0 && v[cur][i] == 1){
-            visited[cur][i] = 1;
-            DFS(ans,i,v,tar,depth+1,visited);
-            visited[cur][i] = 0;
-        }
-    }
-    
-}
+struct Node{
+    int idx;
+    int depth;
+};
 
 int solution(string begin, string target, vector<string> words) {
-    int idx = -1;
-    int sz = words.size();
+    words.insert(words.begin(),begin);
     
-    for (int i = 0; i < sz; ++i){
-        if(words[i] == target){
-            idx = i;
-            break;
+    queue<Node> q;
+    vector<int> visited(words.size(),0);
+    q.push({0,0});
+    visited[0] = 1;
+    
+    while(!q.empty()){
+        auto it = q.front();
+        q.pop();
+        
+        int cur = it.idx;
+        int depth = it.depth;
+        
+        if(words[cur] == target){
+            return depth;
         }
-    }
-    if(idx == -1)
-        return 0;
-    
-    vector<string> w;
-    w.push_back(begin);
-    for (string &s : words)
-        w.push_back(s);
-    
-    ++idx;
-    
-    vector<vector<int>> v = vector<vector<int>>(sz + 1,vector<int>(sz+1)); 
-    
-    for (int i = 0; i < w.size(); ++i){
-        for (int j = 0; j < w.size(); ++j){
-            if(i == j)
-                continue;
-            
-            int diff = 0;
-            for (int k = 0; k < w[i].size(); ++k){
-                if(w[i][k] != w[j][k])
-                    ++diff;
-            }
-            if(diff == 1){
-                v[i][j] = v[j][i] = 1;
+        
+        for (int i = 1; i < words.size(); ++i){
+            if(!visited[i]){
+                int diff = 0;
+                for (int j = 0; j < begin.size(); ++j){
+                    if(words[cur][j] != words[i][j])
+                        ++diff;
+                }
+                if(diff == 1){
+                    visited[i] = 1;
+                    q.push({i,depth+1});
+                }
             }
         }
     }
-    
-    int ans = 999999999;
-    
-    vector<vector<int>> visited(sz+1,vector<int>(sz+1));
-    DFS(ans,0,v,idx,0,visited);
-    
-    if(ans == 999999999)
-        return 0;
-    
-    return ans;
+    return 0;
 }
