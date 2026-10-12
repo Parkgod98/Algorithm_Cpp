@@ -1,71 +1,43 @@
 #include <string>
 #include <vector>
-#include <queue>
+#include <set>
 
 using namespace std;
 
-struct Node{
-    int num;
-    int id;
-};
-
-struct MaxCmp{
-    bool operator()(const Node &a, const Node &b) const{
-        return a.num < b.num;
-    }
-};
-
-struct MinCmp{
-    bool operator()(const Node &a, const Node &b) const{
-        return a.num > b.num;
-    }
-};
-
 vector<int> solution(vector<string> operations){
     vector<int> ans(2);
-    
-    priority_queue<Node,vector<Node>,MaxCmp> pq;
-    priority_queue<Node,vector<Node>,MinCmp> pq2;
-    
-    
-    int id = 0;
-    vector<int> alive(operations.size(),0);
+    multiset<int> ms;
     
     for (string &s : operations){
         char com = s[0];
         
         int k = stoi(s.substr(2));
-        
+                
         if(com == 'I'){
-            pq.push({k,id});
-            pq2.push({k,id});
-            alive[id] = 1;
-            ++id;
+            ms.insert(k);
         }
         else{
+            if(ms.empty())
+                continue;
             if(k == 1){
-                if(!pq.empty()){
-                    alive[pq.top().id] = 0;
-                    pq.pop();
-                }
+                auto it = ms.end();
+                --it;
+                ms.erase(it);
             }
             else{
-                if(!pq2.empty()){
-                    alive[pq2.top().id] = 0;
-                    pq2.pop();
-                }
+                ms.erase(ms.begin());
             }
         }
-        while(!pq.empty() && alive[pq.top().id] == 0)
-            pq.pop();
-       while(!pq2.empty() && alive[pq2.top().id] == 0)
-            pq2.pop();
+
        }
-                   
-    if(!pq.empty())
-        ans[0] = pq.top().num;
-    if(!pq2.empty())
-        ans[1] = pq2.top().num;
+    
+    if(ms.empty())
+        return {0,0};
+    
+    auto it = ms.end();
+    --it;
+    ans[0] = *it;
+    ans[1] = *ms.begin();
                    
                 
     return ans;
