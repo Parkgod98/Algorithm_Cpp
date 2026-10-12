@@ -1,53 +1,72 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <map>
 
 using namespace std;
 
-vector<int> solution(vector<string> operations) {
-    priority_queue<int> pq;
-    priority_queue<int,vector<int>,greater<int>> pq2;
+struct Node{
+    int num;
+    int id;
+};
+
+struct MaxCmp{
+    bool operator()(const Node &a, const Node &b) const{
+        return a.num < b.num;
+    }
+};
+
+struct MinCmp{
+    bool operator()(const Node &a, const Node &b) const{
+        return a.num > b.num;
+    }
+};
+
+vector<int> solution(vector<string> operations){
+    vector<int> ans(2);
     
-    map<int,int> mp;
+    priority_queue<Node,vector<Node>,MaxCmp> pq;
+    priority_queue<Node,vector<Node>,MinCmp> pq2;
+    
+    
+    int id = 0;
+    vector<int> alive(operations.size(),0);
+    
     for (string &s : operations){
         char com = s[0];
         
-        string tar = s.substr(2);
-        int k = stoi(tar);
+        int k = stoi(s.substr(2));
+        
         if(com == 'I'){
-            pq.push(k);
-            pq2.push(k);
-            mp[k]++;
+            pq.push({k,id});
+            pq2.push({k,id});
+            alive[id] = 1;
+            ++id;
         }
         else{
             if(k == 1){
-                if(!pq.empty() && mp[pq.top()] > 0){
-                    mp[pq.top()]--;
+                if(!pq.empty()){
+                    alive[pq.top().id] = 0;
                     pq.pop();
                 }
-
             }
             else{
-                if(!pq2.empty() && mp[pq2.top()] > 0){
-                    mp[pq2.top()]--;
+                if(!pq2.empty()){
+                    alive[pq2.top().id] = 0;
                     pq2.pop();
                 }
-
-            }
-            while(!pq.empty() && mp[pq.top()] == 0){
-                pq.pop();
-            }
-            while(!pq2.empty() && mp[pq2.top()] == 0){
-                pq2.pop();
             }
         }
-    }
-    
-    vector<int> ans(2);
+        while(!pq.empty() && alive[pq.top().id] == 0)
+            pq.pop();
+       while(!pq2.empty() && alive[pq2.top().id] == 0)
+            pq2.pop();
+       }
+                   
     if(!pq.empty())
-        ans[0] = pq.top();
+        ans[0] = pq.top().num;
     if(!pq2.empty())
-        ans[1] = pq2.top();
+        ans[1] = pq2.top().num;
+                   
+                
     return ans;
 }
