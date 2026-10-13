@@ -9,18 +9,11 @@ bool cmp (vector<int> &a, vector<int> &b){
 }
 
 int solution(vector<vector<int>> routes) {
-    int answer = 0;
-    
-    for (vector<int> &v : routes){
-        v[0] += 30000;
-        v[1] += 30000;
-    }
-    
     sort(routes.begin(),routes.end(),cmp);
     
     int cnt = 0;
     
-    int cur = -1;
+    int cur = -50000;
     for (vector<int> &v : routes){
         if(cur < v[0]){
             ++cnt;
