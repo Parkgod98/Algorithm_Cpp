@@ -12,7 +12,9 @@ struct Node{
 
 struct cmp{
     bool operator()(const Node &a, const Node &b) const {
-        return a.num < b.num;
+        if(a.num != b.num)
+            return a.num < b.num;
+        return a.idx > b.idx;
     };
 };
 
@@ -55,8 +57,6 @@ vector<int> solution(vector<string> genres, vector<int> plays) {
             pq[i].pop();
             ++cnt;
         }
-        
-        cout << "\n";
     }
     return ans;
 }
