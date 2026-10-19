@@ -4,7 +4,6 @@
 #include <iostream>
 using namespace std;
 
-vector<int> visited;
 int ans;
 map<string,vector<int>> mp;
 int cc[1002] = {0};
@@ -19,20 +18,15 @@ void Solve(int depth, vector<string> &banned_id, int mask){
     }
     
     for (int &idx : mp[banned_id[depth]]){
-        if(!visited[idx]){
-            visited[idx] = 1;
-            mask = mask | ((1 << idx));
-            Solve(depth+1,banned_id,mask);
-            visited[idx] = 0;
-            mask = mask & (~(1 << idx));
-        }
+        if(((1 << idx) & (mask)))
+            continue;
+        Solve(depth+1,banned_id, mask | ((1 << idx)));
     }
 }
 
 int solution(vector<string> user_id, vector<string> banned_id) {
     ans = 0;
     int sz = user_id.size();
-    visited = vector<int>(sz,0);
     mp.clear();
     
     for (string &s : banned_id){
