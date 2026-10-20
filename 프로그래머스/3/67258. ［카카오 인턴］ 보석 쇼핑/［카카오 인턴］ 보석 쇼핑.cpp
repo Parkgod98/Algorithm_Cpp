@@ -1,7 +1,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <iostream>
 #include <set>
 
 using namespace std;
@@ -48,9 +47,6 @@ vector<int> solution(vector<string> gems) {
             ++s;
         }
     }
-
-    
-    cout << mp.size() << "\n";
     
     vector<int> ans(2,0);
     ans[0] = as+1;
