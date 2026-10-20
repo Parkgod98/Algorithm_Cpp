@@ -4,23 +4,19 @@
 using namespace std;
 
 long long solution(vector<int> sequence) {
-    long long ans = -1LL*100000*500000 -1;
     
-    
-    long long dp1,dp2;
-    dp1 = dp2 = 0;
+    long long mx = 0;
+    long long mn = 0;
     int sign = 1;
+    
+    long long sum = 0;
     for (int &k : sequence){
-        long long a = 1LL*sign*k;
-        long long b = -a;
+        sum += k * sign;
         
-        dp1 = max(a,dp1 +a);
-        dp2 = max(b,dp2+b);
-        
-        ans = max(ans,max(dp1,dp2));
+        mx = max(mx,sum);
+        mn = min(mn,sum);
         sign *= -1;
     }
     
-    
-    return ans;
+    return mx - mn;
 }
