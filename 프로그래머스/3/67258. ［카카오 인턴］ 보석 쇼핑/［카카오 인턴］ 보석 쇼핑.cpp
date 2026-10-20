@@ -8,29 +8,27 @@ using namespace std;
 vector<int> solution(vector<string> gems) {
     map<string,int> mp;
     
-    int id = 0;
     for (string &s : gems){
-        if(mp.find(s) == mp.end()){
-            mp[s] = id++;
-        }
+        mp[s] = 0;
     }
     
-    vector<int> cnt(id,0);
-    set<string> st;
     int s,e;
     s = e = 0;
     
-    st.insert(gems[s]);
-    cnt[mp[gems[s]]]++;
+    mp[gems[0]]++;
+    
+    int kind = 1;
         
     int mx_sz = 200000;
     int as,ae;
     while(s < gems.size() && e < gems.size()){
-        if(st.size() < mp.size()){
+        if(kind < mp.size()){
             ++e;
             if(e < gems.size()){
-                st.insert(gems[e]);
-                cnt[mp[gems[e]]]++;
+                if(mp[gems[e]] == 0){
+                    ++kind;
+                }
+                mp[gems[e]]++;
             }
         }
         else {
@@ -39,10 +37,9 @@ vector<int> solution(vector<string> gems) {
                 as = s;
                 ae = e;
             }
-            cnt[mp[gems[s]]]--;
-            if(cnt[mp[gems[s]]] == 0){
-                auto it = st.find(gems[s]);
-                st.erase(it);
+            mp[gems[s]]--;
+            if(mp[gems[s]] == 0){
+                --kind;
             }
             ++s;
         }
