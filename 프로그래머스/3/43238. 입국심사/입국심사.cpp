@@ -20,6 +20,8 @@ long long solution(int n, vector<int> times) {
         long long cur = 0;
         for (int i = 0; i < times.size(); ++i){
             cur += mid/times[i];
+            if(cur >= n)
+                break;
         }
         
         if(cur < n){
