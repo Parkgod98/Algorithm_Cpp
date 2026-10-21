@@ -9,10 +9,12 @@ int dy[4] = {-1,0,1,0};
 int dx[4] = {0,1,0,-1};
 
 void DFS(int y, int x, vector<vector<int>> &board, vector<vector<int>> &visited, int cost, int prev_dir, vector<vector<vector<int>>> &dp){
-    if(cost > dp[y][x][prev_dir]){
-        return;
+    if(prev_dir != -1){
+        if(cost > dp[y][x][prev_dir]){
+            return;
+        }
+        dp[y][x][prev_dir] = cost;
     }
-    dp[y][x][prev_dir] = cost;
     if(cost >= ans)
         return;
     if(y == board.size()-1 && x == board.size() -1){
