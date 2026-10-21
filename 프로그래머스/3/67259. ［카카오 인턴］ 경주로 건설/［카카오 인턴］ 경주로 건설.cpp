@@ -17,14 +17,9 @@ struct Node{
 int dy[4] = {-1,0,1,0};
 int dx[4] = {0,1,0,-1};
 
-
-
 int solution(vector<vector<int>> board) {
-    int answer = 0;
-    
     int sz = board.size();
-    
-    vector<vector<vector<int>>> dp(sz,vector<vector<int>>(sz,vector<int>(4,INF)));
+    vector<vector<vector<int>>> dp(sz,vector<vector<int>>(sz,vector<int>(sz,INF)));
     
     priority_queue<Node> pq;
     pq.push({0,0,-1,0});
@@ -38,10 +33,10 @@ int solution(vector<vector<int>> board) {
         int dir = cur.dir;
         int cost = cur.cost;
         
-        if(dir != -1 && cost > dp[y][x][dir])
+        if(cost > dp[y][x][dir])
             continue;
         
-        if(y == sz -1 && x == sz -1)
+        if(y == sz -1 && x == sz-1)
             return cost;
         
         for (int d = 0; d < 4; ++d){
@@ -52,15 +47,16 @@ int solution(vector<vector<int>> board) {
                 continue;
             
             int nxt_cost = cost;
-            if(dir == -1 || d == dir)
+            if(dir == -1 || dir == d)
                 nxt_cost += 100;
             else
                 nxt_cost += 600;
             
-            if(nxt_cost < dp[ny][nx][d]){
-                dp[ny][nx][d] = nxt_cost;
-                pq.push({ny,nx,d,nxt_cost});
-            }
+            if(nxt_cost >= dp[ny][nx][d])
+                continue;
+            
+            pq.push({ny,nx,d,nxt_cost});
+            dp[ny][nx][d] = nxt_cost;
         }
     }
     return -1;
