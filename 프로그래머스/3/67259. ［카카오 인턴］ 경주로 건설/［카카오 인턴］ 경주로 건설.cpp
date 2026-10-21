@@ -8,11 +8,11 @@ int ans;
 int dy[4] = {-1,0,1,0};
 int dx[4] = {0,1,0,-1};
 
-void DFS(int y, int x, vector<vector<int>> &board, vector<vector<int>> &visited, int cost, int prev_dir, vector<vector<int>> &dp){
-    if(cost > dp[y][x]){
+void DFS(int y, int x, vector<vector<int>> &board, vector<vector<int>> &visited, int cost, int prev_dir, vector<vector<vector<int>>> &dp){
+    if(cost > dp[y][x][prev_dir]){
         return;
     }
-    dp[y][x] = cost;
+    dp[y][x][prev_dir] = cost;
     if(cost >= ans)
         return;
     if(y == board.size()-1 && x == board.size() -1){
@@ -49,7 +49,7 @@ int solution(vector<vector<int>> board) {
     ans = INF;
     
     vector<vector<int>> visited(board.size(),vector<int>(board.size(),0));
-    vector<vector<int>> dp(board.size(),vector<int>(board.size(),INF));
+    vector<vector<vector<int>>> dp(board.size(),vector<vector<int>>(board.size(),vector<int>(4,INF)));
     
     DFS(0,0,board,visited,0,-1,dp);
     
