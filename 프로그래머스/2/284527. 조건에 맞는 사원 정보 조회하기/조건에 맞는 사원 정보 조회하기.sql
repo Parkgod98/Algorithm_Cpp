@@ -1,0 +1,7 @@
+SELECT SUM(g.score) AS SCORE, g.emp_no, e.emp_name, e.position, e.email FROM HR_EMPLOYEES e
+JOIN HR_GRADE g
+ON e.EMP_NO = g.EMP_NO
+WHERE g.YEAR = 2022
+GROUP BY e.EMP_NO
+ORDER BY SCORE DESC
+LIMIT 1;
