@@ -32,34 +32,24 @@ vector<int> solution(vector<string> enroll, vector<string> referral, vector<stri
         
         int idx = name_to_idx[s];
         int am = amount[i];
+        int bbozzi = am * 0.1;
+        while(parent[idx] != -1){
+            bbozzi = am * 0.1;
+
+            if(bbozzi < 1){
+                ans[idx] += am;
+                break;
+            }
+            ans[idx] += am-bbozzi;
+            am = bbozzi;
+            idx = parent[idx];
+        }
         if(parent[idx] == -1){
-            int bbozzi = am * 0.1;
+            bbozzi = am * 0.1;
             if(bbozzi < 1)
                 ans[idx] += am;
             else
-                ans[idx] += (am-bbozzi);
-        }
-        else{
-            int bbozzi = am * 0.1;
-            while(parent[idx] != -1){
-                bbozzi = am * 0.1;
-                
-                // cout << enroll[idx] << " mine : " << mine << " bbozzi : " << bbozzi << "\n"; 
-                if(bbozzi < 1){
-                    ans[idx] += am;
-                    break;
-                }
                 ans[idx] += am-bbozzi;
-                am = bbozzi;
-                idx = parent[idx];
-            }
-            if(parent[idx] == -1){
-                bbozzi = am * 0.1;
-                if(bbozzi < 1)
-                    ans[idx] += am;
-                else
-                    ans[idx] += am-bbozzi;
-            }
         }
 
     }
