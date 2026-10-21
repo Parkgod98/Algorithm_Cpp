@@ -1,46 +1,26 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-using namespace std;
 
+using namespace std;
 int solution(string s)
 {
-    int sz = s.size();
-    vector<int> mx(sz,1);
+    int n = s.size();
     
+    vector<vector<int>> dp(n,vector<int>(n,0));
     int ans = 1;
-    for (int i = 0; i < sz; ++i){
+    
+    for (int i = n - 1; i >= 0; --i){
         
-        int l = i - 1;
-        int r = i + 1;
-        
-        while(l >= 0 && r < sz){
-            if(s[l] == s[r]){
-                mx[i] += 2;
+        for (int j = i; j < n; ++j){
+            if(s[i] != s[j])
+                continue;
+            
+            if(j-i <= 2 || dp[i+1][j-1] == 1){
+                dp[i][j] = 1;
+                ans = max(ans,j-i+1);
             }
-            else{
-                break;
-            }
-            --l;
-            ++r;
         }
-        
-        l = i;
-        r = i +1;
-        int cnt = 0;
-        while(l >= 0 && r < sz){
-            if(s[l] == s[r]){
-                cnt += 2;
-            }
-            else
-                break;
-            --l;
-            ++r;
-        }
-        mx[i] = max(mx[i],cnt);
-        
-        ans = max(ans,mx[i]);
     }
     
     return ans;
