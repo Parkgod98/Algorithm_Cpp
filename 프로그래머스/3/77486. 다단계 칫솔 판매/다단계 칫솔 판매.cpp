@@ -28,28 +28,14 @@ vector<int> solution(vector<string> enroll, vector<string> referral, vector<stri
         n*= 100;
     
     for (int i = 0; i < seller.size(); ++i){
-        string &s = seller[i];
-        
-        int idx = name_to_idx[s];
-        int am = amount[i];
-        int bbozzi = am * 0.1;
-        while(parent[idx] != -1){
-            bbozzi = am * 0.1;
-
-            if(bbozzi < 1){
-                ans[idx] += am;
-                break;
-            }
-            ans[idx] += am-bbozzi;
-            am = bbozzi;
-            idx = parent[idx];
-        }
-        if(parent[idx] == -1){
-            bbozzi = am * 0.1;
-            if(bbozzi < 1)
-                ans[idx] += am;
-            else
-                ans[idx] += am-bbozzi;
+        int cur = name_to_idx[seller[i]];
+        int money = amount[i];
+        while(cur != -1 && money > 0){
+            int fee = money/10;
+            ans[cur] += (money-fee);
+            
+            money = fee;
+            cur = parent[cur];
         }
 
     }
