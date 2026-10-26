@@ -3,47 +3,35 @@
 
 using namespace std;
 
-void DFS(int cur, vector<vector<int>> &graph, vector<int> &visited){
+int solution(int n, vector<vector<int>> results) {
+    vector<vector<int>> win(n+1,vector<int>(n+1,0));
     
-    for (int &nxt : graph[cur]){
-        if(!visited[nxt]){
-            visited[nxt] = 1;
-            
-            DFS(nxt,graph,visited);
-        }
+    for (vector<int> &v : results){
+        win[v[0]][v[1]] = 1;
     }
     
-}
-
-int solution(int n, vector<vector<int>> results) {
+    for (int k = 1; k <= n; ++k){
+        for (int i = 1; i <= n; ++i){
+            for (int j = 1; j <= n; ++j){
+                if(win[i][k] && win[k][j])
+                    win[i][j] = 1;
+            }
+        }
+    }
     
     int ans = 0;
     
-    vector<int> win(n+1,0);
-    vector<int> lose(n+1,0);
-    vector<vector<int>> graph(n+1);
-    
-    for (vector<int> &v : results){
-        graph[v[0]].push_back(v[1]);
-    }
-    
-    
     for (int i = 1; i <= n; ++i){
-        vector<int> visited(n+1,0);
-        DFS(i,graph,visited);    
+        int cnt = 0;
         
         for (int j = 1; j <= n; ++j){
-            if(i == j || !visited[j])
-                continue;
-            
-            win[i]++;
-            lose[j]++;
+            if(win[i][j] || win[j][i])
+                ++cnt;
         }
-    }
-    
-    for (int i = 1; i <= n; ++i){
-        if(win[i] + lose[i] == n -1)
+        
+        if(cnt == n-1)
             ++ans;
     }
+    
     return ans;
 }
