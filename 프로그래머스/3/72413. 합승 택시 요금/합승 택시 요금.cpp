@@ -67,11 +67,12 @@ int solution(int n, int s, int a, int b, vector<vector<int>> fares) {
     }
     
     vector<int> s_dist = distra(s);
+    vector<int> a_dist = distra(a);
+    vector<int> b_dist = distra(b);
+    
     
     for (int i = 1; i <= n; ++i){
-        vector<int> i_dist = distra(i);
-        
-        int cur_cost = s_dist[i] + i_dist[a] + i_dist[b];
+        int cur_cost = s_dist[i] + a_dist[i] + b_dist[i];
         ans = min(ans,cur_cost);
     }
     
