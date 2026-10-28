@@ -1,19 +1,18 @@
 #include <string>
 #include <vector>
-#include <set>
 using namespace std;
 int ans;
 
-set<int> seen;
 vector<int> infoV;
 vector<vector<int>> graph;
+int seen[200000];
 
 void DFS(int mask, int sheep, int wolf){
     
-    if(seen.find(mask) != seen.end())
+    if(seen[mask] == 1)
         return;
     
-    seen.insert(mask);
+    seen[mask] = 1;
     ans = max(ans,sheep);
     
     
