@@ -1,29 +1,28 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <algorithm>
 using namespace std;
-
-vector<int> infoV;
-vector<vector<int>> graph;
-set<vector<int>> seen;
 int ans;
 
-void DFS(vector<int> visited, int sheep, int wolf){
+set<int> seen;
+vector<int> infoV;
+vector<vector<int>> graph;
+
+void DFS(int mask, int sheep, int wolf){
     
-    if(seen.find(visited) != seen.end())
+    if(seen.find(mask) != seen.end())
         return;
     
-    seen.insert(visited);
-    
+    seen.insert(mask);
     ans = max(ans,sheep);
     
+    
     for (int cur = 0; cur < infoV.size(); ++cur){
-        if(!visited[cur])
+        if((mask & (1 << cur)) == 0)
             continue;
         
         for (int &nxt : graph[cur]){
-            if(visited[nxt])
+            if(mask & (1 << nxt))
                 continue;
             
             int ns = sheep;
@@ -37,15 +36,15 @@ void DFS(vector<int> visited, int sheep, int wolf){
             if(ns <= nw)
                 continue;
             
-            visited[nxt] = 1;
-            DFS(visited,ns,nw);
-            visited[nxt] = 0;
+            DFS(mask | (1 << nxt),ns,nw);
         }
     }
+    
 }
 
+
 int solution(vector<int> info, vector<vector<int>> edges) {
-    ans = 0;
+
     int n = info.size();
     infoV = info;
     graph = vector<vector<int>>(n);
@@ -54,8 +53,7 @@ int solution(vector<int> info, vector<vector<int>> edges) {
         graph[e[0]].push_back(e[1]);
     }
     
-    vector<int> visited(n,0);
-    visited[0] = 1;
-    DFS(visited,1,0);
+    DFS(1,1,0);
+    
     return ans;
 }
