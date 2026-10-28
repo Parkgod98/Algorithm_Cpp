@@ -1,14 +1,13 @@
 #include <string>
 #include <vector>
 #include <set>
-
+#include <algorithm>
 using namespace std;
 
-vector<int> visited;
-int ans;
 vector<int> infoV;
 vector<vector<int>> graph;
 set<vector<int>> seen;
+int ans;
 
 void DFS(vector<int> visited, int sheep, int wolf){
     
@@ -23,7 +22,7 @@ void DFS(vector<int> visited, int sheep, int wolf){
         if(!visited[cur])
             continue;
         
-        for (int nxt : graph[cur]){
+        for (int &nxt : graph[cur]){
             if(visited[nxt])
                 continue;
             
@@ -38,10 +37,9 @@ void DFS(vector<int> visited, int sheep, int wolf){
             if(ns <= nw)
                 continue;
             
-            vector<int> nextVisited = visited;
-            nextVisited[nxt] = 1;
-            
-            DFS(nextVisited,ns,nw);
+            visited[nxt] = 1;
+            DFS(visited,ns,nw);
+            visited[nxt] = 0;
         }
     }
 }
@@ -51,7 +49,6 @@ int solution(vector<int> info, vector<vector<int>> edges) {
     int n = info.size();
     infoV = info;
     graph = vector<vector<int>>(n);
-    seen.clear();
     
     for (vector<int> &e : edges){
         graph[e[0]].push_back(e[1]);
@@ -59,8 +56,6 @@ int solution(vector<int> info, vector<vector<int>> edges) {
     
     vector<int> visited(n,0);
     visited[0] = 1;
-    
     DFS(visited,1,0);
-    
     return ans;
 }
