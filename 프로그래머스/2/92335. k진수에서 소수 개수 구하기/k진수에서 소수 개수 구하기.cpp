@@ -47,6 +47,7 @@ int solution(int n, int k) {
         v.push_back(t.substr(prev+1));
     
     int ans = 0;
+    
     for (string &s : v){
         if(IsPrime(stoll(s)))
             ++ans;
