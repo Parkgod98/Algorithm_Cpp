@@ -28,5 +28,6 @@ int solution(vector<int> people, int limit) {
     if(i==j)
         ++ans;
     
+    
     return ans;
 }
