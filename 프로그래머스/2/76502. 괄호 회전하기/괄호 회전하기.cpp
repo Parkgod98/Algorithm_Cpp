@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <queue>
 #include <stack>
 
 using namespace std;
@@ -10,7 +9,6 @@ int solution(string s) {
     so = sc = mo = mc = bo = bc = 0;
     int sz = s.size();
     
-    deque<char> dq;
     for (char &c : s){
         if(c == '(')
             ++so;
@@ -24,7 +22,6 @@ int solution(string s) {
             ++bo;
         else if(c == ']')
             ++bc;
-        dq.push_back(c);
     }
     if(so != sc || mo != mc || bo != bc)
         return 0;
@@ -34,24 +31,32 @@ int solution(string s) {
     for (int i = 0; i < sz; ++i){
         stack<char> st;
         
-        for (char &c : dq){
-            if(!st.empty()){
-                if(st.top() == '(' && c == ')')
-                    st.pop();
-                else if(st.top() == '[' && c == ']')
-                    st.pop();
-                else if(st.top() == '{' && c == '}')
-                    st.pop();
-                else
-                    st.push(c);
-            }
-            else
+        bool valid = true;
+        for (int j = 0; j < sz; ++j){
+            char c = s[(i+j)%sz];
+            
+            if(c == '(' || c == '{' || c == '['){
                 st.push(c);
+            }
+            else{
+                if(st.empty()){
+                    valid = false;
+                    break;
+                }
+                if((st.top() == '(' && c != ')') ||
+                   (st.top() == '[' && c != ']') ||
+                   (st.top() == '{' && c != '}')){
+                    valid = false;
+                    break;
+                }
+                else{
+                    st.pop();
+                }
+            }
         }
-        if(st.empty())
+        if(valid &&st.empty())
             ++ans;
-        dq.push_back(dq.front());
-        dq.pop_front();
     }
+    
     return ans;
 }
