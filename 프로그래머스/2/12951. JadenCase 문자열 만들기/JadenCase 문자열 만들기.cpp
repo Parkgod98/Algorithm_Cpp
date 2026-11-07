@@ -19,5 +19,6 @@ string solution(string s) {
         
         prev = c;
     }
+    
     return s;
 }
