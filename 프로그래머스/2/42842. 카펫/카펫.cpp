@@ -24,5 +24,6 @@ vector<int> solution(int brown, int yellow) {
             }
         }
     }
+    
     return answer;
 }
