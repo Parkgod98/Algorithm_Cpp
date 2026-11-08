@@ -15,5 +15,6 @@ int solution(vector<int> citations) {
             return h;
     }
 
+    
     return 0;
 }
