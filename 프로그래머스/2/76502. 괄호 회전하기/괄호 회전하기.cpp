@@ -27,6 +27,7 @@ int solution(string s) {
         return 0;
     
     
+    
     int ans = 0;
     for (int i = 0; i < sz; ++i){
         stack<char> st;
