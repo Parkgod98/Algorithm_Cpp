@@ -3,5 +3,4 @@ JOIN used_goods_user u
 ON b.writer_id = u.user_id
 WHERE b.status = 'DONE'
 GROUP BY u.user_id, u.nickname
-HAVING SUM(b.PRICE) >= 700000
-ORDER BY TOTAL_SALES ASC
+HAVING SUM(b.PRICE) >= 700000 ORDER BY TOTAL_SALES ASC
